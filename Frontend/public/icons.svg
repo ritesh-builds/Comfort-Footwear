@@ -1,0 +1,65 @@
+<svg
+  width="64"
+  height="64"
+  viewBox="0 0 64 64"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M7 39
+       C13 38 18 33 21 26
+       L24 18
+       C25 15 28 14 30 17
+       L36 25
+       C39 29 43 31 49 33
+       L55 35
+       C59 36 61 39 61 43
+       C61 48 57 51 52 51
+       H13
+       C8 51 5 48 5 44
+       C5 42 6 40 7 39Z"
+    fill="white"
+  />
+
+  <!-- sole -->
+  <path
+    d="M6 43
+       C12 46 20 46 29 46
+       H60
+       C59 49 56 51 52 51
+       H13
+       C8 51 5 48 6 43Z"
+    fill="#BDBDBD"
+  />
+
+  <!-- shoe upper detail -->
+  <path
+    d="M22 27
+       C28 32 34 35 42 36"
+    stroke="#111"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+
+  <!-- laces -->
+  <path
+    d="M25 20L34 29"
+    stroke="#111"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+
+  <path
+    d="M23 24L32 33"
+    stroke="#111"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+
+  <!-- sole line -->
+  <path
+    d="M12 42H55"
+    stroke="#111"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+</svg>
