@@ -98,3 +98,36 @@ JWT Service
 Frontend
  │
  └── Stores tokens
+
+Comfort-Footwear/
+│
+├── Backend/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── in/strikes/comfortFootwear/
+│   │   │   │       ├── config/
+│   │   │   │       ├── controller/
+│   │   │   │       ├── dto/
+│   │   │   │       ├── model/
+│   │   │   │       ├── repository/
+│   │   │   │       └── service/
+│   │   │   └── resources/
+│   │   └── test/
+│   │
+│   └── pom.xml
+│
+├── Frontend/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── auth/
+│   │   ├── components/
+│   │   ├── context/
+│   │   └── pages/
+│   │
+│   ├── public/
+│   ├── package.json
+│   └── vite.config.js
+│
+├── .gitignore
+└── README.md
