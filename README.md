@@ -131,3 +131,71 @@ Comfort-Footwear/
 │
 ├── .gitignore
 └── README.md
+
+
+🛠️ Getting Started
+Prerequisites
+
+Make sure you have the following installed:
+
+Java
+Maven
+Node.js
+npm
+MongoDB
+
+
+⚙️ Backend Setup
+
+Navigate to the backend directory:
+
+cd Backend
+
+Configure your application properties and environment variables.
+
+Then start the Spring Boot application:
+
+./mvnw spring-boot:run
+
+On Windows:
+
+mvnw.cmd spring-boot:run
+
+The backend will run on:
+
+http://localhost:8080
+💻 Frontend Setup
+
+Navigate to the frontend directory:
+
+cd Frontend
+
+Install dependencies:
+
+npm install
+
+Start the development server:
+
+npm run dev
+
+The frontend will then be available through the Vite development server.
+
+🔑 API Authentication
+Login
+POST /auth/login
+
+Example request:
+
+{
+  "email": "user@example.com",
+  "password": "password"
+}
+
+The backend returns an access token and refresh token after successful authentication.
+
+Protected Endpoint
+GET /api/user/hello
+
+Authenticated requests use:
+
+Authorization: Bearer <access-token>
