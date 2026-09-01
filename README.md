@@ -1,8 +1,8 @@
 # Comfort Footwear 👟
 
-A full-stack footwear e-commerce web application built with React and Spring Boot.
+A full-stack footwear e-commerce web application built using **React** and **Spring Boot**.
 
-Comfort Footwear is designed as a modern e-commerce platform where users can browse footwear collections and securely authenticate using JWT-based authentication.
+Comfort Footwear is a modern web application that provides a responsive shopping experience with user authentication, protected APIs, JWT-based security, and a React-based frontend.
 
 ---
 
@@ -11,46 +11,49 @@ Comfort Footwear is designed as a modern e-commerce platform where users can bro
 ### Frontend
 
 - React
+- JavaScript
+- Vite
 - React Router DOM
 - Axios
 - Tailwind CSS
-- JavaScript
-- Vite
+- Context API
 
 ### Backend
 
 - Java
 - Spring Boot
 - Spring Security
-- JWT Authentication
+- JWT
 - Maven
+- REST APIs
 
 ### Database
 
-- MongoDB
+- MySQL
 
 ---
 
 ## ✨ Features
 
-### Authentication & Authorization
+### 🔐 Authentication & Security
 
 - User registration
 - User login
 - Password-based authentication
 - JWT-based authentication
-- Short-lived access tokens
+- Access tokens
 - Refresh tokens
-- Protected API endpoints
+- Protected REST APIs
 - Automatic access-token refresh
-- Axios interceptor for authenticated requests
+- Axios interceptor for authenticated API requests
+- Spring Security based request authorization
 
-### Frontend
+### 💻 Frontend
 
-- React-based SPA
-- Client-side routing
-- Responsive UI
-- Dark / Light mode
+- React Single Page Application (SPA)
+- Client-side routing with React Router
+- Responsive user interface
+- Dark and light theme
 - Authentication pages
 - Men's footwear collection
 - Women's footwear collection
@@ -59,29 +62,31 @@ Comfort Footwear is designed as a modern e-commerce platform where users can bro
 - Contact page
 - Error page
 
-### Backend
+### ⚙️ Backend
 
-- REST APIs
+- RESTful API architecture
 - Spring Security configuration
-- User authentication
-- Protected endpoints
+- User authentication and authorization
 - JWT token generation
 - Refresh-token based authentication
 - User service and repository layers
-- DTO-based request/response handling
+- DTO-based request and response handling
+- Protected API endpoints
 
 ---
 
 ## 🔐 Authentication Flow
 
-Comfort Footwear uses JWT-based authentication with access and refresh tokens.
+Comfort Footwear uses JWT-based authentication with short-lived access tokens and longer-lived refresh tokens.
+
+### Login Flow
 
 ```text
 User
  │
- │ Login
+ │ Login credentials
  ▼
-Frontend
+React Frontend
  │
  │ POST /auth/login
  ▼
@@ -89,35 +94,94 @@ Spring Boot Backend
  │
  │ Authenticate credentials
  ▼
+Spring Security
+ │
+ │ Authentication successful
+ ▼
 JWT Service
  │
  ├── Access Token
  └── Refresh Token
  │
  ▼
-Frontend
+React Frontend
  │
  └── Stores tokens
+ ```
 
+```
+React Frontend
+ │
+ │ GET /api/user/hello
+ │ Authorization: Bearer <access-token>
+ ▼
+Spring Boot Backend
+ │
+ │ Validate JWT
+ ▼
+Spring Security
+ │
+ ▼
+Protected Endpoint
+ │
+ ▼
+Response
+```
+
+```
+Access Token Expired
+        │
+        ▼
+Protected API
+        │
+        ▼
+       401
+        │
+        ▼
+Axios Interceptor
+        │
+        ▼
+Refresh Token
+        │
+        ▼
+New Access Token
+        │
+        ▼
+Retry Original Request
+        │
+        ▼
+Successful Response
+```
+# Project Structure
+
+```
 Comfort-Footwear/
 │
 ├── Backend/
+│   │
 │   ├── src/
 │   │   ├── main/
 │   │   │   ├── java/
-│   │   │   │   └── in/strikes/comfortFootwear/
-│   │   │   │       ├── config/
-│   │   │   │       ├── controller/
-│   │   │   │       ├── dto/
-│   │   │   │       ├── model/
-│   │   │   │       ├── repository/
-│   │   │   │       └── service/
+│   │   │   │   └── in/
+│   │   │   │       └── strikes/
+│   │   │   │           └── comfortFootwear/
+│   │   │   │               ├── config/
+│   │   │   │               ├── controller/
+│   │   │   │               ├── dto/
+│   │   │   │               ├── model/
+│   │   │   │               ├── repository/
+│   │   │   │               └── service/
+│   │   │   │
 │   │   │   └── resources/
+│   │   │
 │   │   └── test/
 │   │
 │   └── pom.xml
 │
 ├── Frontend/
+│   │
+│   ├── public/
+│   │
 │   ├── src/
 │   │   ├── api/
 │   │   ├── auth/
@@ -125,77 +189,9 @@ Comfort-Footwear/
 │   │   ├── context/
 │   │   └── pages/
 │   │
-│   ├── public/
 │   ├── package.json
 │   └── vite.config.js
 │
 ├── .gitignore
 └── README.md
-
-
-🛠️ Getting Started
-Prerequisites
-
-Make sure you have the following installed:
-
-Java
-Maven
-Node.js
-npm
-MongoDB
-
-
-⚙️ Backend Setup
-
-Navigate to the backend directory:
-
-cd Backend
-
-Configure your application properties and environment variables.
-
-Then start the Spring Boot application:
-
-./mvnw spring-boot:run
-
-On Windows:
-
-mvnw.cmd spring-boot:run
-
-The backend will run on:
-
-http://localhost:8080
-💻 Frontend Setup
-
-Navigate to the frontend directory:
-
-cd Frontend
-
-Install dependencies:
-
-npm install
-
-Start the development server:
-
-npm run dev
-
-The frontend will then be available through the Vite development server.
-
-🔑 API Authentication
-Login
-POST /auth/login
-
-Example request:
-
-{
-  "email": "user@example.com",
-  "password": "password"
-}
-
-The backend returns an access token and refresh token after successful authentication.
-
-Protected Endpoint
-GET /api/user/hello
-
-Authenticated requests use:
-
-Authorization: Bearer <access-token>
+```
