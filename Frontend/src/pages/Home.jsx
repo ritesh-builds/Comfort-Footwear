@@ -1,5 +1,6 @@
 import React from "react";
 import { useTheme } from "../context/ThemeContext";
+import {Link, NavLink} from 'react-router-dom'
 
 function Home() {
   const { darkMode } = useTheme();
@@ -193,7 +194,10 @@ function Home() {
         {/* BUTTONS */}
         <div className="flex items-center gap-[15px] mt-[35px]">
 
-          <button
+          <NavLink
+            to="/Product" 
+          >
+            <button
             className={`
               px-[25px]
               py-[12px]
@@ -213,8 +217,12 @@ function Home() {
           >
             Explore Collection
           </button>
+          </NavLink>
 
-          <button
+          <Link
+            to=""
+          >
+              <button
             className={`
               px-[25px]
               py-[12px]
@@ -234,6 +242,7 @@ function Home() {
           >
             Learn More
           </button>
+          </Link>
               
         </div>
               

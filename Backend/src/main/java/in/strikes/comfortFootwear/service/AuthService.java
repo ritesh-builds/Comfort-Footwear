@@ -1,8 +1,6 @@
 package in.strikes.comfortFootwear.service;
 
-import in.strikes.comfortFootwear.dto.UserLoginRequestDto;
-import in.strikes.comfortFootwear.dto.UserLoginResponseDto;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +8,6 @@ import in.strikes.comfortFootwear.dto.UserRegisterRequestDto;
 import in.strikes.comfortFootwear.dto.UserRegisterResponseDto;
 import in.strikes.comfortFootwear.model.User;
 import in.strikes.comfortFootwear.repository.UserRepository;
-import org.springframework.security.authentication.AuthenticationManager;
 
 @Service
 public class AuthService {
@@ -19,8 +16,6 @@ public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final AuthenticationManager authenticationManager;
-
     public AuthService(
             PasswordEncoder passwordEncoder,
             UserRepository userRepository,
@@ -28,7 +23,6 @@ public class AuthService {
     ) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
-        this.authenticationManager = authenticationManager;
     }
 
     

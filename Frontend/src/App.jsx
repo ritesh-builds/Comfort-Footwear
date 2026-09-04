@@ -10,46 +10,37 @@ import MenCollection from './pages/MenCollection.jsx'
 import WomenCollection from './pages/WomenCollection.jsx'
 import User from './pages/User.jsx'
 import Authentication from './pages/Authentication.jsx'
-
+import OAuth2Success from './pages/OAuth2Success.jsx'
 
 function App() {
   return (
     <div>
       <Navbar />
 
-      <main className="pt-20">
-        <Routes>
-          <Route path="/login" element={<Authentication />} />
+        <main className="pt-20">
+          <Routes>
+            <Route path="/login" element={<Authentication />} />
 
-          <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home />} />
 
-          <Route path="/About" element={<About />} />
+            <Route path="/About" element={<About />} />
 
-          <Route path="/Contact" element={<Contact />} />
+            <Route path="/Contact" element={<Contact />} />
 
-          <Route path="/Product" element={<Product />} />
+            <Route path="/Product" element={<Product />} />
 
-          <Route
-            path="/Product/Men"
-            element={<MenCollection />}
-          />
+            <Route path="/Product/Men" element={<MenCollection />}/>
 
-          <Route
-            path="/Product/Women"
-            element={<WomenCollection />}
-          />
+            <Route path="/Product/Women" element={<WomenCollection />}/>
 
-          <Route
-            path="/User/:userId"
-            element={<User />}
-          />
+            <Route path="/User/:userId" element={<User />} />
 
-          <Route
-            path="*"
-            element={<Error />}
-          />
-        </Routes>
-      </main>
+            <Route path="/oauth2/success" element={<OAuth2Success />} />
+
+            <Route path="*" element={<Error />} />
+            
+          </Routes>
+        </main>
 
       <Footer />
     </div>

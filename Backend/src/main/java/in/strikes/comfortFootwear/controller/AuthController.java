@@ -1,38 +1,43 @@
 package in.strikes.comfortFootwear.controller;
 
-import in.strikes.comfortFootwear.dto.UserLoginRequestDto;
-import in.strikes.comfortFootwear.dto.UserLoginResponseDto;
-import in.strikes.comfortFootwear.service.JwtService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import in.strikes.comfortFootwear.dto.RefreshTokenRequestDto;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
+import in.strikes.comfortFootwear.dto.UserLoginRequestDto;
+import in.strikes.comfortFootwear.dto.UserLoginResponseDto;
+import in.strikes.comfortFootwear.service.JwtService;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private ResourceLoader resourceLoader;
+   
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
-    @Autowired
-    private JwtService jwtService;
+    private final JwtDecoder jwtDecoder;
 
-    @Autowired
-    private JwtDecoder jwtDecoder;
-
+    public AuthController(
+                ResourceLoader resourceLoader, 
+                AuthenticationManager authenticationManager, 
+                JwtService jwtService,
+                JwtDecoder jwtDecoder
+        ) {
+                this.authenticationManager = authenticationManager;
+                this.jwtService = jwtService;
+                this.jwtDecoder = jwtDecoder;
+        }
 
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDto> login(

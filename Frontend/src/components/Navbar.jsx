@@ -162,6 +162,33 @@ function Navbar() {
           Product
         </NavLink>
 
+        {/* <NavLink
+          to="/User/Ritesh"
+          className={(({isActive}) => 
+          ` 
+          ${darkMode
+            ? isActive
+              ? "text-white"
+              : "text-[#888] hover:text-white"
+            : isActive
+              ? "text-black"
+              : "text-[#666] hover:text-black"
+          }
+            no-underline
+            text-[17px]
+            transition-colors
+            duration-300
+            ${
+              darkMode
+                ? "text-[#888] hover:text-white"
+                : "text-[#666] hover:text-black"
+            }
+          `
+          )}
+        >
+          User
+        </NavLink> */}
+
       </div>
 
       {/* RIGHT SIDE */}
@@ -214,6 +241,8 @@ function Navbar() {
         >
           Login / Sign Up
         </Link>
+
+        
 
       </div>
     </nav>
