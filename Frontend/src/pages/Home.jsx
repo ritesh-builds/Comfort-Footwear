@@ -220,7 +220,7 @@ function Home() {
           </NavLink>
 
           <Link
-            to=""
+            to="/Learn-more"
           >
               <button
             className={`

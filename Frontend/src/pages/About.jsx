@@ -1,5 +1,6 @@
 import React from "react";
 import { useTheme } from "../context/ThemeContext";
+import { Link } from "react-router-dom";
 
 function About() {
   const { darkMode } = useTheme();
@@ -115,7 +116,8 @@ function About() {
           </p>
 
           {/* BUTTON */}
-          <button
+          <Link to="/our-story">
+            <button
             className={`
               mt-5
               px-6
@@ -150,6 +152,7 @@ function About() {
           >
             Discover Our Story →
           </button>
+          </Link>
         </div>
 
         {/* RIGHT SIDE */}

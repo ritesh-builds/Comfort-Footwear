@@ -11,6 +11,8 @@ import WomenCollection from './pages/WomenCollection.jsx'
 import Authentication from './pages/Authentication.jsx'
 import OAuth2Success from './pages/OAuth2Success.jsx'
 import Profile from './pages/Profile.jsx'
+import LearnMore from './pages/LearnMore.jsx'
+import OurStory from './pages/OurStory.jsx'
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
 
             <Route path="/oauth2/success" element={<OAuth2Success />} />
             <Route path='/Profile' element={<Profile />} />
+            <Route path='/Learn-more' element={<LearnMore />} />
+            <Route path='our-story' element={<OurStory />} />
 
             <Route path="*" element={<Error />} />
             

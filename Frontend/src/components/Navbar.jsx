@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { Sun, Moon } from "lucide-react";
 
 function Navbar() {
   const { darkMode, toggleTheme } = useTheme();
@@ -45,8 +46,8 @@ function Navbar() {
       <div className="hidden md:flex items-center gap-3.75">
 
         {/* THEME BUTTON */}
-        <button onClick={toggleTheme} className={`w-10 h-10 rounded-full cursor-pointer text-[18px] flex items-center justify-center transition-all duration-300 ${darkMode ? "bg-[#111] border border-[#333]" : "bg-white border border-[#ccc]"}`}>
-          {darkMode ? "☀️" : "🌙"}
+        <button onClick={toggleTheme} className={`w-10 h-10 rounded-full cursor-pointer text-[18px] flex items-center justify-center transition-all duration-300 ${darkMode ? "bg-[#111] border border-[#333]" : "bg-white border border-[#f3ebeb]"}`}>
+          {darkMode ? <Sun size={17} strokeWidth={1.8} className="text-white" /> : <Moon size={17} strokeWidth={1.8} className="text-black" />}
         </button>
 
         {/* LOGIN */}
