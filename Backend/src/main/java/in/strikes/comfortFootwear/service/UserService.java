@@ -34,26 +34,16 @@ public class UserService {
         }
     }
 
-    public User registerOrUpdate(
-            String provider,
-            OidcUser oidcUser
-    ) {
+    public User registerOrUpdate(String provider, OidcUser oidcUser) {
 
-        String username =
-                oidcUser.getClaimAsString("name");
+        String username = oidcUser.getClaimAsString("name");
 
-        String email =
-                oidcUser.getClaimAsString("email");
+        String email = oidcUser.getClaimAsString("email");
 
-        String providerSubject =
-                oidcUser.getSubject();
+        String providerSubject = oidcUser.getSubject();
 
         // 1. Check by provider + providerSubject
-        Optional<User> existingUser =
-                userRepository.findByProviderAndProviderSubject(
-                        provider,
-                        providerSubject
-                );
+        Optional<User> existingUser = userRepository.findByProviderAndProviderSubject(provider, providerSubject);
 
         if (existingUser.isPresent()) {
 
@@ -66,8 +56,7 @@ public class UserService {
         }
 
         // 2. If not found, check by email
-        Optional<User> existingEmailUser =
-                userRepository.findByEmail(email);
+        Optional<User> existingEmailUser = userRepository.findByEmail(email);
 
         if (existingEmailUser.isPresent()) {
 
@@ -81,23 +70,12 @@ public class UserService {
         }
 
         // 3. Completely new Google user
-        User newUser = new User(
-                providerSubject,
-                email,
-                provider,
-                username
-        );
+        User newUser = new User(providerSubject, email, provider, username);
 
         return userRepository.save(newUser);
     }
 
-    public Optional<User> findByProviderSubject(
-            String provider,
-            String subject
-    ) {
-        return userRepository.findByProviderAndProviderSubject(
-                provider,
-                subject
-        );
+    public Optional<User> findByProviderSubject( String provider, String subject) {
+        return userRepository.findByProviderAndProviderSubject(provider, subject);
     }
 }

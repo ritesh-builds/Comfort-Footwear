@@ -24,8 +24,7 @@ axiosInstance.interceptors.request.use(
 
 
 // RESPONSE INTERCEPTOR
-axiosInstance.interceptors.response.use(
-  (response) => {
+axiosInstance.interceptors.response.use((response) => {
     return response;
   },
 
@@ -41,24 +40,16 @@ axiosInstance.interceptors.response.use(
 
       try {
 
-        const response = await axios.post(
-          "http://localhost:8080/auth/refresh",
-          {
-            refreshToken: refreshToken
-          }
-        );
+        const response = await axios.post("http://localhost:8080/auth/refresh",{
+          refreshToken: refreshToken
+        });
 
-        const newAccessToken =
-          response.data.accessToken;
+        const newAccessToken = response.data.accessToken;
 
-        localStorage.setItem(
-          "accessToken",
-          newAccessToken
-        );
+        localStorage.setItem("accessToken", newAccessToken);
 
         // Original request
-        error.config.headers.Authorization =
-          `Bearer ${newAccessToken}`;
+        error.config.headers.Authorization = `Bearer ${newAccessToken}`;
 
         return axiosInstance(error.config);
 

@@ -3,13 +3,16 @@ package in.strikes.comfortFootwear.service;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import org.springframework.context.annotation.Lazy;
+
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
+
+import in.strikes.comfortFootwear.model.CustomUserDetails;
 
 @Service
 public class JwtService {
@@ -30,13 +33,12 @@ public class JwtService {
     // Access Token - Normal Login
     // =========================================
 
-    public String generateAccessToken(
-            Authentication authentication
-    ) {
+    public String generateAccessToken(Authentication authentication) {
 
-        String email = authentication.getName();
+        CustomUserDetails userDetails =
+        (CustomUserDetails) authentication.getPrincipal();
 
-        return generateAccessToken(email);
+        return generateAccessToken(String.valueOf(userDetails.getId()));
     }
 
 
@@ -44,9 +46,7 @@ public class JwtService {
     // Access Token - Refresh Token Flow
     // =========================================
 
-    public String generateAccessToken(
-            String subject
-    ) {
+    public String generateAccessToken(String subject) {
 
         Instant now = Instant.now();
 
@@ -79,38 +79,58 @@ public class JwtService {
     // Refresh Token
     // =========================================
 
-    public String generateRefreshToken(
-            Authentication authentication
-    ) {
+public String generateRefreshToken(Authentication authentication) {
 
-        String email = authentication.getName();
+    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        Instant now = Instant.now();
+    String userId = String.valueOf(userDetails.getId());
 
-        JwtClaimsSet claims =
-                JwtClaimsSet.builder()
-                        .issuer(issuer)
-                        .subject(email)
-                        .issuedAt(now)
-                        .expiresAt(
-                                now.plus(
-                                        7,
-                                        ChronoUnit.DAYS
-                                )
-                        )
-                        .claim(
-                                "type",
-                                "refresh"
-                        )
-                        .build();
+    Instant now = Instant.now();
 
-        return jwtEncoder
-                .encode(
-                        JwtEncoderParameters.from(claims)
-                )
-                .getTokenValue();
-    }
+    JwtClaimsSet claims =
+            JwtClaimsSet.builder()
+                    .issuer(issuer)
+                    .subject(userId)
+                    .issuedAt(now)
+                    .expiresAt(
+                            now.plus(
+                                    7,
+                                    ChronoUnit.DAYS
+                            )
+                    )
+                    .claim(
+                            "type",
+                            "refresh"
+                    )
+                    .build();
 
+    return jwtEncoder
+            .encode(
+                    JwtEncoderParameters.from(claims)
+            )
+            .getTokenValue();
+}
+
+public String generateRefreshToken(Long userId, String email) {
+
+    Instant now = Instant.now();
+
+    JwtClaimsSet claims =
+            JwtClaimsSet.builder()
+                    .issuer(issuer)
+                    .subject(String.valueOf(userId))
+                    .issuedAt(now)
+                    .expiresAt(now.plus(7, ChronoUnit.DAYS))
+                    .claim("type", "refresh")
+                    .claim("email", email)
+                    .build();
+
+    return jwtEncoder
+            .encode(
+                    JwtEncoderParameters.from(claims)
+            )
+            .getTokenValue();
+}
 
     // =========================================
     // Google OAuth2 Access Token

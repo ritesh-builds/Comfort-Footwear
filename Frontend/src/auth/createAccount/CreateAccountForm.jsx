@@ -49,7 +49,7 @@ function CreateAccountForm({ onSwitch }) {
 
   return (
     <section
-      className={`min-h-screen px-[8%] py-[80px] flex items-center transition-all duration-300 max-[850px]:px-[25px] max-[850px]:py-[60px]
+      className={`min-h-screen px-[8%] py-20 flex items-center transition-all duration-300 max-[850px]:px-6.25 max-[850px]:py-[60px]
         ${
           darkMode
             ? "bg-[#080808] text-white"
@@ -60,14 +60,14 @@ function CreateAccountForm({ onSwitch }) {
       <div
         className="
           w-full
-          max-w-[1150px]
+          max-w-287.5
           mx-auto
           grid
           grid-cols-[1fr_450px]
-          gap-[100px]
+          gap-25
           items-center
           max-[850px]:grid-cols-1
-          max-[850px]:gap-[50px]
+          max-[850px]:gap-12.5
         "
       >
 

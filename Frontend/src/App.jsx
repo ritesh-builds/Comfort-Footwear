@@ -8,9 +8,9 @@ import Footer from './components/Footer.jsx'
 import Error from './pages/Error.jsx'
 import MenCollection from './pages/MenCollection.jsx'
 import WomenCollection from './pages/WomenCollection.jsx'
-import User from './pages/User.jsx'
 import Authentication from './pages/Authentication.jsx'
 import OAuth2Success from './pages/OAuth2Success.jsx'
+import Profile from './pages/Profile.jsx'
 
 function App() {
   return (
@@ -33,9 +33,8 @@ function App() {
 
             <Route path="/Product/Women" element={<WomenCollection />}/>
 
-            <Route path="/User/:userId" element={<User />} />
-
             <Route path="/oauth2/success" element={<OAuth2Success />} />
+            <Route path='/Profile' element={<Profile />} />
 
             <Route path="*" element={<Error />} />
             

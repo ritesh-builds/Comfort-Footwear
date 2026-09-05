@@ -172,7 +172,8 @@ const Footer = () => {
             </span>
 
             <a
-              href="#"
+              href="https://www.instagram.com/its.me.riteshh"
+              target="blank"
               className={`
                 no-underline
                 text-[13px]
@@ -190,7 +191,7 @@ const Footer = () => {
             </a>
 
             <a
-              href="#"
+              href="https://x.com/Code_By_Ritesh"
               className={`
                 no-underline
                 text-[13px]

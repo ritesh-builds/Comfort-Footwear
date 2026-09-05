@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useTheme } from "../../context/ThemeContext.jsx";
 import axios from "axios";
 import axiosInstance from "../../api/axiosInstance.js";
+import { AuthContext } from "../../context/AuthContext.jsx";
 
 function LoginForm({ onSwitch }) {
-  const { darkMode } = useTheme();
-
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("")
+  
+  const { darkMode } = useTheme();
+  const { setAccessToken, setRefreshToken } = useContext(AuthContext);
 
   const handleLogin = async (evt) => {
     evt.preventDefault();
@@ -21,24 +24,18 @@ function LoginForm({ onSwitch }) {
     console.log("Login Data:", loginData);
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/auth/login",
-        loginData
-      );
+      const response = await axios.post("http://localhost:8080/auth/login", loginData);
 
-      console.log("Server response: ", response.data);
+      // console.log("Server response: ", response.data);
 
       setMessage(response.data.message);
+      
+      localStorage.setItem("accessToken",response.data.accessToken);
+      setAccessToken(response.data.accessToken)
 
-      localStorage.setItem(
-        "accessToken",
-        response.data.accessToken
-      );
+      localStorage.setItem("refreshToken", response.data.refreshToken);
+      setRefreshToken(response.data.refreshToken);
 
-      localStorage.setItem(
-      "refreshToken",
-      response.data.refreshToken
-      );
 
       setEmail("");
       setPassword("");
@@ -177,32 +174,14 @@ function LoginForm({ onSwitch }) {
 
               <button
                 type="button"
-                className={`
-                  border-none
-                  py-[11px]
-                  rounded-[6px]
-                  cursor-pointer
-                  text-[13px]
-                  transition-all
-                  duration-300
-                  bg-white
-                  text-black
-                `}
-              >
+                className={` border-none py-[11px] rounded-[6px] cursor-pointer text-[13px] transition-all duration-300 bg-white text-black`}>
                 Login
               </button>
 
               <button
                 type="button"
                 onClick={onSwitch}
-                className={`
-                  border-none
-                  py-[11px]
-                  rounded-[6px]
-                  cursor-pointer
-                  text-[13px]
-                  transition-all
-                  duration-300
+                className={`border-none py-[11px] rounded-[6px] cursor-pointer text-[13px] transition-all duration-300
 
                   ${
                     darkMode
@@ -218,9 +197,9 @@ function LoginForm({ onSwitch }) {
 
 
             {/* HEADING */}
-            <div className="mt-[35px] mb-[28px]">
+            <div className="mt-8.75 mb-7">
 
-              <h2 className="text-[25px] font-normal mb-[8px]">
+              <h2 className="text-[25px] font-normal mb-2">
                 Welcome back
               </h2>
 
@@ -238,13 +217,13 @@ function LoginForm({ onSwitch }) {
 
 
             {/* EMAIL */}
-            <div className="mb-[18px]">
+            <div className="mb-4.5">
 
               <label
                 className={`
                   block
                   text-[12px]
-                  mb-[8px]
+                  mb-2
                   ${
                     darkMode
                       ? "text-[#888]"
@@ -267,8 +246,8 @@ function LoginForm({ onSwitch }) {
                   outline-none
                   text-[13px]
                   font-inherit
-                  py-[14px]
-                  px-[15px]
+                  py-3.5
+                  px-3.75
                   transition-all
                   duration-300
 
@@ -300,13 +279,13 @@ function LoginForm({ onSwitch }) {
 
 
             {/* PASSWORD */}
-            <div className="mb-[18px]">
+            <div className="mb-4.5">
 
               <label
                 className={`
                   block
                   text-[12px]
-                  mb-[8px]
+                  mb-2
                   ${
                     darkMode
                       ? "text-[#888]"
@@ -329,8 +308,8 @@ function LoginForm({ onSwitch }) {
                   outline-none
                   text-[13px]
                   font-inherit
-                  py-[14px]
-                  px-[15px]
+                  py-3.5
+                  px-3.75
                   transition-all
                   duration-300
 
@@ -362,7 +341,7 @@ function LoginForm({ onSwitch }) {
 
 
             {/* FORGOT PASSWORD */}
-            <div className="text-right mt-[-5px] mb-[20px]">
+            <div className="text-right -mt-1.25 mb-5">
 
               <button
                 type="button"
@@ -426,7 +405,13 @@ function LoginForm({ onSwitch }) {
             >
               Login →
             </button>
-
+            
+            {/* GOOGLE LOGIN */}
+            <div className="mt-4">
+              <button type="button" onClick={() => window.location.href = "http://localhost:8080/oauth2/authorization/google"} className={`w-full py-[15px] border rounded-[8px] cursor-pointer text-[13px] transition-all duration-300 ${darkMode ? "border-[#333] bg-[#111] text-white hover:bg-[#1a1a1a]" : "border-[#ddd] bg-white text-black hover:bg-[#f5f5f5]"}`}>
+                Continue with Google
+              </button>
+            </div>
 
             {/* SWITCH */}
             <div

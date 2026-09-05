@@ -195,3 +195,22 @@ Comfort-Footwear/
 ├── .gitignore
 └── README.md
 ```
+
+```
+main.jsx
+   │
+   ▼
+AuthProvider
+   │
+   │  children = <App />
+   ▼
+App
+   ├── Navbar
+   ├── Routes
+   │    ├── Home
+   │    ├── Product
+   │    ├── User
+   │    └── OAuth2Success
+   └── Footer
+
+```

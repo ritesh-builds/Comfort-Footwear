@@ -65,8 +65,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<UserLoginResponseDto> refresh(
-            @RequestBody RefreshTokenRequestDto request) {
+    public ResponseEntity<UserLoginResponseDto> refresh(@RequestBody RefreshTokenRequestDto request) {
 
         Jwt jwt = jwtDecoder.decode(request.getRefreshToken());
 

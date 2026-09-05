@@ -3,21 +3,19 @@ package in.strikes.comfortFootwear.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import in.strikes.comfortFootwear.dto.UserRegisterRequestDto;
-import in.strikes.comfortFootwear.dto.UserRegisterResponseDto;
-import in.strikes.comfortFootwear.model.User;
-import in.strikes.comfortFootwear.service.AuthService;
-import in.strikes.comfortFootwear.service.UserService;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import in.strikes.comfortFootwear.dto.UserRegisterRequestDto;
+import in.strikes.comfortFootwear.dto.UserRegisterResponseDto;
+import in.strikes.comfortFootwear.model.User;
+import in.strikes.comfortFootwear.service.AuthService;
+import in.strikes.comfortFootwear.service.UserService;
 
 @RestController
 @RequestMapping("/api/user")
@@ -26,10 +24,7 @@ public class UserController {
     private final AuthService authService;
     private final UserService userService;
 
-    public UserController(
-            AuthService authService,
-            UserService userService
-    ) {
+    public UserController(AuthService authService, UserService userService) {
         this.authService = authService;
         this.userService = userService;
     }
@@ -55,12 +50,9 @@ public class UserController {
     // =========================
 
     @PostMapping("/register")
-    public ResponseEntity<UserRegisterResponseDto> register(
-            @RequestBody UserRegisterRequestDto request
-    ) {
+    public ResponseEntity<UserRegisterResponseDto> register( @RequestBody UserRegisterRequestDto request) {
 
-        UserRegisterResponseDto registeredUser =
-                authService.register(request);
+        UserRegisterResponseDto registeredUser = authService.register(request);
 
         return ResponseEntity.ok(registeredUser);
     }
@@ -70,61 +62,23 @@ public class UserController {
     // Google OAuth2 Profile
     // =========================
 
-    @GetMapping("/profile")
-    public ResponseEntity<Map<String, Object>> profile(
-            @AuthenticationPrincipal OidcUser oidcUser
-    ) {
+   @GetMapping("/profile")
+    public ResponseEntity<Map<String, Object>> profile(Authentication authentication) {
 
-        String provider = "google";
+        Long userId = Long.valueOf(authentication.getName());
 
-        String subject = oidcUser.getSubject();
+        User user = userService.getUser(userId)
+                .orElseThrow(
+                        () -> new RuntimeException("User Not Found")
+                );
 
-        User user =
-                userService
-                        .findByProviderSubject(
-                                provider,
-                                subject
-                        )
-                        .orElseThrow(
-                                () -> new RuntimeException(
-                                        "User Not Found"
-                                )
-                        );
+        Map<String, Object> response = new HashMap<>();
 
-
-        Map<String, Object> response =
-                new HashMap<>();
-
-        response.put(
-                "internalUserId",
-                user.getId()
-        );
-
-        response.put(
-                "provider",
-                user.getProvider()
-        );
-
-        response.put(
-                "subject",
-                user.getProviderSubject()
-        );
-
-        response.put(
-                "name",
-                oidcUser.getClaimAsString("name")
-        );
-
-        response.put(
-                "email",
-                oidcUser.getClaimAsString("email")
-        );
-
-        response.put(
-                "picture",
-                oidcUser.getClaimAsString("picture")
-        );
-
+        response.put("internalUserId", user.getId());
+        response.put("provider", user.getProvider());
+        response.put("subject", user.getProviderSubject());
+        response.put("name", user.getUsername());
+        response.put("email", user.getEmail());
 
         return ResponseEntity.ok(response);
     }
