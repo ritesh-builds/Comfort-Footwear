@@ -4,7 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "backend": "cd .. && cd backend && mvn spring-boot:run",
+    "frontend": "vite",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview"
