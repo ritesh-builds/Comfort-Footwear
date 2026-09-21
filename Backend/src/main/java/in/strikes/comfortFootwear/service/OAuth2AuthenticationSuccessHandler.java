@@ -37,6 +37,6 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 
         // System.out.println("OAuth2 JWT: " + token);
 
-        response.sendRedirect("http://localhost:5173/oauth2/success#accessToken="+accessToken + "&refreshToken="+refreshToken);
+        response.sendRedirect("https://comfort-footwear.vercel.app/oauth2/success#accessToken="+accessToken + "&refreshToken="+refreshToken);
     }
 }

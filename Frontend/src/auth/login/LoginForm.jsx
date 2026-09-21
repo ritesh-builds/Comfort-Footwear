@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { useTheme } from "../../context/ThemeContext.jsx";
-import axios from "axios";
 import axiosInstance from "../../api/axiosInstance.js";
 import { AuthContext } from "../../context/AuthContext.jsx";
 
@@ -13,7 +12,7 @@ function LoginForm({ onSwitch }) {
   const { darkMode } = useTheme();
   const { setAccessToken, setRefreshToken } = useContext(AuthContext);
 
-  const handleLogin = async (evt) => {
+const handleLogin = async (evt) => {
     evt.preventDefault();
 
     const loginData = {
@@ -21,29 +20,37 @@ function LoginForm({ onSwitch }) {
       password,
     };
 
-    console.log("Login Data:", loginData);
-
     try {
-      const response = await axios.post("http://localhost:8080/auth/login", loginData);
-
-      // console.log("Server response: ", response.data);
+      const response = await axiosInstance.post(
+        "/auth/login",
+        loginData
+      );
 
       setMessage(response.data.message);
-      
-      localStorage.setItem("accessToken",response.data.accessToken);
-      setAccessToken(response.data.accessToken)
 
-      localStorage.setItem("refreshToken", response.data.refreshToken);
+      localStorage.setItem(
+        "accessToken",
+        response.data.accessToken
+      );
+
+      setAccessToken(response.data.accessToken);
+
+      localStorage.setItem(
+        "refreshToken",
+        response.data.refreshToken
+      );
+
       setRefreshToken(response.data.refreshToken);
-
 
       setEmail("");
       setPassword("");
 
     } catch (error) {
-      console.log("Login error: ", error);
+      console.log("Login error:", error);
+      setMessage(
+        error.response?.data?.message || "Login failed"
+      );
     }
-    
   };
 
   return (
@@ -408,9 +415,20 @@ function LoginForm({ onSwitch }) {
             
             {/* GOOGLE LOGIN */}
             <div className="mt-4">
-              <button type="button" onClick={() => window.location.href = "http://localhost:8080/oauth2/authorization/google"} className={`w-full py-[15px] border rounded-[8px] cursor-pointer text-[13px] transition-all duration-300 ${darkMode ? "border-[#333] bg-[#111] text-white hover:bg-[#1a1a1a]" : "border-[#ddd] bg-white text-black hover:bg-[#f5f5f5]"}`}>
-                Continue with Google
-              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  window.location.href =
+                    "https://comfort-footwear.onrender.com/oauth2/authorization/google"
+                }
+                className={`w-full py-[15px] border rounded-[8px] cursor-pointer text-[13px] transition-all duration-300 ${
+                  darkMode
+                    ? "border-[#333] bg-[#111] text-white hover:bg-[#1a1a1a]"
+                    : "border-[#ddd] bg-white text-black hover:bg-[#f5f5f5]"
+                }`}
+                >
+                  Continue with Google
+                </button>
             </div>
 
             {/* SWITCH */}
