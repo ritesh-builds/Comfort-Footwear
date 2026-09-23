@@ -43,158 +43,166 @@ const WomenCollection = () => {
         px-5
         sm:px-8
         lg:px-[8%]
+        relative
+        overflow-hidden
         transition-all
         duration-300
 
         ${
           darkMode
             ? "bg-[#080808] text-white"
-            : "bg-[#f5f5f5] text-black"
+            : "bg-gradient-to-br from-[#f0f4f9] via-[#e5ecf5] to-[#f4f7fb] text-black"
         }
       `}
     >
-      {/* HEADER */}
-      <div className="max-w-[700px] mb-[70px]">
+      {/* AMBIENT BACKGROUND GLOW ORBS */}
+      <div className="glass-orb w-[540px] h-[540px] -top-20 -right-20 opacity-80 dark:opacity-20 bg-gradient-to-br from-rose-400/50 via-pink-400/40 to-purple-400/45 blur-[95px]" />
+      <div className="glass-orb w-[500px] h-[500px] bottom-10 -left-20 opacity-75 dark:opacity-15 bg-gradient-to-tr from-amber-400/45 via-sky-400/40 to-teal-400/40 blur-[100px]" />
 
-        <span
-          className={
-            darkMode
-              ? "text-[11px] tracking-[4px] text-[#666]"
-              : "text-[11px] tracking-[4px] text-[#777]"
-          }
-        >
-          WOMEN'S COLLECTION
-        </span>
+      <div className="relative z-10 max-w-[1250px] mx-auto">
+        {/* HEADER */}
+        <div className="max-w-[700px] mb-12">
 
-        <h1
-          className="
-            text-[clamp(4rem,8vw,8rem)]
-            leading-[0.85]
-            font-normal
-            tracking-[-6px]
-            my-[25px]
-            max-[650px]:tracking-[-3px]
-          "
-        >
-          Walk your{" "}
-          <strong
+          <span
             className={
               darkMode
-                ? "text-[#777] font-normal"
-                : "text-[#888] font-normal"
+                ? "glass-badge glass-badge-dark mb-3"
+                : "glass-badge glass-badge-light mb-3"
             }
           >
-            way.
-          </strong>
-        </h1>
+            WOMEN'S COLLECTION
+          </span>
 
-        <p
-          className={
-            darkMode
-              ? "max-w-[450px] text-[#777] text-[14px] leading-[1.8]"
-              : "max-w-[450px] text-[#666] text-[14px] leading-[1.8]"
-          }
-        >
-          Thoughtfully designed footwear that brings together
-          comfort, confidence, and effortless everyday style.
-        </p>
+          <h1
+            className="
+              text-[clamp(3.5rem,7.5vw,7.5rem)]
+              leading-[0.88]
+              font-normal
+              tracking-[-4px]
+              my-4
+              max-[650px]:tracking-[-2px]
+            "
+          >
+            Walk your{" "}
+            <strong
+              className={
+                darkMode
+                  ? "bg-gradient-to-r from-neutral-400 to-white bg-clip-text text-transparent font-normal"
+                  : "bg-gradient-to-r from-neutral-500 to-black bg-clip-text text-transparent font-normal"
+              }
+            >
+              way.
+            </strong>
+          </h1>
 
-      </div>
+          <p
+            className={
+              darkMode
+                ? "max-w-[450px] text-[#aaa] text-[14px] leading-[1.8]"
+                : "max-w-[450px] text-[#555] text-[14px] leading-[1.8]"
+            }
+          >
+            Thoughtfully designed footwear that brings together
+            comfort, confidence, and effortless everyday style.
+          </p>
 
-      {/* TOOLBAR */}
-      <div
-        className={`
-          border-t
-          border-b
-          py-[18px]
-          mb-[35px]
-          flex
-          justify-between
-          items-center
+        </div>
 
-          ${
-            darkMode
-              ? "border-[#222]"
-              : "border-[#ddd]"
-          }
-        `}
-      >
-        <span
-          className={
-            darkMode
-              ? "text-[#555] text-[11px] tracking-[2px]"
-              : "text-[#888] text-[11px] tracking-[2px]"
-          }
-        >
-          {loading ? "..." : `${products.length.toString().padStart(2, "0")} PRODUCTS`}
-        </span>
-
-        <button
+        {/* TOOLBAR */}
+        <div
           className={`
-            bg-transparent
-            border-none
-            text-[12px]
-            cursor-pointer
-            transition-colors
-            duration-300
+            py-3.5
+            px-6
+            rounded-2xl
+            mb-8
+            flex
+            justify-between
+            items-center
+            transition-all
 
             ${
               darkMode
-                ? "text-[#777] hover:text-white"
-                : "text-[#777] hover:text-black"
+                ? "glass-panel-dark"
+                : "glass-panel-light"
             }
           `}
         >
-          Sort by: Featured ↓
-        </button>
-      </div>
+          <span
+            className={
+              darkMode
+                ? "text-[#aaa] text-[12px] font-medium tracking-wider"
+                : "text-[#555] text-[12px] font-medium tracking-wider"
+            }
+          >
+            {loading ? "..." : `${products.length.toString().padStart(2, "0")} PRODUCTS`}
+          </span>
 
-      {/* PRODUCT GRID */}
-      {loading ? (
-        <div className="py-20 text-center">
-          <div
-            className={`w-10 h-10 mx-auto mb-4 rounded-full border-2 border-t-transparent animate-spin ${
-              darkMode ? "border-white" : "border-black"
-            }`}
-          />
-          <p className={`text-sm ${darkMode ? "text-[#777]" : "text-[#777]"}`}>
-            Loading Women's collection...
-          </p>
+          <button
+            className={`
+              bg-transparent
+              border-none
+              text-[13px]
+              font-medium
+              cursor-pointer
+              transition-colors
+
+              ${
+                darkMode
+                  ? "text-[#ccc] hover:text-white"
+                  : "text-[#555] hover:text-black"
+              }
+            `}
+          >
+            Sort by: Featured ↓
+          </button>
         </div>
-      ) : (
-        <div
-          className="
-            grid
-            grid-cols-3
-            gap-x-[20px]
-            gap-y-[45px]
-            max-[1000px]:grid-cols-2
-            max-[650px]:grid-cols-1
-          "
-        >
-          {products.map((product) => (
+
+        {/* PRODUCT GRID */}
+        {loading ? (
+          <div className="py-20 text-center">
             <div
-              key={product.id}
-              className="cursor-pointer group"
-            >
+              className={`w-10 h-10 mx-auto mb-4 rounded-full border-2 border-t-transparent animate-spin ${
+                darkMode ? "border-white" : "border-black"
+              }`}
+            />
+            <p className={`text-sm ${darkMode ? "text-[#777]" : "text-[#777]"}`}>
+              Loading Women's collection...
+            </p>
+          </div>
+        ) : (
+          <div
+            className="
+              grid
+              grid-cols-3
+              gap-6
+              max-[1000px]:grid-cols-2
+              max-[650px]:grid-cols-1
+            "
+          >
+            {products.map((product) => (
+              <div
+                className={`cursor-pointer group p-4 rounded-2xl transition-all ${
+                  darkMode ? "glass-card-dark" : "glass-card-light"
+                }`}
+                key={product.id}
+              >
 
               {/* IMAGE */}
               <div
                 className={`
-                  h-[420px]
-                  border
-                  rounded-[12px]
+                  h-[360px]
+                  rounded-xl
                   relative
                   overflow-hidden
                   flex
                   items-center
                   justify-center
-                  max-[650px]:h-[380px]
+                  max-[650px]:h-[340px]
 
                   ${
                     darkMode
-                      ? "bg-[#111] border-[#1d1d1d]"
-                      : "bg-white border-[#ddd]"
+                      ? "bg-neutral-900/60"
+                      : "bg-neutral-100/80"
                   }
                 `}
               >
@@ -216,11 +224,9 @@ const WomenCollection = () => {
 
                 {/* NUMBER */}
                 <span
-                  className={
-                    darkMode
-                      ? "absolute top-[18px] left-[18px] text-[#555] text-[11px]"
-                      : "absolute top-[18px] left-[18px] text-[#999] text-[11px]"
-                  }
+                  className={`px-2.5 py-1 rounded-full text-[10px] font-bold backdrop-blur-md absolute top-3 left-3 ${
+                    darkMode ? "bg-black/50 text-white/80 border border-white/10" : "bg-white/70 text-black/80 border border-black/10"
+                  }`}
                 >
                   0{product.id}
                 </span>
@@ -244,23 +250,23 @@ const WomenCollection = () => {
                     absolute
                     top-3
                     right-3
-                    w-9
-                    h-9
+                    w-9.5
+                    h-9.5
                     rounded-full
                     flex
                     items-center
                     justify-center
                     cursor-pointer
-                    backdrop-blur-md
+                    backdrop-blur-xl
                     transition-all
                     duration-300
                     z-10
                     ${
                       isFavorite(product.id)
-                        ? "bg-rose-500 text-white shadow-lg shadow-rose-500/30"
+                        ? "bg-rose-500 text-white shadow-lg shadow-rose-500/40"
                         : darkMode
-                        ? "bg-black/40 text-white hover:bg-black/80"
-                        : "bg-white/80 text-black hover:bg-white"
+                        ? "glass-btn-dark hover:scale-110"
+                        : "glass-btn-light hover:scale-110"
                     }
                   `}
                 >
@@ -287,11 +293,11 @@ const WomenCollection = () => {
                     absolute
                     bottom-[18px]
                     right-[18px]
-                    border-none
-                    rounded-[30px]
-                    px-[18px]
-                    py-[11px]
-                    text-[12px]
+                    rounded-full
+                    px-5
+                    py-2.5
+                    text-xs
+                    font-medium
                     cursor-pointer
                     opacity-100
                     sm:opacity-0
@@ -304,11 +310,12 @@ const WomenCollection = () => {
                     flex
                     items-center
                     gap-1.5
+                    shadow-lg
 
                     ${
                       darkMode
-                        ? "bg-white text-black"
-                        : "bg-black text-white"
+                        ? "bg-white text-black hover:bg-neutral-200"
+                        : "bg-black text-white hover:bg-neutral-800"
                     }
                   `}
                 >
@@ -320,33 +327,27 @@ const WomenCollection = () => {
 
               {/* DETAILS */}
               <div
-                className={`
+                className="
                   flex
                   justify-between
                   items-start
-                  px-[2px]
-                  py-[18px]
-                  border-b
-
-                  ${
-                    darkMode
-                      ? "border-[#222]"
-                      : "border-[#ddd]"
-                  }
-                `}
+                  pt-4
+                  px-1
+                  pb-1
+                "
               >
 
                 <div>
 
-                  <h2 className="text-[16px] font-normal mb-[6px]">
+                  <h2 className="text-[16px] font-medium mb-1">
                     {product.name}
                   </h2>
 
                   <p
                     className={
                       darkMode
-                        ? "text-[#666] text-[12px]"
-                        : "text-[#888] text-[12px]"
+                        ? "text-[#888] text-[12px]"
+                        : "text-[#666] text-[12px]"
                     }
                   >
                     {product.category}
@@ -357,8 +358,8 @@ const WomenCollection = () => {
                 <span
                   className={
                     darkMode
-                      ? "text-[#aaa] text-[13px]"
-                      : "text-[#555] text-[13px]"
+                      ? "text-white text-[14px] font-semibold"
+                      : "text-black text-[14px] font-semibold"
                   }
                 >
                   {product.price}
@@ -369,7 +370,8 @@ const WomenCollection = () => {
             </div>
           ))}
         </div>
-      )}
+        )}
+      </div>
 
       {/* POPUP MODALS */}
       <AuthModal

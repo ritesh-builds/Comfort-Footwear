@@ -24,7 +24,7 @@ function Home() {
         ${
           darkMode
             ? "bg-[#080808] text-white"
-            : "bg-[#f5f5f5] text-black"
+            : "bg-[#fcfcfd] text-black"
         }
       `}
     >
@@ -41,21 +41,22 @@ function Home() {
           sm:h-[500px]
           md:h-[650px]
           rounded-full
-          border-2
+          border
           -right-16
           sm:-right-24
           -top-16
           sm:-top-24
           pointer-events-none
-          opacity-50
+          opacity-70
           sm:opacity-100
           transition-colors
           duration-300
+          z-0
 
           ${
             darkMode
               ? "border-[#222]"
-              : "border-[#d5d5d5]"
+              : "border-neutral-200/80"
           }
         `}
       />
@@ -77,15 +78,16 @@ function Home() {
           -top-10
           sm:-top-20
           pointer-events-none
-          opacity-50
+          opacity-70
           sm:opacity-100
           transition-colors
           duration-300
+          z-0
 
           ${
             darkMode
               ? "border-[#292929]"
-              : "border-[#cccccc]"
+              : "border-neutral-200/60"
           }
         `}
       />
@@ -101,78 +103,70 @@ function Home() {
           sm:h-[450px]
           md:h-[500px]
           rounded-full
-          border-2
+          border
           left-[-140px]
           sm:left-[-240px]
           bottom-[-140px]
           sm:bottom-[-220px]
           pointer-events-none
-          opacity-40
+          opacity-60
           sm:opacity-100
           transition-colors
           duration-300
+          z-0
 
           ${
             darkMode
               ? "border-[#252424]"
-              : "border-[#d2d2d2]"
+              : "border-neutral-200/60"
           }
         `}
       />
 
-      {/* ================= CONTENT ================= */}
+      {/* ================= AMBIENT GLOWING GLASS ORBS ================= */}
+      <div
+        className="glass-orb w-[500px] sm:w-[680px] h-[500px] sm:h-[680px] -right-20 -top-20 opacity-30 dark:opacity-20 bg-gradient-to-tr from-amber-200/40 via-rose-200/30 to-indigo-300/30 blur-[120px]"
+      />
+      <div
+        className="glass-orb w-[400px] sm:w-[540px] h-[400px] sm:h-[540px] -left-20 -bottom-20 opacity-25 dark:opacity-15 bg-gradient-to-br from-teal-200/30 via-sky-200/30 to-purple-300/25 blur-[120px]"
+      />
 
-      <div className="relative z-[2] max-w-[700px] w-full">
+      {/* ================= HERO CONTENT CARD ================= */}
+      <div className={`relative z-[2] max-w-[760px] w-full p-8 sm:p-12 md:p-14 rounded-3xl transition-all duration-300 ${
+        darkMode ? "glass-panel-dark" : "glass-panel-light"
+      }`}>
 
-        {/* SMALL HEADING */}
+        {/* SMALL HEADING BADGE */}
         <span
-          className={`
-            text-[11px]
-            sm:text-[12px]
-            tracking-[4px]
-            sm:tracking-[5px]
-            uppercase
-            font-medium
-            transition-colors
-            duration-300
-
-            ${
-              darkMode
-                ? "text-[#777]"
-                : "text-[#888]"
-            }
-          `}
+          className={`glass-badge mb-4 ${
+            darkMode ? "glass-badge-dark" : "glass-badge-light"
+          }`}
         >
-          COMFORT FOOTWEAR
+          <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+          COMFORT FOOTWEAR 2026
         </span>
 
         {/* MAIN HEADING */}
         <h1
           className="
-            text-[clamp(2.75rem,8.5vw,9.5rem)]
+            text-[clamp(2.75rem,8vw,8.5rem)]
             leading-[0.88]
             font-normal
             tracking-[-3px]
             sm:tracking-[-5px]
-            md:tracking-[-8px]
-            my-5
-            sm:my-[30px]
+            md:tracking-[-7px]
+            my-4
           "
         >
           Walk in
           <br />
 
           <span
-            className={`
-              transition-colors
-              duration-300
-
-              ${
-                darkMode
-                  ? "text-[#666]"
-                  : "text-[#888]"
-              }
-            `}
+            className={
+              darkMode
+                ? "bg-gradient-to-r from-neutral-400 via-neutral-200 to-white bg-clip-text text-transparent font-medium"
+                : "bg-gradient-to-r from-neutral-500 via-neutral-800 to-black bg-clip-text text-transparent font-medium"
+            }
           >
             comfort.
           </span>
@@ -181,51 +175,49 @@ function Home() {
         {/* DESCRIPTION */}
         <p
           className={`
-            max-w-[430px]
+            max-w-[460px]
             text-[14px]
-            sm:text-[15px]
+            sm:text-[16px]
             leading-[1.7]
             sm:leading-[1.8]
-            transition-colors
-            duration-300
-
+            mb-8
             ${
               darkMode
-                ? "text-[#888]"
-                : "text-[#666]"
+                ? "text-[#aaa]"
+                : "text-[#555]"
             }
           `}
         >
           Footwear designed for the way you move.
-          Simple, comfortable, and made for every day.
+          Simple, comfortable, and engineered for effortless everyday elegance.
         </p>
 
         {/* BUTTONS */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-[15px] mt-8 sm:mt-[35px]">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
 
           <NavLink to="/Product" className="no-underline">
             <button
               className={`
                 w-full
                 sm:w-auto
-                px-[25px]
-                py-[13px]
-                rounded-[25px]
-                border
+                px-[28px]
+                py-[14px]
+                rounded-full
                 text-[14px]
-                font-medium
+                font-semibold
                 cursor-pointer
                 transition-all
                 duration-300
+                shadow-lg
 
                 ${
                   darkMode
-                    ? "bg-white text-black border-white hover:bg-transparent hover:text-white"
-                    : "bg-black text-white border-black hover:bg-transparent hover:text-black"
+                    ? "bg-white text-black hover:bg-neutral-200 hover:scale-105"
+                    : "bg-black text-white hover:bg-neutral-800 hover:scale-105"
                 }
               `}
             >
-              Explore Collection
+              Explore Collection →
             </button>
           </NavLink>
 
@@ -234,10 +226,9 @@ function Home() {
               className={`
                 w-full
                 sm:w-auto
-                px-[25px]
-                py-[13px]
-                rounded-[25px]
-                border
+                px-[28px]
+                py-[14px]
+                rounded-full
                 text-[14px]
                 font-medium
                 cursor-pointer
@@ -246,8 +237,8 @@ function Home() {
 
                 ${
                   darkMode
-                    ? "border-[#444] text-[#aaa] hover:border-white hover:text-white"
-                    : "border-[#bbb] text-[#666] hover:border-black hover:text-black"
+                    ? "glass-btn-dark"
+                    : "glass-btn-light"
                 }
               `}
             >

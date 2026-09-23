@@ -19,32 +19,37 @@ function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full flex items-center justify-between px-5 md:px-10 py-4 md:py-4.5 z-[100] backdrop-blur-md transition-all duration-300 ${
-        darkMode
-          ? "bg-[#080808]/90"
-          : "bg-[#f5f5f5]/90"
+      className={`fixed top-0 left-0 w-full flex items-center justify-between px-5 md:px-10 py-3.5 md:py-4 z-[100] transition-all duration-300 ${
+        darkMode ? "glass-nav-dark text-white" : "glass-nav-light text-black"
       }`}
     >
       {/* LOGO */}
-      <Link to="/" className={`no-underline ${darkMode ? "text-white" : "text-black"}`}>
-        <h3 className="text-[18px] md:text-[20px] font-semibold tracking-[-0.5px] m-0">
+      <Link to="/" className={`no-underline flex items-center gap-2 group ${darkMode ? "text-white" : "text-black"}`}>
+        <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-xs shadow-sm transition-transform group-hover:scale-105 ${
+          darkMode ? "bg-white text-black" : "bg-black text-white"
+        }`}>
+          CF
+        </div>
+        <h3 className="text-[17px] md:text-[19px] font-semibold tracking-tight m-0">
           Comfort Footwear
         </h3>
       </Link>
 
       {/* NAV LINKS */}
-      <div className="hidden md:flex items-center gap-9">
+      <div className={`hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full border ${
+        darkMode ? "bg-black/20 border-white/10" : "bg-white/40 border-black/5"
+      }`}>
         <NavLink
           to="/"
           className={({ isActive }) =>
-            `no-underline text-[15px] font-medium transition-colors duration-300 ${
-              darkMode
-                ? isActive
-                  ? "text-white"
-                  : "text-[#888] hover:text-white"
-                : isActive
-                ? "text-black"
-                : "text-[#666] hover:text-black"
+            `no-underline text-[14px] font-medium px-4 py-1.5 rounded-full transition-all duration-300 ${
+              isActive
+                ? darkMode
+                  ? "bg-white/15 text-white shadow-sm border border-white/20"
+                  : "bg-white text-black shadow-sm border border-black/10"
+                : darkMode
+                ? "text-neutral-400 hover:text-white hover:bg-white/5"
+                : "text-neutral-600 hover:text-black hover:bg-black/5"
             }`
           }
         >
@@ -54,14 +59,14 @@ function Navbar() {
         <NavLink
           to="/About"
           className={({ isActive }) =>
-            `no-underline text-[15px] font-medium transition-colors duration-300 ${
-              darkMode
-                ? isActive
-                  ? "text-white"
-                  : "text-[#888] hover:text-white"
-                : isActive
-                ? "text-black"
-                : "text-[#666] hover:text-black"
+            `no-underline text-[14px] font-medium px-4 py-1.5 rounded-full transition-all duration-300 ${
+              isActive
+                ? darkMode
+                  ? "bg-white/15 text-white shadow-sm border border-white/20"
+                  : "bg-white text-black shadow-sm border border-black/10"
+                : darkMode
+                ? "text-neutral-400 hover:text-white hover:bg-white/5"
+                : "text-neutral-600 hover:text-black hover:bg-black/5"
             }`
           }
         >
@@ -71,14 +76,14 @@ function Navbar() {
         <NavLink
           to="/Contact"
           className={({ isActive }) =>
-            `no-underline text-[15px] font-medium transition-colors duration-300 ${
-              darkMode
-                ? isActive
-                  ? "text-white"
-                  : "text-[#888] hover:text-white"
-                : isActive
-                ? "text-black"
-                : "text-[#666] hover:text-black"
+            `no-underline text-[14px] font-medium px-4 py-1.5 rounded-full transition-all duration-300 ${
+              isActive
+                ? darkMode
+                  ? "bg-white/15 text-white shadow-sm border border-white/20"
+                  : "bg-white text-black shadow-sm border border-black/10"
+                : darkMode
+                ? "text-neutral-400 hover:text-white hover:bg-white/5"
+                : "text-neutral-600 hover:text-black hover:bg-black/5"
             }`
           }
         >
@@ -88,14 +93,14 @@ function Navbar() {
         <NavLink
           to="/Product"
           className={({ isActive }) =>
-            `no-underline text-[15px] font-medium transition-colors duration-300 ${
-              darkMode
-                ? isActive
-                  ? "text-white"
-                  : "text-[#888] hover:text-white"
-                : isActive
-                ? "text-black"
-                : "text-[#666] hover:text-black"
+            `no-underline text-[14px] font-medium px-4 py-1.5 rounded-full transition-all duration-300 ${
+              isActive
+                ? darkMode
+                  ? "bg-white/15 text-white shadow-sm border border-white/20"
+                  : "bg-white text-black shadow-sm border border-black/10"
+                : darkMode
+                ? "text-neutral-400 hover:text-white hover:bg-white/5"
+                : "text-neutral-600 hover:text-black hover:bg-black/5"
             }`
           }
         >
@@ -109,16 +114,16 @@ function Navbar() {
         <button
           onClick={toggleTheme}
           aria-label="Toggle theme"
-          className={`w-9 h-9 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 ${
+          className={`w-9.5 h-9.5 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 ${
             darkMode
-              ? "bg-[#141414] border border-[#2a2a2a] text-white hover:bg-[#202020]"
-              : "bg-white border border-[#ddd] text-black hover:bg-gray-100"
+              ? "glass-btn-dark hover:scale-105"
+              : "glass-btn-light hover:scale-105"
           }`}
         >
           {darkMode ? (
-            <Sun size={16} strokeWidth={1.8} />
+            <Sun size={16} strokeWidth={2} />
           ) : (
-            <Moon size={16} strokeWidth={1.8} />
+            <Moon size={16} strokeWidth={2} />
           )}
         </button>
 
@@ -127,10 +132,10 @@ function Navbar() {
           <div className="flex items-center gap-2">
             <Link
               to="/profile"
-              className={`px-4 py-2 rounded-full border no-underline text-[13px] font-medium flex items-center gap-1.5 transition-all duration-300 ${
+              className={`px-4.5 py-2 rounded-full no-underline text-[13px] font-medium flex items-center gap-1.5 transition-all duration-300 ${
                 darkMode
-                  ? "border-[#333] text-white hover:bg-white hover:text-black hover:border-white"
-                  : "border-[#ccc] text-black hover:bg-black hover:text-white hover:border-black"
+                  ? "glass-btn-dark hover:bg-white hover:text-black"
+                  : "glass-btn-light hover:bg-black hover:text-white"
               }`}
             >
               <User size={14} />
@@ -140,22 +145,22 @@ function Navbar() {
             <button
               onClick={handleLogout}
               title="Log Out"
-              className={`p-2 rounded-full border cursor-pointer flex items-center justify-center transition-all duration-300 ${
+              className={`p-2.5 rounded-full border cursor-pointer flex items-center justify-center transition-all duration-300 ${
                 darkMode
-                  ? "border-red-500/30 text-red-400 hover:bg-red-600 hover:text-white hover:border-red-600"
-                  : "border-red-200 text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600"
+                  ? "border-red-500/30 text-red-400 bg-red-500/10 hover:bg-red-500 hover:text-white"
+                  : "border-red-200 text-red-600 bg-red-50 hover:bg-red-600 hover:text-white"
               }`}
             >
-              <LogOut size={15} />
+              <LogOut size={14} />
             </button>
           </div>
         ) : (
           <Link
             to="/login"
-            className={`px-4.5 py-2 rounded-full border no-underline text-[13px] font-medium transition-all duration-300 ${
+            className={`px-5 py-2 rounded-full no-underline text-[13px] font-medium transition-all duration-300 ${
               darkMode
-                ? "border-[#333] text-white hover:bg-white hover:text-black hover:border-white"
-                : "border-[#ccc] text-black hover:bg-black hover:text-white hover:border-black"
+                ? "glass-btn-dark hover:bg-white hover:text-black"
+                : "glass-btn-light hover:bg-black hover:text-white"
             }`}
           >
             Login / Sign Up
@@ -169,7 +174,7 @@ function Navbar() {
           onClick={toggleTheme}
           aria-label="Toggle theme"
           className={`w-9 h-9 rounded-full cursor-pointer flex items-center justify-center ${
-            darkMode ? "bg-[#141414] border border-[#2a2a2a] text-white" : "bg-white border border-[#ccc] text-black"
+            darkMode ? "glass-btn-dark" : "glass-btn-light"
           }`}
         >
           {darkMode ? <Sun size={16} /> : <Moon size={16} />}
@@ -179,7 +184,7 @@ function Navbar() {
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
           className={`w-9 h-9 rounded-full cursor-pointer flex items-center justify-center ${
-            darkMode ? "bg-[#141414] border border-[#2a2a2a] text-white" : "bg-white border border-[#ccc] text-black"
+            darkMode ? "glass-btn-dark" : "glass-btn-light"
           }`}
         >
           {menuOpen ? <X size={18} /> : <Menu size={18} />}
@@ -189,16 +194,16 @@ function Navbar() {
       {/* MOBILE MENU DRAWER */}
       {menuOpen && (
         <div
-          className={`absolute top-full left-0 w-full px-6 py-6 shadow-xl md:hidden transition-all duration-300 ${
-            darkMode ? "bg-[#080808]/95 backdrop-blur-lg" : "bg-[#f5f5f5]/95 backdrop-blur-lg"
+          className={`absolute top-full left-0 w-full px-6 py-6 md:hidden transition-all duration-300 border-t ${
+            darkMode ? "glass-modal-dark border-white/10" : "glass-modal-light border-black/10"
           }`}
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             <NavLink
               to="/"
               onClick={() => setMenuOpen(false)}
-              className={`no-underline text-[16px] font-medium py-1 ${
-                darkMode ? "text-[#aaa] hover:text-white" : "text-[#555] hover:text-black"
+              className={`no-underline text-[15px] font-medium py-2 px-4 rounded-xl transition-colors ${
+                darkMode ? "text-[#aaa] hover:text-white hover:bg-white/10" : "text-[#555] hover:text-black hover:bg-black/5"
               }`}
             >
               Home
@@ -207,8 +212,8 @@ function Navbar() {
             <NavLink
               to="/About"
               onClick={() => setMenuOpen(false)}
-              className={`no-underline text-[16px] font-medium py-1 ${
-                darkMode ? "text-[#aaa] hover:text-white" : "text-[#555] hover:text-black"
+              className={`no-underline text-[15px] font-medium py-2 px-4 rounded-xl transition-colors ${
+                darkMode ? "text-[#aaa] hover:text-white hover:bg-white/10" : "text-[#555] hover:text-black hover:bg-black/5"
               }`}
             >
               About
@@ -217,8 +222,8 @@ function Navbar() {
             <NavLink
               to="/Contact"
               onClick={() => setMenuOpen(false)}
-              className={`no-underline text-[16px] font-medium py-1 ${
-                darkMode ? "text-[#aaa] hover:text-white" : "text-[#555] hover:text-black"
+              className={`no-underline text-[15px] font-medium py-2 px-4 rounded-xl transition-colors ${
+                darkMode ? "text-[#aaa] hover:text-white hover:bg-white/10" : "text-[#555] hover:text-black hover:bg-black/5"
               }`}
             >
               Contact
@@ -227,8 +232,8 @@ function Navbar() {
             <NavLink
               to="/Product"
               onClick={() => setMenuOpen(false)}
-              className={`no-underline text-[16px] font-medium py-1 ${
-                darkMode ? "text-[#aaa] hover:text-white" : "text-[#555] hover:text-black"
+              className={`no-underline text-[15px] font-medium py-2 px-4 rounded-xl transition-colors ${
+                darkMode ? "text-[#aaa] hover:text-white hover:bg-white/10" : "text-[#555] hover:text-black hover:bg-black/5"
               }`}
             >
               Product
@@ -240,8 +245,8 @@ function Navbar() {
                 <Link
                   to="/profile"
                   onClick={() => setMenuOpen(false)}
-                  className={`px-5 py-2.5 rounded-full border no-underline text-[14px] font-medium ${
-                    darkMode ? "border-[#444] text-white" : "border-[#bbb] text-black"
+                  className={`flex-1 text-center px-5 py-2.5 rounded-full no-underline text-[14px] font-medium ${
+                    darkMode ? "glass-btn-dark" : "glass-btn-light"
                   }`}
                 >
                   Profile
@@ -249,11 +254,7 @@ function Navbar() {
 
                 <button
                   onClick={handleLogout}
-                  className={`px-5 py-2.5 rounded-full border text-[14px] font-medium cursor-pointer ${
-                    darkMode
-                      ? "border-red-500/40 text-red-400 bg-red-500/10"
-                      : "border-red-200 text-red-600 bg-red-50"
-                  }`}
+                  className="px-5 py-2.5 rounded-full text-[14px] font-medium cursor-pointer border border-red-500/30 text-red-400 bg-red-500/10"
                 >
                   Log Out
                 </button>
@@ -263,8 +264,8 @@ function Navbar() {
                 <Link
                   to="/login"
                   onClick={() => setMenuOpen(false)}
-                  className={`inline-block px-5 py-2.5 rounded-full border no-underline text-[14px] font-medium ${
-                    darkMode ? "border-[#444] text-white" : "border-[#bbb] text-black"
+                  className={`block text-center px-5 py-2.5 rounded-full no-underline text-[14px] font-medium ${
+                    darkMode ? "glass-btn-dark" : "glass-btn-light"
                   }`}
                 >
                   Login / Sign Up

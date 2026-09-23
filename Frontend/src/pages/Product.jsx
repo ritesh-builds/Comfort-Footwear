@@ -43,17 +43,23 @@ function Product() {
         px-4
         sm:px-8
         lg:px-[8%]
+        relative
+        overflow-hidden
         transition-all
         duration-300
 
         ${
           darkMode
             ? "bg-[#080808] text-white"
-            : "bg-[#f5f5f5] text-black"
+            : "bg-gradient-to-br from-[#f0f4f9] via-[#e5ecf5] to-[#f4f7fb] text-black"
         }
       `}
     >
-      <div className="max-w-[1250px] mx-auto">
+      {/* AMBIENT BACKGROUND GLOW ORBS */}
+      <div className="glass-orb w-[540px] h-[540px] -top-30 -right-20 opacity-80 dark:opacity-20 bg-gradient-to-br from-indigo-400/50 via-purple-400/40 to-pink-400/45 blur-[95px]" />
+      <div className="glass-orb w-[500px] h-[500px] top-[40%] -left-30 opacity-75 dark:opacity-15 bg-gradient-to-tr from-cyan-400/45 via-teal-400/40 to-blue-400/40 blur-[100px]" />
+
+      <div className="max-w-[1250px] mx-auto relative z-10">
 
         {/* HEADER */}
         <div
@@ -75,48 +81,31 @@ function Product() {
             <span
               className={
                 darkMode
-                  ? "text-[11px] sm:text-[12px] tracking-[4px] text-[#666] uppercase font-medium"
-                  : "text-[11px] sm:text-[12px] tracking-[4px] text-[#777] uppercase font-medium"
+                  ? "glass-badge glass-badge-dark mb-2"
+                  : "glass-badge glass-badge-light mb-2"
               }
             >
               OUR COLLECTION
             </span>
 
             {/* COLLECTION BUTTONS */}
-            <div className="flex items-center gap-[10px] mt-[15px] mb-[10px]">
+            <div className="flex items-center gap-3 mt-4 mb-3">
 
               <Link to="/Product/Men" className="no-underline">
                 <button
                   className={`
-                    w-[90px]
-                    sm:w-[100px]
-                    h-[38px]
-                    sm:h-[40px]
+                    px-5
+                    py-2
                     text-[14px]
-                    sm:text-[16px]
-                    font-bold
-                    rounded-[20px]
-                    border
+                    font-semibold
+                    rounded-full
                     cursor-pointer
                     transition-all
                     duration-200
-
                     ${
                       darkMode
-                        ? `
-                          bg-[#080808]
-                          text-white
-                          border-white
-                          hover:bg-white
-                          hover:text-[#080808]
-                        `
-                        : `
-                          bg-white
-                          text-black
-                          border-black
-                          hover:bg-black
-                          hover:text-white
-                        `
+                        ? "glass-btn-dark hover:bg-white hover:text-black"
+                        : "glass-btn-light hover:bg-black hover:text-white"
                     }
                   `}
                 >
@@ -127,35 +116,18 @@ function Product() {
               <Link to="/Product/Women" className="no-underline">
                 <button
                   className={`
-                    w-[90px]
-                    sm:w-[100px]
-                    h-[38px]
-                    sm:h-[40px]
+                    px-5
+                    py-2
                     text-[14px]
-                    sm:text-[16px]
-                    font-bold
-                    rounded-[20px]
-                    border
+                    font-semibold
+                    rounded-full
                     cursor-pointer
                     transition-all
                     duration-200
-
                     ${
                       darkMode
-                        ? `
-                          bg-[#080808]
-                          text-white
-                          border-white
-                          hover:bg-white
-                          hover:text-[#080808]
-                        `
-                        : `
-                          bg-white
-                          text-black
-                          border-black
-                          hover:bg-black
-                          hover:text-white
-                        `
+                        ? "glass-btn-dark hover:bg-white hover:text-black"
+                        : "glass-btn-light hover:bg-black hover:text-white"
                     }
                   `}
                 >
@@ -181,8 +153,8 @@ function Product() {
               <strong
                 className={
                   darkMode
-                    ? "text-[#666] font-normal"
-                    : "text-[#888] font-normal"
+                    ? "bg-gradient-to-r from-neutral-400 to-white bg-clip-text text-transparent font-normal"
+                    : "bg-gradient-to-r from-neutral-500 to-black bg-clip-text text-transparent font-normal"
                 }
               >
                 comfort.
@@ -194,8 +166,8 @@ function Product() {
           <p
             className={
               darkMode
-                ? "max-w-[350px] text-[#777] leading-[1.7] text-[13px] sm:text-[14px]"
-                : "max-w-[350px] text-[#666] leading-[1.7] text-[13px] sm:text-[14px]"
+                ? "max-w-[350px] text-[#aaa] leading-[1.7] text-[13px] sm:text-[14px]"
+                : "max-w-[350px] text-[#555] leading-[1.7] text-[13px] sm:text-[14px]"
             }
           >
             Carefully designed footwear that combines
@@ -222,14 +194,15 @@ function Product() {
               grid
               grid-cols-1
               sm:grid-cols-2
-              gap-x-[25px]
-              gap-y-10
-              sm:gap-y-[60px]
+              gap-6
+              sm:gap-8
             "
           >
             {products.map((product) => (
             <div
-              className="cursor-pointer group"
+              className={`cursor-pointer group p-4 rounded-2xl transition-all ${
+                darkMode ? "glass-card-dark" : "glass-card-light"
+              }`}
               key={product.id}
             >
 
@@ -237,16 +210,16 @@ function Product() {
               <div
                 className={`
                   h-[300px]
-                  sm:h-[400px]
-                  md:h-[480px]
+                  sm:h-[380px]
+                  md:h-[440px]
                   overflow-hidden
                   relative
-                  rounded-[12px]
+                  rounded-xl
 
                   ${
                     darkMode
-                      ? "bg-[#111]"
-                      : "bg-white"
+                      ? "bg-neutral-900/60"
+                      : "bg-neutral-100/80"
                   }
                 `}
               >
@@ -284,23 +257,23 @@ function Product() {
                     absolute
                     top-3
                     right-3
-                    w-9
-                    h-9
+                    w-9.5
+                    h-9.5
                     rounded-full
                     flex
                     items-center
                     justify-center
                     cursor-pointer
-                    backdrop-blur-md
+                    backdrop-blur-xl
                     transition-all
                     duration-300
                     z-10
                     ${
                       isFavorite(product.id)
-                        ? "bg-rose-500 text-white shadow-lg shadow-rose-500/30"
+                        ? "bg-rose-500 text-white shadow-lg shadow-rose-500/40"
                         : darkMode
-                        ? "bg-black/40 text-white hover:bg-black/80"
-                        : "bg-white/80 text-black hover:bg-white"
+                        ? "glass-btn-dark hover:scale-110"
+                        : "glass-btn-light hover:scale-110"
                     }
                   `}
                 >
@@ -329,12 +302,9 @@ function Product() {
                     sm:bottom-[20px]
                     right-[15px]
                     sm:right-[20px]
-                    px-[16px]
-                    sm:px-[20px]
-                    py-[10px]
-                    sm:py-[12px]
-                    border-none
-                    rounded-[30px]
+                    px-5
+                    py-2.5
+                    rounded-full
                     text-xs
                     sm:text-sm
                     font-medium
@@ -350,11 +320,12 @@ function Product() {
                     flex
                     items-center
                     gap-1.5
+                    shadow-lg
 
                     ${
                       darkMode
-                        ? "bg-white text-black"
-                        : "bg-black text-white"
+                        ? "bg-white text-black hover:bg-neutral-200"
+                        : "bg-black text-white hover:bg-neutral-800"
                     }
                   `}
                 >
@@ -366,35 +337,27 @@ function Product() {
 
               {/* DETAILS */}
               <div
-                className={`
+                className="
                   flex
                   justify-between
                   items-start
-                  pt-[15px]
-                  sm:pt-[20px]
-                  pb-[15px]
-                  sm:pb-[20px]
-                  border-b
-
-                  ${
-                    darkMode
-                      ? "border-[#222]"
-                      : "border-[#ddd]"
-                  }
-                `}
+                  pt-4
+                  px-1
+                  pb-2
+                "
               >
 
                 <div>
 
-                  <h2 className="text-[17px] sm:text-[18px] font-normal m-0 mb-[5px] sm:mb-[7px]">
+                  <h2 className="text-[17px] sm:text-[18px] font-medium m-0 mb-1">
                     {product.name}
                   </h2>
 
                   <p
                     className={
                       darkMode
-                        ? "text-[#666] text-[12px] sm:text-[13px] m-0"
-                        : "text-[#777] text-[12px] sm:text-[13px] m-0"
+                        ? "text-[#888] text-[12px] sm:text-[13px] m-0"
+                        : "text-[#666] text-[12px] sm:text-[13px] m-0"
                     }
                   >
                     {product.type}
@@ -405,8 +368,8 @@ function Product() {
                 <span
                   className={
                     darkMode
-                      ? "text-[#ccc] text-[14px] sm:text-[15px] font-medium"
-                      : "text-[#555] text-[14px] sm:text-[15px] font-medium"
+                      ? "text-white text-[14px] sm:text-[15px] font-semibold"
+                      : "text-black text-[14px] sm:text-[15px] font-semibold"
                   }
                 >
                   {product.price}

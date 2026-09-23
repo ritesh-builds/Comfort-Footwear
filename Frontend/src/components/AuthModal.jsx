@@ -10,28 +10,28 @@ const AuthModal = ({ isOpen, onClose, title, message }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/65 backdrop-blur-md transition-all duration-300">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/50 backdrop-blur-xl transition-all duration-300">
       <div
-        className={`w-full max-w-md p-6 sm:p-8 rounded-2xl border shadow-2xl relative transition-all duration-300 ${
+        className={`w-full max-w-md p-6 sm:p-8 rounded-3xl relative transition-all duration-300 ${
           darkMode
-            ? "bg-[#0d0d0d] border-[#262626] text-white"
-            : "bg-white border-[#e5e5e5] text-black"
+            ? "glass-modal-dark text-white"
+            : "glass-modal-light text-black"
         }`}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className={`absolute top-4 right-4 p-2 rounded-full cursor-pointer transition-colors ${
+          className={`absolute top-4 right-4 p-2.5 rounded-full cursor-pointer transition-all ${
             darkMode
-              ? "text-[#777] hover:text-white hover:bg-[#1f1f1f]"
-              : "text-[#888] hover:text-black hover:bg-gray-100"
+              ? "glass-btn-dark hover:text-white"
+              : "glass-btn-light hover:text-black"
           }`}
         >
-          <X size={18} />
+          <X size={16} />
         </button>
 
         {/* Modal Header Icon */}
-        <div className="w-14 h-14 mx-auto mb-5 rounded-2xl flex items-center justify-center bg-amber-500/10 text-amber-500 border border-amber-500/20">
+        <div className="w-14 h-14 mx-auto mb-5 rounded-2xl flex items-center justify-center bg-amber-500/15 text-amber-500 border border-amber-500/30 backdrop-blur-md shadow-inner">
           <Lock size={26} />
         </div>
 
@@ -41,7 +41,7 @@ const AuthModal = ({ isOpen, onClose, title, message }) => {
 
         <p
           className={`text-sm text-center mb-6 leading-relaxed ${
-            darkMode ? "text-[#999]" : "text-[#666]"
+            darkMode ? "text-[#aaa]" : "text-[#555]"
           }`}
         >
           {message || "Please log in to your account to save items to your favorites or place orders."}
@@ -54,10 +54,10 @@ const AuthModal = ({ isOpen, onClose, title, message }) => {
               onClose();
               navigate("/login");
             }}
-            className={`flex-1 py-3.5 px-5 rounded-xl font-medium text-sm flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer ${
+            className={`flex-1 py-3.5 px-5 rounded-full font-medium text-sm flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer shadow-md ${
               darkMode
-                ? "bg-white text-black hover:bg-gray-200"
-                : "bg-black text-white hover:bg-gray-800"
+                ? "bg-white text-black hover:bg-neutral-200"
+                : "bg-black text-white hover:bg-neutral-800"
             }`}
           >
             <LogIn size={16} />
@@ -66,10 +66,10 @@ const AuthModal = ({ isOpen, onClose, title, message }) => {
 
           <button
             onClick={onClose}
-            className={`py-3.5 px-5 rounded-xl font-medium text-sm border transition-all duration-200 cursor-pointer ${
+            className={`py-3.5 px-5 rounded-full font-medium text-sm transition-all duration-200 cursor-pointer ${
               darkMode
-                ? "border-[#333] text-gray-300 hover:bg-[#1a1a1a]"
-                : "border-[#ddd] text-gray-700 hover:bg-gray-100"
+                ? "glass-btn-dark"
+                : "glass-btn-light"
             }`}
           >
             Cancel

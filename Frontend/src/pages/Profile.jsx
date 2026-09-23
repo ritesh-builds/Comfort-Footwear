@@ -120,72 +120,82 @@ const Profile = () => {
 
   return (
     <section
-      className={`min-h-screen pt-28 pb-16 px-4 sm:px-8 lg:px-[8%] transition-all duration-300 ${
-        darkMode ? "bg-[#080808] text-white" : "bg-[#f7f7f7] text-black"
+      className={`min-h-screen pt-28 pb-16 px-4 sm:px-8 lg:px-[8%] relative overflow-hidden transition-all duration-300 ${
+        darkMode ? "bg-[#080808] text-white" : "bg-gradient-to-br from-[#f0f4f9] via-[#e5ecf5] to-[#f4f7fb] text-black"
       }`}
     >
-      <div className="max-w-[1200px] mx-auto">
-        {/* TOP DASHBOARD HEADER */}
-        <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="flex items-center gap-5">
-            {/* AVATAR */}
-            <div
-              className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl font-semibold shrink-0 shadow-lg ${
-                darkMode
-                  ? "bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 text-white"
-                  : "bg-gradient-to-br from-black to-neutral-800 text-white"
-              }`}
-            >
-              {initial}
-            </div>
+      {/* AMBIENT BACKGROUND GLOW ORBS */}
+      <div className="glass-orb w-[540px] h-[540px] -top-20 -right-20 opacity-80 dark:opacity-20 bg-gradient-to-br from-indigo-500/45 via-violet-500/35 to-pink-500/35 blur-[95px]" />
+      <div className="glass-orb w-[480px] h-[480px] bottom-10 -left-20 opacity-75 dark:opacity-15 bg-gradient-to-tr from-emerald-500/40 via-teal-500/35 to-sky-500/35 blur-[100px]" />
 
-            <div>
-              <div className="flex items-center gap-2">
-                <span
-                  className={`text-[11px] tracking-[3px] uppercase font-medium ${
-                    darkMode ? "text-[#777]" : "text-[#888]"
-                  }`}
-                >
-                  USER DASHBOARD
-                </span>
-                <span
-                  className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider ${
-                    darkMode
-                      ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                      : "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                  }`}
-                >
-                  Active
-                </span>
+      <div className="max-w-[1200px] mx-auto relative z-10">
+        {/* TOP DASHBOARD HEADER */}
+        <div className={`mb-8 p-6 sm:p-8 rounded-3xl transition-all ${
+          darkMode ? "glass-panel-dark" : "glass-panel-light"
+        }`}>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="flex items-center gap-5">
+              {/* AVATAR */}
+              <div
+                className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl font-semibold shrink-0 shadow-lg ${
+                  darkMode
+                    ? "bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 text-white"
+                    : "bg-gradient-to-br from-black to-neutral-800 text-white"
+                }`}
+              >
+                {initial}
               </div>
 
-              <h1 className="text-2xl sm:text-4xl font-normal tracking-tight mt-1">
-                Welcome back, {user.name.split(" ")[0]}
-              </h1>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span
+                    className={`glass-badge ${
+                      darkMode ? "glass-badge-dark" : "glass-badge-light"
+                    }`}
+                  >
+                    USER DASHBOARD
+                  </span>
+                  <span
+                    className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider ${
+                      darkMode
+                        ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                        : "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                    }`}
+                  >
+                    Active
+                  </span>
+                </div>
 
-              <p className={`text-xs sm:text-sm mt-1 ${darkMode ? "text-[#777]" : "text-[#666]"}`}>
-                {user.email}
-              </p>
+                <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight mt-2">
+                  Welcome back, {user.name.split(" ")[0]}
+                </h1>
+
+                <p className={`text-xs sm:text-sm mt-1 ${darkMode ? "text-[#aaa]" : "text-[#555]"}`}>
+                  {user.email}
+                </p>
+              </div>
             </div>
-          </div>
 
-          <button
-            onClick={handleLogout}
-            className={`px-5 py-2.5 rounded-full border text-xs uppercase tracking-widest font-medium cursor-pointer transition-all duration-300 flex items-center justify-center gap-2 self-start md:self-auto ${
-              darkMode
-                ? "border-red-500/30 text-red-400 hover:bg-red-600 hover:text-white hover:border-red-600"
-                : "border-red-200 text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600"
-            }`}
-          >
-            <LogOut size={14} />
-            Log Out
-          </button>
+            <button
+              onClick={handleLogout}
+              className={`px-5 py-2.5 rounded-full border text-xs uppercase tracking-widest font-medium cursor-pointer transition-all duration-300 flex items-center justify-center gap-2 self-start md:self-auto ${
+                darkMode
+                  ? "border-red-500/30 text-red-400 bg-red-500/10 hover:bg-red-500 hover:text-white"
+                  : "border-red-200 text-red-600 bg-red-50 hover:bg-red-600 hover:text-white"
+              }`}
+            >
+              <LogOut size={14} />
+              Log Out
+            </button>
+          </div>
         </div>
 
         {/* MAIN DASHBOARD CONTAINER */}
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8">
           {/* NAVIGATION SIDEBAR */}
-          <div className="flex flex-row lg:flex-col gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-none">
+          <div className={`p-3 rounded-2xl flex flex-row lg:flex-col gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-none ${
+            darkMode ? "glass-panel-dark" : "glass-panel-light"
+          }`}>
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -199,8 +209,8 @@ const Profile = () => {
                         ? "bg-white text-black font-semibold shadow-md"
                         : "bg-black text-white font-semibold shadow-md"
                       : darkMode
-                      ? "text-[#888] hover:text-white hover:bg-neutral-900/60"
-                      : "text-[#666] hover:text-black hover:bg-neutral-200/60"
+                      ? "text-[#aaa] hover:text-white hover:bg-white/10"
+                      : "text-[#555] hover:text-black hover:bg-black/5"
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -236,52 +246,52 @@ const Profile = () => {
                 {/* QUICK STATS CARDS */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div
-                    className={`p-5 rounded-2xl border transition-all duration-300 ${
-                      darkMode ? "bg-[#101010] border-[#222]" : "bg-white border-[#e3e3e3]"
+                    className={`p-5 rounded-2xl transition-all duration-300 ${
+                      darkMode ? "glass-card-dark" : "glass-card-light"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <span className={`text-xs uppercase tracking-wider ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                      <span className={`text-xs uppercase tracking-wider ${darkMode ? "text-[#aaa]" : "text-[#666]"}`}>
                         Total Orders
                       </span>
-                      <ShoppingBag size={18} className={darkMode ? "text-neutral-400" : "text-neutral-600"} />
+                      <ShoppingBag size={18} className={darkMode ? "text-neutral-300" : "text-neutral-700"} />
                     </div>
                     <p className="text-2xl font-semibold">{orders.length}</p>
-                    <p className={`text-xs mt-1 ${darkMode ? "text-[#555]" : "text-[#999]"}`}>
+                    <p className={`text-xs mt-1 ${darkMode ? "text-[#888]" : "text-[#777]"}`}>
                       {orders.length === 0 ? "No orders placed yet" : `${orders.length} orders recorded`}
                     </p>
                   </div>
 
                   <div
-                    className={`p-5 rounded-2xl border transition-all duration-300 ${
-                      darkMode ? "bg-[#101010] border-[#222]" : "bg-white border-[#e3e3e3]"
+                    className={`p-5 rounded-2xl transition-all duration-300 ${
+                      darkMode ? "glass-card-dark" : "glass-card-light"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <span className={`text-xs uppercase tracking-wider ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                      <span className={`text-xs uppercase tracking-wider ${darkMode ? "text-[#aaa]" : "text-[#666]"}`}>
                         Saved Favorites
                       </span>
-                      <Heart size={18} className={darkMode ? "text-neutral-400" : "text-neutral-600"} />
+                      <Heart size={18} className={darkMode ? "text-neutral-300" : "text-neutral-700"} />
                     </div>
                     <p className="text-2xl font-semibold">{favorites.length}</p>
-                    <p className={`text-xs mt-1 ${darkMode ? "text-[#555]" : "text-[#999]"}`}>
+                    <p className={`text-xs mt-1 ${darkMode ? "text-[#888]" : "text-[#777]"}`}>
                       {favorites.length === 0 ? "Wishlist is empty" : `${favorites.length} saved items`}
                     </p>
                   </div>
 
                   <div
-                    className={`p-5 rounded-2xl border transition-all duration-300 ${
-                      darkMode ? "bg-[#101010] border-[#222]" : "bg-white border-[#e3e3e3]"
+                    className={`p-5 rounded-2xl transition-all duration-300 ${
+                      darkMode ? "glass-card-dark" : "glass-card-light"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <span className={`text-xs uppercase tracking-wider ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                      <span className={`text-xs uppercase tracking-wider ${darkMode ? "text-[#aaa]" : "text-[#666]"}`}>
                         Saved Addresses
                       </span>
-                      <MapPin size={18} className={darkMode ? "text-neutral-400" : "text-neutral-600"} />
+                      <MapPin size={18} className={darkMode ? "text-neutral-300" : "text-neutral-700"} />
                     </div>
                     <p className="text-2xl font-semibold">{addresses.length}</p>
-                    <p className={`text-xs mt-1 ${darkMode ? "text-[#555]" : "text-[#999]"}`}>
+                    <p className={`text-xs mt-1 ${darkMode ? "text-[#888]" : "text-[#777]"}`}>
                       {addresses.length === 0 ? "No addresses added" : `${addresses.length} delivery locations`}
                     </p>
                   </div>

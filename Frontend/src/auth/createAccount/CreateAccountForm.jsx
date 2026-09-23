@@ -53,14 +53,18 @@ function CreateAccountForm({ onSwitch }) {
 
   return (
     <section
-      className={`min-h-screen pt-28 pb-16 px-4 sm:px-8 lg:px-[8%] flex items-center transition-all duration-300 relative
+      className={`min-h-screen pt-28 pb-16 px-4 sm:px-8 lg:px-[8%] flex items-center transition-all duration-300 relative overflow-hidden
         ${
           darkMode
             ? "bg-[#080808] text-white"
-            : "bg-[#f5f5f5] text-black"
+            : "bg-gradient-to-br from-[#f0f4f9] via-[#e5ecf5] to-[#f4f7fb] text-black"
         }
       `}
     >
+      {/* AMBIENT BACKGROUND GLOW ORBS */}
+      <div className="glass-orb w-[580px] h-[580px] -top-20 -right-20 opacity-80 dark:opacity-20 bg-gradient-to-br from-indigo-500/45 via-purple-500/35 to-pink-500/35 blur-[95px]" />
+      <div className="glass-orb w-[480px] h-[480px] -bottom-20 -left-20 opacity-75 dark:opacity-15 bg-gradient-to-tr from-teal-500/40 via-emerald-500/35 to-cyan-500/35 blur-[100px]" />
+
       <div
         className="
           w-full
@@ -72,6 +76,8 @@ function CreateAccountForm({ onSwitch }) {
           gap-10
           lg:gap-[100px]
           items-center
+          relative
+          z-10
         "
       >
 
@@ -79,16 +85,11 @@ function CreateAccountForm({ onSwitch }) {
         <div>
           <span
             className={`
-              text-[11px]
-              sm:text-[12px]
-              tracking-[4px]
-              sm:tracking-[5px]
-              uppercase
-              font-medium
+              glass-badge mb-3
               ${
                 darkMode
-                  ? "text-[#666]"
-                  : "text-[#777]"
+                  ? "glass-badge-dark"
+                  : "glass-badge-light"
               }
             `}
           >
@@ -110,14 +111,11 @@ function CreateAccountForm({ onSwitch }) {
             <br />
 
             <strong
-              className={`
-                font-normal
-                ${
-                  darkMode
-                    ? "text-[#666]"
-                    : "text-[#888]"
-                }
-              `}
+              className={
+                darkMode
+                  ? "bg-gradient-to-r from-neutral-400 to-white bg-clip-text text-transparent font-normal"
+                  : "bg-gradient-to-r from-neutral-500 to-black bg-clip-text text-transparent font-normal"
+              }
             >
               comfort.
             </strong>
@@ -132,8 +130,8 @@ function CreateAccountForm({ onSwitch }) {
               sm:leading-[1.8]
               ${
                 darkMode
-                  ? "text-[#777]"
-                  : "text-[#666]"
+                  ? "text-[#aaa]"
+                  : "text-[#555]"
               }
             `}
           >
@@ -147,10 +145,9 @@ function CreateAccountForm({ onSwitch }) {
         <form onSubmit={handleSignup} className="w-full">
           <div
             className={`
-              border
-              rounded-[16px]
+              rounded-3xl
               p-6
-              sm:p-[35px]
+              sm:p-8
               transition-all
               duration-300
               w-full
@@ -159,8 +156,8 @@ function CreateAccountForm({ onSwitch }) {
 
               ${
                 darkMode
-                  ? "bg-[#0d0d0d] border-[#222]"
-                  : "bg-white border-[#ddd]"
+                  ? "glass-panel-dark"
+                  : "glass-panel-light"
               }
             `}
           >
@@ -170,15 +167,15 @@ function CreateAccountForm({ onSwitch }) {
               className={`
                 grid
                 grid-cols-2
-                gap-[5px]
+                gap-1.5
+                p-1.5
+                rounded-2xl
                 border
-                p-[5px]
-                rounded-[8px]
 
                 ${
                   darkMode
-                    ? "bg-[#080808] border-[#1d1d1d]"
-                    : "bg-[#f5f5f5] border-[#ddd]"
+                    ? "bg-black/40 border-white/10"
+                    : "bg-white/50 border-black/10"
                 }
               `}
             >
@@ -186,40 +183,20 @@ function CreateAccountForm({ onSwitch }) {
               <button
                 type="button"
                 onClick={onSwitch}
-                className={`
-                  border-none
-                  py-[11px]
-                  rounded-[6px]
-                  cursor-pointer
-                  text-[13px]
-                  transition-all
-                  duration-300
-
-                  ${
-                    darkMode
-                      ? "bg-transparent text-[#666] hover:text-white"
-                      : "bg-transparent text-[#888] hover:text-black"
-                  }
-                `}
+                className={`border-none py-2.5 rounded-xl cursor-pointer text-xs font-medium transition-all duration-300 ${
+                  darkMode
+                    ? "text-[#aaa] hover:text-white hover:bg-white/10"
+                    : "text-[#555] hover:text-black hover:bg-black/5"
+                }`}
               >
                 Login
               </button>
 
               <button
                 type="button"
-                className={`
-                  border-none
-                  py-[11px]
-                  rounded-[6px]
-                  cursor-pointer
-                  text-[13px]
-
-                  ${
-                    darkMode
-                      ? "bg-[#1a1a1a] text-white"
-                      : "bg-white text-black"
-                  }
-                `}
+                className={`border-none py-2.5 rounded-xl cursor-pointer text-xs font-semibold transition-all duration-300 ${
+                  darkMode ? "bg-white text-black shadow-md" : "bg-black text-white shadow-md"
+                }`}
               >
                 Sign Up
               </button>
@@ -228,17 +205,17 @@ function CreateAccountForm({ onSwitch }) {
 
 
             {/* HEADING */}
-            <div className="mt-[35px] mb-[28px]">
+            <div className="mt-7 mb-6">
 
-              <h2 className="text-[25px] font-normal mb-[8px]">
+              <h2 className="text-2xl font-semibold tracking-tight mb-1">
                 Create account
               </h2>
 
               <p
                 className={
                   darkMode
-                    ? "text-[#666] text-[13px]"
-                    : "text-[#777] text-[13px]"
+                    ? "text-[#aaa] text-xs"
+                    : "text-[#555] text-xs"
                 }
               >
                 Create your account to get started.
@@ -248,17 +225,18 @@ function CreateAccountForm({ onSwitch }) {
 
 
             {/* FULL NAME */}
-            <div className="mb-[18px]">
+            <div className="mb-4">
 
               <label
                 className={`
                   block
-                  text-[12px]
-                  mb-[8px]
+                  text-xs
+                  font-medium
+                  mb-2
                   ${
                     darkMode
-                      ? "text-[#888]"
-                      : "text-[#666]"
+                      ? "text-[#aaa]"
+                      : "text-[#555]"
                   }
                 `}
               >
@@ -272,32 +250,19 @@ function CreateAccountForm({ onSwitch }) {
                 className={`
                   w-full
                   box-border
-                  border
-                  rounded-[7px]
+                  rounded-xl
                   outline-none
-                  text-[13px]
+                  text-sm
                   font-inherit
-                  py-[14px]
-                  px-[15px]
+                  py-3.5
+                  px-4
                   transition-all
                   duration-300
 
                   ${
                     darkMode
-                      ? `
-                        bg-[#080808]
-                        border-[#242424]
-                        text-white
-                        placeholder:text-[#444]
-                        focus:border-[#555]
-                      `
-                      : `
-                        bg-[#f8f8f8]
-                        border-[#ddd]
-                        text-black
-                        placeholder:text-[#999]
-                        focus:border-[#999]
-                      `
+                      ? "glass-input-dark"
+                      : "glass-input-light"
                   }
                 `}
                 value={username}
@@ -310,17 +275,18 @@ function CreateAccountForm({ onSwitch }) {
 
 
             {/* EMAIL */}
-            <div className="mb-[18px]">
+            <div className="mb-4">
 
               <label
                 className={`
                   block
-                  text-[12px]
-                  mb-[8px]
+                  text-xs
+                  font-medium
+                  mb-2
                   ${
                     darkMode
-                      ? "text-[#888]"
-                      : "text-[#666]"
+                      ? "text-[#aaa]"
+                      : "text-[#555]"
                   }
                 `}
               >
@@ -334,32 +300,19 @@ function CreateAccountForm({ onSwitch }) {
                 className={`
                   w-full
                   box-border
-                  border
-                  rounded-[7px]
+                  rounded-xl
                   outline-none
-                  text-[13px]
+                  text-sm
                   font-inherit
-                  py-[14px]
-                  px-[15px]
+                  py-3.5
+                  px-4
                   transition-all
                   duration-300
 
                   ${
                     darkMode
-                      ? `
-                        bg-[#080808]
-                        border-[#242424]
-                        text-white
-                        placeholder:text-[#444]
-                        focus:border-[#555]
-                      `
-                      : `
-                        bg-[#f8f8f8]
-                        border-[#ddd]
-                        text-black
-                        placeholder:text-[#999]
-                        focus:border-[#999]
-                      `
+                      ? "glass-input-dark"
+                      : "glass-input-light"
                   }
                 `}
                 value={email}
@@ -372,17 +325,18 @@ function CreateAccountForm({ onSwitch }) {
 
 
             {/* PASSWORD */}
-            <div className="mb-[18px]">
+            <div className="mb-4">
 
               <label
                 className={`
                   block
-                  text-[12px]
-                  mb-[8px]
+                  text-xs
+                  font-medium
+                  mb-2
                   ${
                     darkMode
-                      ? "text-[#888]"
-                      : "text-[#666]"
+                      ? "text-[#aaa]"
+                      : "text-[#555]"
                   }
                 `}
               >
@@ -396,32 +350,19 @@ function CreateAccountForm({ onSwitch }) {
                 className={`
                   w-full
                   box-border
-                  border
-                  rounded-[7px]
+                  rounded-xl
                   outline-none
-                  text-[13px]
+                  text-sm
                   font-inherit
-                  py-[14px]
-                  px-[15px]
+                  py-3.5
+                  px-4
                   transition-all
                   duration-300
 
                   ${
                     darkMode
-                      ? `
-                        bg-[#080808]
-                        border-[#242424]
-                        text-white
-                        placeholder:text-[#444]
-                        focus:border-[#555]
-                      `
-                      : `
-                        bg-[#f8f8f8]
-                        border-[#ddd]
-                        text-black
-                        placeholder:text-[#999]
-                        focus:border-[#999]
-                      `
+                      ? "glass-input-dark"
+                      : "glass-input-light"
                   }
                 `}
                 value={password}
@@ -434,17 +375,18 @@ function CreateAccountForm({ onSwitch }) {
 
 
             {/* CONFIRM PASSWORD */}
-            <div className="mb-[18px]">
+            <div className="mb-5">
 
               <label
                 className={`
                   block
-                  text-[12px]
-                  mb-[8px]
+                  text-xs
+                  font-medium
+                  mb-2
                   ${
                     darkMode
-                      ? "text-[#888]"
-                      : "text-[#666]"
+                      ? "text-[#aaa]"
+                      : "text-[#555]"
                   }
                 `}
               >
@@ -458,32 +400,19 @@ function CreateAccountForm({ onSwitch }) {
                 className={`
                   w-full
                   box-border
-                  border
-                  rounded-[7px]
+                  rounded-xl
                   outline-none
-                  text-[13px]
+                  text-sm
                   font-inherit
-                  py-[14px]
-                  px-[15px]
+                  py-3.5
+                  px-4
                   transition-all
                   duration-300
 
                   ${
                     darkMode
-                      ? `
-                        bg-[#080808]
-                        border-[#242424]
-                        text-white
-                        placeholder:text-[#444]
-                        focus:border-[#555]
-                      `
-                      : `
-                        bg-[#f8f8f8]
-                        border-[#ddd]
-                        text-black
-                        placeholder:text-[#999]
-                        focus:border-[#999]
-                      `
+                      ? "glass-input-dark"
+                      : "glass-input-light"
                   }
                 `}
                 value={confirmPassword}
@@ -495,7 +424,7 @@ function CreateAccountForm({ onSwitch }) {
             </div>
 
             {message && (
-              <p className="text-green-500 text-[13px] mb-[15px]">
+              <p className={`text-xs mb-4 p-3 rounded-xl border ${message.toLowerCase().includes("success") ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : "bg-rose-500/10 text-rose-400 border-rose-500/20"}`}>
                 {message}
               </p>
             )}    
@@ -506,36 +435,26 @@ function CreateAccountForm({ onSwitch }) {
               disabled={loading}
               className={`
                 w-full
-                py-[15px]
-                border
-                rounded-[8px]
+                py-3.5
+                rounded-full
                 cursor-pointer
-                text-[13px]
-                font-medium
+                text-xs
+                font-semibold
+                uppercase
+                tracking-wider
                 flex
                 items-center
                 justify-center
                 gap-2
                 transition-all
                 duration-300
+                shadow-lg
                 ${loading ? "opacity-75 cursor-not-allowed" : ""}
 
                 ${
                   darkMode
-                    ? `
-                      border-white
-                      bg-white
-                      text-black
-                      hover:bg-transparent
-                      hover:text-white
-                    `
-                    : `
-                      border-black
-                      bg-black
-                      text-white
-                      hover:bg-transparent
-                      hover:text-black
-                    `
+                    ? "bg-white text-black hover:bg-neutral-200"
+                    : "bg-black text-white hover:bg-neutral-800"
                 }
               `}
             >

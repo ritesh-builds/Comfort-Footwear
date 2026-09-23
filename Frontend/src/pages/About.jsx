@@ -16,16 +16,22 @@ function About() {
         lg:px-[8%]
         flex
         items-center
+        relative
+        overflow-hidden
         transition-all
         duration-300
 
         ${
           darkMode
             ? "bg-[#080808] text-white"
-            : "bg-[#f5f5f5] text-black"
+            : "bg-gradient-to-br from-[#f0f4f9] via-[#e5ecf5] to-[#f4f7fb] text-black"
         }
       `}
     >
+      {/* AMBIENT BACKGROUND GLOW ORBS */}
+      <div className="glass-orb w-[540px] h-[540px] -top-20 -right-20 opacity-80 dark:opacity-20 bg-gradient-to-br from-violet-500/45 via-indigo-500/35 to-teal-500/35 blur-[95px]" />
+      <div className="glass-orb w-[480px] h-[480px] bottom-10 -left-20 opacity-75 dark:opacity-15 bg-gradient-to-tr from-pink-500/40 via-rose-500/35 to-amber-500/35 blur-[100px]" />
+
       <div
         className="
           w-full
@@ -37,26 +43,19 @@ function About() {
           gap-10
           lg:gap-16
           items-center
+          relative
+          z-10
         "
       >
         {/* LEFT SIDE */}
         <div className="max-w-[650px]">
 
           <span
-            className={`
-              inline-block
-              text-[11px]
-              sm:text-[12px]
-              tracking-[4px]
-              uppercase
-              font-medium
-              mb-4
-              ${
-                darkMode
-                  ? "text-[#888]"
-                  : "text-[#777]"
-              }
-            `}
+            className={
+              darkMode
+                ? "glass-badge glass-badge-dark mb-4"
+                : "glass-badge glass-badge-light mb-4"
+            }
           >
             ABOUT US
           </span>
@@ -76,8 +75,8 @@ function About() {
             <span
               className={
                 darkMode
-                  ? "text-[#777]"
-                  : "text-[#888]"
+                  ? "bg-gradient-to-r from-neutral-400 to-white bg-clip-text text-transparent font-medium"
+                  : "bg-gradient-to-r from-neutral-500 to-black bg-clip-text text-transparent font-medium"
               }
             >
               with you.
@@ -92,8 +91,8 @@ function About() {
               mb-4
               ${
                 darkMode
-                  ? "text-[#999]"
-                  : "text-[#666]"
+                  ? "text-[#aaa]"
+                  : "text-[#555]"
               }
             `}
           >
@@ -110,8 +109,8 @@ function About() {
               mb-6
               ${
                 darkMode
-                  ? "text-[#999]"
-                  : "text-[#666]"
+                  ? "text-[#aaa]"
+                  : "text-[#555]"
               }
             `}
           >
@@ -123,34 +122,19 @@ function About() {
           <Link to="/our-story" className="no-underline inline-block">
             <button
               className={`
-                px-6
+                px-7
                 py-3.5
-                rounded-[30px]
+                rounded-full
                 cursor-pointer
                 text-[14px]
                 font-medium
-                border
                 transition-all
                 duration-300
 
                 ${
                   darkMode
-                    ? `
-                      border-[#444]
-                      bg-transparent
-                      text-white
-                      hover:bg-white
-                      hover:text-black
-                      hover:border-white
-                    `
-                    : `
-                      border-[#aaa]
-                      bg-transparent
-                      text-black
-                      hover:bg-black
-                      hover:text-white
-                      hover:border-black
-                    `
+                    ? "glass-btn-dark hover:bg-white hover:text-black"
+                    : "glass-btn-light hover:bg-black hover:text-white"
                 }
               `}
             >
@@ -167,27 +151,14 @@ function About() {
             className={`
               p-6
               sm:p-7
-              border
-              rounded-[14px]
+              rounded-2xl
               transition-all
               duration-300
-              hover:-translate-x-1
-              sm:hover:-translate-x-2
 
               ${
                 darkMode
-                  ? `
-                    border-[#222]
-                    bg-[#0e0e0e]
-                    hover:border-[#444]
-                    hover:bg-[#121212]
-                  `
-                  : `
-                    border-[#ddd]
-                    bg-white
-                    hover:border-[#bbb]
-                    hover:bg-[#fafafa]
-                  `
+                  ? "glass-card-dark"
+                  : "glass-card-light"
               }
             `}
           >
@@ -232,27 +203,14 @@ function About() {
             className={`
               p-6
               sm:p-7
-              border
-              rounded-[14px]
+              rounded-2xl
               transition-all
               duration-300
-              hover:-translate-x-1
-              sm:hover:-translate-x-2
 
               ${
                 darkMode
-                  ? `
-                    border-[#222]
-                    bg-[#0e0e0e]
-                    hover:border-[#444]
-                    hover:bg-[#121212]
-                  `
-                  : `
-                    border-[#ddd]
-                    bg-white
-                    hover:border-[#bbb]
-                    hover:bg-[#fafafa]
-                  `
+                  ? "glass-card-dark"
+                  : "glass-card-light"
               }
             `}
           >
@@ -264,8 +222,8 @@ function About() {
                 mb-3
                 ${
                   darkMode
-                    ? "text-[#666]"
-                    : "text-[#999]"
+                    ? "text-[#aaa]"
+                    : "text-[#666]"
                 }
               `}
             >
@@ -283,8 +241,8 @@ function About() {
                 m-0
                 ${
                   darkMode
-                    ? "text-[#777]"
-                    : "text-[#666]"
+                    ? "text-[#aaa]"
+                    : "text-[#555]"
                 }
               `}
             >
@@ -297,27 +255,14 @@ function About() {
             className={`
               p-6
               sm:p-7
-              border
-              rounded-[14px]
+              rounded-2xl
               transition-all
               duration-300
-              hover:-translate-x-1
-              sm:hover:-translate-x-2
 
               ${
                 darkMode
-                  ? `
-                    border-[#222]
-                    bg-[#0e0e0e]
-                    hover:border-[#444]
-                    hover:bg-[#121212]
-                  `
-                  : `
-                    border-[#ddd]
-                    bg-white
-                    hover:border-[#bbb]
-                    hover:bg-[#fafafa]
-                  `
+                  ? "glass-card-dark"
+                  : "glass-card-light"
               }
             `}
           >
@@ -329,8 +274,8 @@ function About() {
                 mb-3
                 ${
                   darkMode
-                    ? "text-[#666]"
-                    : "text-[#999]"
+                    ? "text-[#aaa]"
+                    : "text-[#666]"
                 }
               `}
             >
@@ -348,8 +293,8 @@ function About() {
                 m-0
                 ${
                   darkMode
-                    ? "text-[#777]"
-                    : "text-[#666]"
+                    ? "text-[#aaa]"
+                    : "text-[#555]"
                 }
               `}
             >

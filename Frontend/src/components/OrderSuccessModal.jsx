@@ -10,28 +10,28 @@ const OrderSuccessModal = ({ isOpen, onClose, product }) => {
   if (!isOpen || !product) return null;
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/65 backdrop-blur-md transition-all duration-300">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/50 backdrop-blur-xl transition-all duration-300">
       <div
-        className={`w-full max-w-md p-6 sm:p-8 rounded-2xl border shadow-2xl relative transition-all duration-300 ${
+        className={`w-full max-w-md p-6 sm:p-8 rounded-3xl relative transition-all duration-300 ${
           darkMode
-            ? "bg-[#0d0d0d] border-[#262626] text-white"
-            : "bg-white border-[#e5e5e5] text-black"
+            ? "glass-modal-dark text-white"
+            : "glass-modal-light text-black"
         }`}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className={`absolute top-4 right-4 p-2 rounded-full cursor-pointer transition-colors ${
+          className={`absolute top-4 right-4 p-2.5 rounded-full cursor-pointer transition-all ${
             darkMode
-              ? "text-[#777] hover:text-white hover:bg-[#1f1f1f]"
-              : "text-[#888] hover:text-black hover:bg-gray-100"
+              ? "glass-btn-dark hover:text-white"
+              : "glass-btn-light hover:text-black"
           }`}
         >
-          <X size={18} />
+          <X size={16} />
         </button>
 
         {/* Modal Header Icon */}
-        <div className="w-14 h-14 mx-auto mb-5 rounded-2xl flex items-center justify-center bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+        <div className="w-14 h-14 mx-auto mb-5 rounded-2xl flex items-center justify-center bg-emerald-500/15 text-emerald-500 border border-emerald-500/30 backdrop-blur-md shadow-inner">
           <CheckCircle2 size={30} />
         </div>
 
@@ -41,7 +41,7 @@ const OrderSuccessModal = ({ isOpen, onClose, product }) => {
 
         <p
           className={`text-sm text-center mb-6 leading-relaxed ${
-            darkMode ? "text-[#999]" : "text-[#666]"
+            darkMode ? "text-[#aaa]" : "text-[#555]"
           }`}
         >
           Your order for <strong className={darkMode ? "text-white" : "text-black"}>{product.name}</strong> ({product.price}) has been placed. You can view its status anytime in your User Dashboard.
@@ -54,10 +54,10 @@ const OrderSuccessModal = ({ isOpen, onClose, product }) => {
               onClose();
               navigate("/profile");
             }}
-            className={`flex-1 py-3.5 px-5 rounded-xl font-medium text-sm flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer ${
+            className={`flex-1 py-3.5 px-5 rounded-full font-medium text-sm flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer shadow-md ${
               darkMode
-                ? "bg-white text-black hover:bg-gray-200"
-                : "bg-black text-white hover:bg-gray-800"
+                ? "bg-white text-black hover:bg-neutral-200"
+                : "bg-black text-white hover:bg-neutral-800"
             }`}
           >
             <ShoppingBag size={16} />
@@ -66,10 +66,10 @@ const OrderSuccessModal = ({ isOpen, onClose, product }) => {
 
           <button
             onClick={onClose}
-            className={`py-3.5 px-5 rounded-xl font-medium text-sm border transition-all duration-200 cursor-pointer ${
+            className={`py-3.5 px-5 rounded-full font-medium text-sm transition-all duration-200 cursor-pointer ${
               darkMode
-                ? "border-[#333] text-gray-300 hover:bg-[#1a1a1a]"
-                : "border-[#ddd] text-gray-700 hover:bg-gray-100"
+                ? "glass-btn-dark"
+                : "glass-btn-light"
             }`}
           >
             Continue Shopping
