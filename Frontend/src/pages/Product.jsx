@@ -1,17 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
+import { AuthContext } from "../context/AuthContext";
 import { useWishlist } from "../context/WishlistContext";
 import { Heart, ShoppingBag } from "lucide-react";
 import { fetchProducts } from "../api/productService";
+import AuthModal from "../components/AuthModal";
+import OrderSuccessModal from "../components/OrderSuccessModal";
 
 function Product() {
   const { darkMode } = useTheme();
+  const { accessToken } = useContext(AuthContext);
   const { isFavorite, toggleFavorite, placeOrder } = useWishlist();
   const navigate = useNavigate();
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Modal States
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authModalConfig, setAuthModalConfig] = useState({ title: "", message: "" });
+  const [orderModalOpen, setOrderModalOpen] = useState(false);
+  const [orderedProduct, setOrderedProduct] = useState(null);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -259,6 +269,14 @@ function Product() {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
+                    if (!accessToken) {
+                      setAuthModalConfig({
+                        title: "Authentication Required",
+                        message: "Please log in to your account to save products to your favorites list."
+                      });
+                      setAuthModalOpen(true);
+                      return;
+                    }
                     toggleFavorite(product);
                   }}
                   title={isFavorite(product.id) ? "Remove from Favorites" : "Add to Favorites"}
@@ -293,9 +311,17 @@ function Product() {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
+                    if (!accessToken) {
+                      setAuthModalConfig({
+                        title: "Authentication Required",
+                        message: "Please log in to your account to place orders."
+                      });
+                      setAuthModalOpen(true);
+                      return;
+                    }
                     placeOrder(product);
-                    alert(`Order placed for ${product.name}! View your Dashboard.`);
-                    navigate("/profile");
+                    setOrderedProduct(product);
+                    setOrderModalOpen(true);
                   }}
                   className={`
                     absolute
@@ -394,6 +420,20 @@ function Product() {
         )}
 
       </div>
+
+      {/* POPUP MODALS */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        title={authModalConfig.title}
+        message={authModalConfig.message}
+      />
+
+      <OrderSuccessModal
+        isOpen={orderModalOpen}
+        onClose={() => setOrderModalOpen(false)}
+        product={orderedProduct}
+      />
     </section>
   );
 }

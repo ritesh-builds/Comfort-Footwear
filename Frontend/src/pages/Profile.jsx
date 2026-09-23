@@ -35,6 +35,10 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!accessToken) {
+      return;
+    }
+
     const fetchProfile = async () => {
       try {
         const response = await axiosInstance.get("/api/user/profile");
@@ -45,12 +49,42 @@ const Profile = () => {
     };
 
     fetchProfile();
-  }, []);
+  }, [accessToken]);
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
+
+  if (!accessToken) {
+    return (
+      <section
+        className={`min-h-screen pt-28 pb-16 px-4 flex flex-col items-center justify-center transition-all duration-300 ${
+          darkMode ? "bg-[#080808] text-white" : "bg-[#f7f7f7] text-black"
+        }`}
+      >
+        <div className={`text-center max-w-md w-full p-8 rounded-2xl border shadow-xl ${
+          darkMode ? "bg-[#0d0d0d] border-[#222]" : "bg-white border-[#ddd]"
+        }`}>
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center bg-amber-500/10 text-amber-500">
+            <User size={32} />
+          </div>
+          <h2 className="text-2xl font-bold mb-2">Login Required</h2>
+          <p className={`text-sm mb-6 ${darkMode ? "text-[#888]" : "text-[#666]"}`}>
+            Please log in or create an account to view your user dashboard, orders, and saved favorites.
+          </p>
+          <button
+            onClick={() => navigate("/login")}
+            className={`w-full py-3.5 px-6 rounded-xl font-medium text-sm transition-all duration-200 cursor-pointer ${
+              darkMode ? "bg-white text-black hover:bg-gray-200" : "bg-black text-white hover:bg-gray-800"
+            }`}
+          >
+            Go to Login →
+          </button>
+        </div>
+      </section>
+    );
+  }
 
   if (!user) {
     return (
