@@ -24,13 +24,13 @@ function About() {
         ${
           darkMode
             ? "bg-[#080808] text-white"
-            : "bg-gradient-to-br from-[#f0f4f9] via-[#e5ecf5] to-[#f4f7fb] text-black"
+            : "bg-[#fafafa] text-black"
         }
       `}
     >
       {/* AMBIENT BACKGROUND GLOW ORBS */}
-      <div className="glass-orb w-[540px] h-[540px] -top-20 -right-20 opacity-80 dark:opacity-20 bg-gradient-to-br from-violet-500/45 via-indigo-500/35 to-teal-500/35 blur-[95px]" />
-      <div className="glass-orb w-[480px] h-[480px] bottom-10 -left-20 opacity-75 dark:opacity-15 bg-gradient-to-tr from-pink-500/40 via-rose-500/35 to-amber-500/35 blur-[100px]" />
+      <div className="glass-orb w-[500px] h-[500px] -top-20 -right-20 opacity-30 dark:opacity-20 bg-gradient-to-br from-violet-200/35 via-indigo-200/25 to-teal-200/25 blur-[120px]" />
+      <div className="glass-orb w-[450px] h-[450px] bottom-10 -left-20 opacity-25 dark:opacity-15 bg-gradient-to-tr from-pink-200/30 via-rose-200/25 to-amber-200/25 blur-[120px]" />
 
       <div
         className="

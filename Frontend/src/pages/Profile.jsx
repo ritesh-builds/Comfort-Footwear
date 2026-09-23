@@ -121,12 +121,12 @@ const Profile = () => {
   return (
     <section
       className={`min-h-screen pt-28 pb-16 px-4 sm:px-8 lg:px-[8%] relative overflow-hidden transition-all duration-300 ${
-        darkMode ? "bg-[#080808] text-white" : "bg-gradient-to-br from-[#f0f4f9] via-[#e5ecf5] to-[#f4f7fb] text-black"
+        darkMode ? "bg-[#080808] text-white" : "bg-[#fafafa] text-black"
       }`}
     >
       {/* AMBIENT BACKGROUND GLOW ORBS */}
-      <div className="glass-orb w-[540px] h-[540px] -top-20 -right-20 opacity-80 dark:opacity-20 bg-gradient-to-br from-indigo-500/45 via-violet-500/35 to-pink-500/35 blur-[95px]" />
-      <div className="glass-orb w-[480px] h-[480px] bottom-10 -left-20 opacity-75 dark:opacity-15 bg-gradient-to-tr from-emerald-500/40 via-teal-500/35 to-sky-500/35 blur-[100px]" />
+      <div className="glass-orb w-[500px] h-[500px] -top-20 -right-20 opacity-30 dark:opacity-20 bg-gradient-to-br from-indigo-200/35 via-violet-200/25 to-pink-200/25 blur-[120px]" />
+      <div className="glass-orb w-[450px] h-[450px] bottom-10 -left-20 opacity-25 dark:opacity-15 bg-gradient-to-tr from-emerald-200/30 via-teal-200/25 to-sky-200/25 blur-[120px]" />
 
       <div className="max-w-[1200px] mx-auto relative z-10">
         {/* TOP DASHBOARD HEADER */}

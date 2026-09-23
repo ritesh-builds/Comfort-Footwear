@@ -57,13 +57,13 @@ function CreateAccountForm({ onSwitch }) {
         ${
           darkMode
             ? "bg-[#080808] text-white"
-            : "bg-gradient-to-br from-[#f0f4f9] via-[#e5ecf5] to-[#f4f7fb] text-black"
+            : "bg-[#fafafa] text-black"
         }
       `}
     >
       {/* AMBIENT BACKGROUND GLOW ORBS */}
-      <div className="glass-orb w-[580px] h-[580px] -top-20 -right-20 opacity-80 dark:opacity-20 bg-gradient-to-br from-indigo-500/45 via-purple-500/35 to-pink-500/35 blur-[95px]" />
-      <div className="glass-orb w-[480px] h-[480px] -bottom-20 -left-20 opacity-75 dark:opacity-15 bg-gradient-to-tr from-teal-500/40 via-emerald-500/35 to-cyan-500/35 blur-[100px]" />
+      <div className="glass-orb w-[500px] h-[500px] -top-20 -right-20 opacity-30 dark:opacity-20 bg-gradient-to-br from-indigo-200/35 via-purple-200/25 to-pink-200/25 blur-[120px]" />
+      <div className="glass-orb w-[450px] h-[450px] -bottom-20 -left-20 opacity-25 dark:opacity-15 bg-gradient-to-tr from-teal-200/30 via-emerald-200/25 to-cyan-200/25 blur-[120px]" />
 
       <div
         className="

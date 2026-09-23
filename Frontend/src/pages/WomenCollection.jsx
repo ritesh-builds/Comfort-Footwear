@@ -51,13 +51,13 @@ const WomenCollection = () => {
         ${
           darkMode
             ? "bg-[#080808] text-white"
-            : "bg-gradient-to-br from-[#f0f4f9] via-[#e5ecf5] to-[#f4f7fb] text-black"
+            : "bg-[#fafafa] text-black"
         }
       `}
     >
       {/* AMBIENT BACKGROUND GLOW ORBS */}
-      <div className="glass-orb w-[540px] h-[540px] -top-20 -right-20 opacity-80 dark:opacity-20 bg-gradient-to-br from-rose-400/50 via-pink-400/40 to-purple-400/45 blur-[95px]" />
-      <div className="glass-orb w-[500px] h-[500px] bottom-10 -left-20 opacity-75 dark:opacity-15 bg-gradient-to-tr from-amber-400/45 via-sky-400/40 to-teal-400/40 blur-[100px]" />
+      <div className="glass-orb w-[500px] h-[500px] -top-20 -right-20 opacity-30 dark:opacity-20 bg-gradient-to-br from-rose-200/35 via-pink-200/25 to-purple-200/25 blur-[120px]" />
+      <div className="glass-orb w-[450px] h-[450px] bottom-10 -left-20 opacity-25 dark:opacity-15 bg-gradient-to-tr from-amber-200/30 via-sky-200/25 to-teal-200/25 blur-[120px]" />
 
       <div className="relative z-10 max-w-[1250px] mx-auto">
         {/* HEADER */}

@@ -51,13 +51,13 @@ function Product() {
         ${
           darkMode
             ? "bg-[#080808] text-white"
-            : "bg-gradient-to-br from-[#f0f4f9] via-[#e5ecf5] to-[#f4f7fb] text-black"
+            : "bg-[#fafafa] text-black"
         }
       `}
     >
       {/* AMBIENT BACKGROUND GLOW ORBS */}
-      <div className="glass-orb w-[540px] h-[540px] -top-30 -right-20 opacity-80 dark:opacity-20 bg-gradient-to-br from-indigo-400/50 via-purple-400/40 to-pink-400/45 blur-[95px]" />
-      <div className="glass-orb w-[500px] h-[500px] top-[40%] -left-30 opacity-75 dark:opacity-15 bg-gradient-to-tr from-cyan-400/45 via-teal-400/40 to-blue-400/40 blur-[100px]" />
+      <div className="glass-orb w-[500px] h-[500px] -top-30 -right-20 opacity-30 dark:opacity-20 bg-gradient-to-br from-indigo-200/35 via-purple-200/25 to-pink-200/25 blur-[120px]" />
+      <div className="glass-orb w-[450px] h-[450px] top-[40%] -left-30 opacity-25 dark:opacity-15 bg-gradient-to-tr from-cyan-200/30 via-teal-200/25 to-blue-200/25 blur-[120px]" />
 
       <div className="max-w-[1250px] mx-auto relative z-10">
 
