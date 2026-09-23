@@ -47,12 +47,13 @@ const MenCollection = () => {
     <section
       className={`
         min-h-screen
-        px-[8%]
-        py-[100px]
+        pt-28
+        pb-16
+        px-5
+        sm:px-8
+        lg:px-[8%]
         transition-all
         duration-300
-        max-[650px]:px-[25px]
-        max-[650px]:py-[70px]
 
         ${
           darkMode

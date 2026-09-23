@@ -19,7 +19,7 @@ function App() {
     <div>
       <Navbar />
 
-        <main className="pt-20">
+        <main className="pt-0">
           <Routes>
             <Route path="/login" element={<Authentication />} />
 

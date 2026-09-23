@@ -6,10 +6,10 @@ const OurStory = () => {
   const { darkMode } = useTheme();
 
   return (
-    <div className={`min-h-screen px-6 py-16 md:px-16 lg:px-24 transition-all duration-500 ${darkMode ? "bg-[#050505] text-white" : "bg-[#f5f5f5] text-black"}`}>
+    <div className={`min-h-screen pt-28 pb-16 px-5 sm:px-8 lg:px-24 transition-all duration-500 ${darkMode ? "bg-[#050505] text-white" : "bg-[#f5f5f5] text-black"}`}>
 
       {/* Hero Section */}
-      <section className="max-w-5xl mx-auto text-center py-20">
+      <section className="max-w-5xl mx-auto text-center py-10 md:py-16">
 
         <p className={`text-sm tracking-[5px] uppercase mb-6 ${darkMode ? "text-gray-500" : "text-gray-500"}`}>
           Our Story
@@ -30,7 +30,7 @@ const OurStory = () => {
 
 
       {/* Beginning */}
-      <section className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 py-20 border-t border-gray-300 dark:border-[#222]">
+      <section className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 py-20">
 
         <div>
           <p className={`text-sm tracking-[3px] uppercase mb-5 ${darkMode ? "text-gray-500" : "text-gray-500"}`}>
@@ -74,7 +74,7 @@ const OurStory = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
           {/* Card 01 */}
-          <div className={`group relative overflow-hidden p-8 rounded-2xl border backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] ${darkMode ? "border-white/10 bg-white/[0.04] hover:border-white/20 hover:bg-white/[0.07] hover:shadow-[0_20px_60px_rgba(255,255,255,0.06)]" : "border-black/10 bg-white/60 hover:border-black/20 hover:bg-white/80 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]"}`}>
+          <div className={`group relative overflow-hidden p-8 rounded-2xl border backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] ${darkMode ? "border-[#262626] bg-white/[0.04] hover:border-[#333333] hover:bg-white/[0.07] hover:shadow-[0_20px_60px_rgba(255,255,255,0.06)]" : "border-[#e5e5e5] bg-white/60 hover:border-[#cccccc] hover:bg-white/80 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]"}`}>
 
             <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-white/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
@@ -94,7 +94,7 @@ const OurStory = () => {
 
 
           {/* Card 02 */}
-          <div className={`group relative overflow-hidden p-8 rounded-2xl border backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] ${darkMode ? "border-white/10 bg-white/[0.04] hover:border-white/20 hover:bg-white/[0.07] hover:shadow-[0_20px_60px_rgba(255,255,255,0.06)]" : "border-black/10 bg-white/60 hover:border-black/20 hover:bg-white/80 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]"}`}>
+          <div className={`group relative overflow-hidden p-8 rounded-2xl border backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] ${darkMode ? "border-[#262626] bg-white/[0.04] hover:border-[#333333] hover:bg-white/[0.07] hover:shadow-[0_20px_60px_rgba(255,255,255,0.06)]" : "border-[#e5e5e5] bg-white/60 hover:border-[#cccccc] hover:bg-white/80 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]"}`}>
 
             <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-white/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
@@ -114,7 +114,7 @@ const OurStory = () => {
 
 
           {/* Card 03 */}
-          <div className={`group relative overflow-hidden p-8 rounded-2xl border backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] ${darkMode ? "border-white/10 bg-white/[0.04] hover:border-white/20 hover:bg-white/[0.07] hover:shadow-[0_20px_60px_rgba(255,255,255,0.06)]" : "border-black/10 bg-white/60 hover:border-black/20 hover:bg-white/80 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]"}`}>
+          <div className={`group relative overflow-hidden p-8 rounded-2xl border backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] ${darkMode ? "border-[#262626] bg-white/[0.04] hover:border-[#333333] hover:bg-white/[0.07] hover:shadow-[0_20px_60px_rgba(255,255,255,0.06)]" : "border-[#e5e5e5] bg-white/60 hover:border-[#cccccc] hover:bg-white/80 hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)]"}`}>
 
             <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-white/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
@@ -138,7 +138,7 @@ const OurStory = () => {
 
 
       {/* Philosophy */}
-      <section className={`group relative overflow-hidden max-w-6xl mx-auto my-20 rounded-3xl px-8 md:px-16 py-20 border backdrop-blur-2xl transition-all duration-500 hover:-translate-y-1 ${darkMode ? "bg-white/[0.035] border-white/10 hover:border-white/20 hover:bg-white/[0.055] hover:shadow-[0_25px_80px_rgba(255,255,255,0.05)]" : "bg-white/60 border-black/10 hover:border-black/20 hover:bg-white/80 hover:shadow-[0_25px_80px_rgba(0,0,0,0.08)]"}`}>
+      <section className={`group relative overflow-hidden max-w-6xl mx-auto my-20 rounded-3xl px-8 md:px-16 py-20 border backdrop-blur-2xl transition-all duration-500 hover:-translate-y-1 ${darkMode ? "bg-white/[0.035] border-[#262626] hover:border-[#333333] hover:bg-white/[0.055] hover:shadow-[0_25px_80px_rgba(255,255,255,0.05)]" : "bg-white/60 border-[#e5e5e5] hover:border-[#cccccc] hover:bg-white/80 hover:shadow-[0_25px_80px_rgba(0,0,0,0.08)]"}`}>
 
         <div className="absolute -right-32 -top-32 w-80 h-80 rounded-full bg-white/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 

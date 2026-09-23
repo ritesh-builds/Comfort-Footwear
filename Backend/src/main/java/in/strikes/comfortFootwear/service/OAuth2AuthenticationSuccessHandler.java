@@ -2,6 +2,7 @@ package in.strikes.comfortFootwear.service;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -17,17 +18,22 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 
     private final UserService userService;
     private final JwtService jwtService;
+    private final String frontendUrl;
 
-    public OAuth2AuthenticationSuccessHandler(UserService userService, JwtService jwtService) {
+    public OAuth2AuthenticationSuccessHandler(
+            UserService userService,
+            JwtService jwtService,
+            @Value("${app.frontend.url:http://localhost:5173}") String frontendUrl
+    ) {
         this.userService = userService;
         this.jwtService = jwtService;
+        this.frontendUrl = frontendUrl;
     }
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         OidcUser oidcUser = (OidcUser) authentication.getPrincipal();
-
         String provider = "google";
 
         User user = userService.registerOrUpdate(provider, oidcUser);
@@ -35,8 +41,8 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         String accessToken = jwtService.generateToken(user.getId(), user.getEmail());
         String refreshToken = jwtService.generateRefreshToken(user.getId(), user.getEmail());
 
-        // System.out.println("OAuth2 JWT: " + token);
+        String targetUrl = frontendUrl + "/oauth2/success#accessToken=" + accessToken + "&refreshToken=" + refreshToken;
 
-        response.sendRedirect("https://comfort-footwear.vercel.app/oauth2/success#accessToken="+accessToken + "&refreshToken="+refreshToken);
+        response.sendRedirect(targetUrl);
     }
 }

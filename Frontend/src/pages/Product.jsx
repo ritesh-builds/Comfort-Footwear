@@ -44,12 +44,13 @@ function Product() {
     <section
       className={`
         min-h-screen
-        px-[8%]
-        py-[100px]
+        pt-28
+        pb-16
+        px-4
+        sm:px-8
+        lg:px-[8%]
         transition-all
         duration-300
-        max-[800px]:px-[25px]
-        max-[800px]:py-[70px]
 
         ${
           darkMode
@@ -64,12 +65,15 @@ function Product() {
         <div
           className="
             flex
+            flex-col
+            md:flex-row
             justify-between
-            items-end
-            gap-[40px]
-            mb-[70px]
-            max-[800px]:flex-col
-            max-[800px]:items-start
+            items-start
+            md:items-end
+            gap-6
+            md:gap-[40px]
+            mb-10
+            md:mb-[70px]
           "
         >
           <div>
@@ -77,22 +81,25 @@ function Product() {
             <span
               className={
                 darkMode
-                  ? "text-[12px] tracking-[4px] text-[#666]"
-                  : "text-[12px] tracking-[4px] text-[#777]"
+                  ? "text-[11px] sm:text-[12px] tracking-[4px] text-[#666] uppercase font-medium"
+                  : "text-[11px] sm:text-[12px] tracking-[4px] text-[#777] uppercase font-medium"
               }
             >
               OUR COLLECTION
             </span>
 
             {/* COLLECTION BUTTONS */}
-            <div className="flex items-center gap-[10px] mt-[20px] mb-[10px]">
+            <div className="flex items-center gap-[10px] mt-[15px] mb-[10px]">
 
-              <Link to="/Product/Men">
+              <Link to="/Product/Men" className="no-underline">
                 <button
                   className={`
-                    w-[100px]
-                    h-[40px]
-                    text-[16px]
+                    w-[90px]
+                    sm:w-[100px]
+                    h-[38px]
+                    sm:h-[40px]
+                    text-[14px]
+                    sm:text-[16px]
                     font-bold
                     rounded-[20px]
                     border
@@ -123,12 +130,15 @@ function Product() {
                 </button>
               </Link>
 
-              <Link to="/Product/Women">
+              <Link to="/Product/Women" className="no-underline">
                 <button
                   className={`
-                    w-[100px]
-                    h-[40px]
-                    text-[16px]
+                    w-[90px]
+                    sm:w-[100px]
+                    h-[38px]
+                    sm:h-[40px]
+                    text-[14px]
+                    sm:text-[16px]
                     font-bold
                     rounded-[20px]
                     border
@@ -163,13 +173,14 @@ function Product() {
 
             <h1
               className="
-                text-[clamp(3.5rem,7vw,7rem)]
+                text-[clamp(2.5rem,6.5vw,6.5rem)]
                 leading-[0.9]
                 font-normal
-                tracking-[-5px]
-                mt-[25px]
+                tracking-[-2px]
+                sm:tracking-[-4px]
+                md:tracking-[-5px]
+                mt-4
                 mb-0
-                max-[800px]:tracking-[-3px]
               "
             >
               Find your{" "}
@@ -189,8 +200,8 @@ function Product() {
           <p
             className={
               darkMode
-                ? "max-w-[350px] text-[#777] leading-[1.7] text-[14px]"
-                : "max-w-[350px] text-[#666] leading-[1.7] text-[14px]"
+                ? "max-w-[350px] text-[#777] leading-[1.7] text-[13px] sm:text-[14px]"
+                : "max-w-[350px] text-[#666] leading-[1.7] text-[13px] sm:text-[14px]"
             }
           >
             Carefully designed footwear that combines
@@ -203,11 +214,11 @@ function Product() {
         <div
           className="
             grid
-            grid-cols-2
+            grid-cols-1
+            sm:grid-cols-2
             gap-x-[25px]
-            gap-y-[60px]
-            max-[800px]:grid-cols-1
-            max-[800px]:gap-y-[45px]
+            gap-y-10
+            sm:gap-y-[60px]
           "
         >
           {products.map((product) => (
@@ -219,11 +230,12 @@ function Product() {
               {/* IMAGE */}
               <div
                 className={`
-                  h-[480px]
+                  h-[300px]
+                  sm:h-[400px]
+                  md:h-[480px]
                   overflow-hidden
                   relative
                   rounded-[12px]
-                  max-[800px]:h-[400px]
 
                   ${
                     darkMode
@@ -251,15 +263,24 @@ function Product() {
                 <button
                   className={`
                     absolute
-                    bottom-[20px]
-                    right-[20px]
-                    px-[20px]
-                    py-[12px]
+                    bottom-[15px]
+                    sm:bottom-[20px]
+                    right-[15px]
+                    sm:right-[20px]
+                    px-[16px]
+                    sm:px-[20px]
+                    py-[10px]
+                    sm:py-[12px]
                     border-none
                     rounded-[30px]
+                    text-xs
+                    sm:text-sm
+                    font-medium
                     cursor-pointer
-                    opacity-0
-                    translate-y-[10px]
+                    opacity-100
+                    sm:opacity-0
+                    translate-y-0
+                    sm:translate-y-[10px]
                     transition-all
                     duration-300
                     group-hover:opacity-100
@@ -283,8 +304,10 @@ function Product() {
                   flex
                   justify-between
                   items-start
-                  pt-[20px]
-                  pb-[20px]
+                  pt-[15px]
+                  sm:pt-[20px]
+                  pb-[15px]
+                  sm:pb-[20px]
                   border-b
 
                   ${
@@ -297,15 +320,15 @@ function Product() {
 
                 <div>
 
-                  <h2 className="text-[18px] font-normal m-0 mb-[7px]">
+                  <h2 className="text-[17px] sm:text-[18px] font-normal m-0 mb-[5px] sm:mb-[7px]">
                     {product.name}
                   </h2>
 
                   <p
                     className={
                       darkMode
-                        ? "text-[#666] text-[13px] m-0"
-                        : "text-[#777] text-[13px] m-0"
+                        ? "text-[#666] text-[12px] sm:text-[13px] m-0"
+                        : "text-[#777] text-[12px] sm:text-[13px] m-0"
                     }
                   >
                     {product.type}
@@ -316,8 +339,8 @@ function Product() {
                 <span
                   className={
                     darkMode
-                      ? "text-[#ccc] text-[15px]"
-                      : "text-[#555] text-[15px]"
+                      ? "text-[#ccc] text-[14px] sm:text-[15px] font-medium"
+                      : "text-[#555] text-[14px] sm:text-[15px] font-medium"
                   }
                 >
                   {product.price}

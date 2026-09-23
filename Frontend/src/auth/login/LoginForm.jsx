@@ -1,19 +1,24 @@
 import React, { useContext, useState } from "react";
 import { useTheme } from "../../context/ThemeContext.jsx";
-import axiosInstance from "../../api/axiosInstance.js";
+import axiosInstance, { API_BASE_URL } from "../../api/axiosInstance.js";
 import { AuthContext } from "../../context/AuthContext.jsx";
 
 function LoginForm({ onSwitch }) {
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("");
+
+  // Modal State
+  const [showNoAccountModal, setShowNoAccountModal] = useState(false);
+  const [noAccountEmail, setNoAccountEmail] = useState("");
   
   const { darkMode } = useTheme();
   const { setAccessToken, setRefreshToken } = useContext(AuthContext);
 
-const handleLogin = async (evt) => {
+  const handleLogin = async (evt) => {
     evt.preventDefault();
+    setMessage("");
 
     const loginData = {
       email,
@@ -47,15 +52,21 @@ const handleLogin = async (evt) => {
 
     } catch (error) {
       console.log("Login error:", error);
-      setMessage(
-        error.response?.data?.message || "Login failed"
-      );
+      const status = error.response?.status;
+      const errMsg = error.response?.data?.message || "";
+
+      if (status === 404 || errMsg.toLowerCase().includes("no account") || errMsg.toLowerCase().includes("not found")) {
+        setNoAccountEmail(email);
+        setShowNoAccountModal(true);
+      } else {
+        setMessage(errMsg || "Login failed. Please check your credentials.");
+      }
     }
   };
 
   return (
     <section
-      className={`min-h-screen px-[8%] py-[80px] flex items-center transition-all duration-300 max-[850px]:px-[25px] max-[850px]:py-[60px]
+      className={`min-h-screen pt-28 pb-16 px-4 sm:px-8 lg:px-[8%] flex items-center transition-all duration-300 relative
         ${
           darkMode
             ? "bg-[#080808] text-white"
@@ -69,11 +80,11 @@ const handleLogin = async (evt) => {
           max-w-[1150px]
           mx-auto
           grid
-          grid-cols-[1fr_450px]
-          gap-[100px]
+          grid-cols-1
+          lg:grid-cols-[1fr_450px]
+          gap-10
+          lg:gap-[100px]
           items-center
-          max-[850px]:grid-cols-1
-          max-[850px]:gap-[50px]
         "
       >
 
@@ -82,7 +93,11 @@ const handleLogin = async (evt) => {
           <span
             className={`
               text-[11px]
-              tracking-[5px]
+              sm:text-[12px]
+              tracking-[4px]
+              sm:tracking-[5px]
+              uppercase
+              font-medium
               ${
                 darkMode
                   ? "text-[#666]"
@@ -95,14 +110,13 @@ const handleLogin = async (evt) => {
 
           <h1
             className="
-              text-[clamp(4rem,7vw,7rem)]
+              text-[clamp(2.75rem,7vw,6.5rem)]
               leading-[0.85]
               font-normal
-              tracking-[-5px]
-              mt-[25px]
-              mb-[30px]
-              max-[850px]:text-[4.5rem]
-              max-[850px]:tracking-[-3px]
+              tracking-[-3px]
+              sm:tracking-[-5px]
+              mt-4
+              mb-6
             "
           >
             Step into
@@ -126,7 +140,9 @@ const handleLogin = async (evt) => {
             className={`
               max-w-[430px]
               text-[14px]
-              leading-[1.8]
+              sm:text-[15px]
+              leading-[1.7]
+              sm:leading-[1.8]
               ${
                 darkMode
                   ? "text-[#777]"
@@ -141,17 +157,18 @@ const handleLogin = async (evt) => {
 
 
         {/* LOGIN FORM */}
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} className="w-full">
           <div
             className={`
               border
               rounded-[16px]
-              p-[35px]
+              p-6
+              sm:p-[35px]
               transition-all
               duration-300
-              max-[850px]:max-w-[500px]
-              max-[850px]:w-full
-              max-[850px]:mx-auto
+              w-full
+              max-w-[480px]
+              mx-auto
 
               ${
                 darkMode
@@ -372,8 +389,8 @@ const handleLogin = async (evt) => {
 
             </div>
             
-             {message && (
-              <p className="text-green-500 text-[13px] mb-[15px]">
+            {message && (
+              <p className={`text-[13px] mb-[15px] ${message.toLowerCase().includes("success") ? "text-green-500" : "text-red-500"}`}>
                 {message}
               </p>
             )} 
@@ -419,7 +436,7 @@ const handleLogin = async (evt) => {
                 type="button"
                 onClick={() =>
                   window.location.href =
-                    "https://comfort-footwear.onrender.com/oauth2/authorization/google"
+                    `${API_BASE_URL}/oauth2/authorization/google`
                 }
                 className={`w-full py-[15px] border rounded-[8px] cursor-pointer text-[13px] transition-all duration-300 ${
                   darkMode
@@ -478,6 +495,63 @@ const handleLogin = async (evt) => {
         </form>
 
       </div>
+
+      {/* NO ACCOUNT MODAL */}
+      {showNoAccountModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div
+            className={`w-full max-w-md p-6 rounded-2xl border shadow-2xl transition-all duration-300 ${
+              darkMode
+                ? "bg-[#121212] border-[#2a2a2a] text-white"
+                : "bg-white border-[#e5e5e5] text-black"
+            }`}
+          >
+            {/* Modal Icon */}
+            <div className="flex items-center justify-center w-12 h-12 mx-auto mb-4 rounded-full bg-amber-500/10 text-amber-500">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+
+            <h3 className="text-xl font-semibold text-center mb-2">
+              Account Not Found
+            </h3>
+
+            <p className={`text-sm text-center mb-6 leading-relaxed ${darkMode ? "text-[#999]" : "text-[#666]"}`}>
+              No account is registered under <strong className={darkMode ? "text-white" : "text-black"}>{noAccountEmail}</strong>. Would you like to create a new account now?
+            </p>
+
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowNoAccountModal(false);
+                  onSwitch();
+                }}
+                className={`flex-1 py-3 px-4 rounded-xl font-medium text-sm transition-all duration-200 cursor-pointer ${
+                  darkMode
+                    ? "bg-white text-black hover:bg-gray-200"
+                    : "bg-black text-white hover:bg-gray-800"
+                }`}
+              >
+                Create Account →
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShowNoAccountModal(false)}
+                className={`flex-1 py-3 px-4 rounded-xl font-medium text-sm border transition-all duration-200 cursor-pointer ${
+                  darkMode
+                    ? "border-[#333] text-gray-300 hover:bg-[#1f1f1f]"
+                    : "border-[#ddd] text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                Try Again
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

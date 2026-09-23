@@ -2,9 +2,12 @@ package in.strikes.comfortFootwear.service;
 
 import java.util.Optional;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
+import in.strikes.comfortFootwear.dto.UserProfileResponseDto;
+import in.strikes.comfortFootwear.exception.ResourceNotFoundException;
 import in.strikes.comfortFootwear.model.User;
 import in.strikes.comfortFootwear.repository.UserRepository;
 
@@ -24,6 +27,21 @@ public class UserService {
 
     public Optional<User> getUser(Long id) {
         return userRepository.findById(id);
+    }
+
+    public UserProfileResponseDto getUserProfile(Authentication authentication) {
+        Long userId = Long.valueOf(authentication.getName());
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + userId));
+
+        return new UserProfileResponseDto(
+                user.getId(),
+                user.getProvider(),
+                user.getProviderSubject(),
+                user.getUsername(),
+                user.getEmail()
+        );
     }
 
     public void deleteUser(Long id) {

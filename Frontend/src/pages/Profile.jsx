@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import axiosInstance from "../api/axiosInstance";
 import { useTheme } from "../context/ThemeContext";
@@ -6,8 +7,9 @@ import { useTheme } from "../context/ThemeContext";
 const Profile = () => {
   const [user, setUser] = useState(null);
 
-  const { accessToken } = useContext(AuthContext);
+  const { accessToken, logout } = useContext(AuthContext);
   const { darkMode } = useTheme();
+  const navigate = useNavigate();
 
   console.log("AccessToken from profile:", accessToken);
 
@@ -15,9 +17,7 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         const response = await axiosInstance.get("/api/user/profile");
-
         setUser(response.data);
-
         console.log("Profile Response:", response.data);
       } catch (error) {
         console.log(error);
@@ -26,6 +26,11 @@ const Profile = () => {
 
     fetchProfile();
   }, []);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   if (!user) {
     return (
@@ -59,7 +64,7 @@ const Profile = () => {
 
   return (
     <section
-      className={`min-h-[calc(100vh-80px)] px-6 py-14 md:px-10 lg:px-[8%] transition-all duration-300 ${
+      className={`min-h-screen pt-28 pb-16 px-4 sm:px-8 lg:px-[8%] transition-all duration-300 ${
         darkMode
           ? "bg-[#080808] text-white"
           : "bg-[#f7f7f7] text-black"
@@ -68,26 +73,39 @@ const Profile = () => {
       <div className="max-w-[1100px] mx-auto">
 
         {/* HEADER */}
-        <div className="mb-10">
-          <p
-            className={`text-[11px] tracking-[4px] uppercase mb-3 ${
-              darkMode ? "text-[#666]" : "text-[#888]"
+        <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <p
+              className={`text-[11px] tracking-[4px] uppercase mb-3 ${
+                darkMode ? "text-[#666]" : "text-[#888]"
+              }`}
+            >
+              Account
+            </p>
+
+            <h1 className="text-[clamp(2.3rem,6vw,4.5rem)] leading-[0.95] tracking-[-2px] sm:tracking-[-3px] font-normal">
+              My Profile<span className={darkMode ? "text-[#555]" : "text-[#aaa]"}>.</span>
+            </h1>
+
+            <p
+              className={`mt-4 text-sm ${
+                darkMode ? "text-[#666]" : "text-[#777]"
+              }`}
+            >
+              Manage your account and personal information.
+            </p>
+          </div>
+
+          <button
+            onClick={handleLogout}
+            className={`px-6 py-3 rounded-full border text-xs uppercase tracking-widest font-medium cursor-pointer transition-all duration-300 ${
+              darkMode
+                ? "border-red-500/30 text-red-400 hover:bg-red-600 hover:text-white hover:border-red-600"
+                : "border-red-200 text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600"
             }`}
           >
-            Account
-          </p>
-
-          <h1 className="text-[clamp(2.5rem,5vw,4.5rem)] leading-[0.95] tracking-[-3px] font-normal">
-            My Profile<span className={darkMode ? "text-[#555]" : "text-[#aaa]"}>.</span>
-          </h1>
-
-          <p
-            className={`mt-4 text-sm ${
-              darkMode ? "text-[#666]" : "text-[#777]"
-            }`}
-          >
-            Manage your account and personal information.
-          </p>
+            Log Out
+          </button>
         </div>
 
         {/* PROFILE CARD */}
@@ -243,7 +261,7 @@ const Profile = () => {
 
           {/* FOOTER OF CARD */}
           <div
-            className={`px-7 py-5 md:px-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 ${
+            className={`px-7 py-5 md:px-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 ${
               darkMode
                 ? "bg-[#0c0c0c]"
                 : "bg-[#fafafa]"
@@ -257,13 +275,12 @@ const Profile = () => {
               Your account information is securely stored.
             </p>
 
-            <span
-              className={`text-[11px] uppercase tracking-[1.5px] ${
-                darkMode ? "text-[#777]" : "text-[#777]"
-              }`}
+            <button
+              onClick={handleLogout}
+              className="text-xs text-red-500 hover:text-red-400 cursor-pointer font-medium tracking-wide uppercase self-start sm:self-auto"
             >
-              Comfort Footwear
-            </span>
+              Sign Out of Account
+            </button>
           </div>
 
         </div>

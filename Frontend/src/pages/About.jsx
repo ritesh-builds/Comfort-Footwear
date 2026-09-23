@@ -9,14 +9,15 @@ function About() {
     <section
       className={`
         min-h-screen
-        px-[8%]
-        py-25
+        pt-28
+        pb-16
+        px-5
+        sm:px-8
+        lg:px-[8%]
         flex
         items-center
         transition-all
         duration-300
-        max-[800px]:px-6.25
-        max-[800px]:py-17.5
 
         ${
           darkMode
@@ -28,25 +29,28 @@ function About() {
       <div
         className="
           w-full
-          max-w-312.5
+          max-w-[1250px]
           mx-auto
           grid
-          grid-cols-[1.2fr_0.8fr]
-          gap-25
+          grid-cols-1
+          lg:grid-cols-[1.2fr_0.8fr]
+          gap-10
+          lg:gap-16
           items-center
-          max-[800px]:grid-cols-1
-          max-[800px]:gap-15
         "
       >
         {/* LEFT SIDE */}
-        <div className="max-w-162.5">
+        <div className="max-w-[650px]">
 
           <span
             className={`
               inline-block
-              text-[12px]
+              text-[11px]
+              sm:text-[12px]
               tracking-[4px]
-              mb-6.25
+              uppercase
+              font-medium
+              mb-4
               ${
                 darkMode
                   ? "text-[#888]"
@@ -59,13 +63,13 @@ function About() {
 
           <h1
             className="
-              text-[clamp(3rem,6vw,6rem)]
+              text-[clamp(2.5rem,6vw,6rem)]
               leading-[0.95]
               font-medium
-              tracking-[-4px]
+              tracking-[-2px]
+              sm:tracking-[-4px]
               m-0
-              mb-8.75
-              max-[800px]:tracking-[-2px]
+              mb-6
             "
           >
             Comfort that moves{" "}
@@ -82,10 +86,10 @@ function About() {
 
           <p
             className={`
-              text-[16px]
+              text-[15px]
+              sm:text-[16px]
               leading-[1.8]
-              max-w-145
-              mb-4.5
+              mb-4
               ${
                 darkMode
                   ? "text-[#999]"
@@ -100,10 +104,10 @@ function About() {
 
           <p
             className={`
-              text-[16px]
+              text-[15px]
+              sm:text-[16px]
               leading-[1.8]
-              max-w-145
-              mb-4.5
+              mb-6
               ${
                 darkMode
                   ? "text-[#999]"
@@ -116,57 +120,59 @@ function About() {
           </p>
 
           {/* BUTTON */}
-          <Link to="/our-story">
+          <Link to="/our-story" className="no-underline inline-block">
             <button
-            className={`
-              mt-5
-              px-6
-              py-3.5
-              rounded-[30px]
-              cursor-pointer
-              text-[14px]
-              border
-              transition-all
-              duration-300
+              className={`
+                px-6
+                py-3.5
+                rounded-[30px]
+                cursor-pointer
+                text-[14px]
+                font-medium
+                border
+                transition-all
+                duration-300
 
-              ${
-                darkMode
-                  ? `
-                    border-[#444]
-                    bg-transparent
-                    text-white
-                    hover:bg-white
-                    hover:text-black
-                    hover:border-white
-                  `
-                  : `
-                    border-[#aaa]
-                    bg-transparent
-                    text-black
-                    hover:bg-black
-                    hover:text-white
-                    hover:border-black
-                  `
-              }
-            `}
-          >
-            Discover Our Story →
-          </button>
+                ${
+                  darkMode
+                    ? `
+                      border-[#444]
+                      bg-transparent
+                      text-white
+                      hover:bg-white
+                      hover:text-black
+                      hover:border-white
+                    `
+                    : `
+                      border-[#aaa]
+                      bg-transparent
+                      text-black
+                      hover:bg-black
+                      hover:text-white
+                      hover:border-black
+                    `
+                }
+              `}
+            >
+              Discover Our Story →
+            </button>
           </Link>
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex flex-col gap-4.5">
+        <div className="flex flex-col gap-4">
 
           {/* CARD 01 */}
           <div
             className={`
-              p-7
+              p-6
+              sm:p-7
               border
               rounded-[14px]
               transition-all
               duration-300
-              hover:-translate-x-2
+              hover:-translate-x-1
+              sm:hover:-translate-x-2
 
               ${
                 darkMode
@@ -187,10 +193,10 @@ function About() {
           >
             <h2
               className={`
-                text-[13px]
-                font-normal
+                text-[12px]
+                font-medium
                 m-0
-                mb-5
+                mb-3
                 ${
                   darkMode
                     ? "text-[#666]"
@@ -201,7 +207,7 @@ function About() {
               01
             </h2>
 
-            <h3 className="text-[20px] font-medium m-0 mb-2.5">
+            <h3 className="text-[18px] sm:text-[20px] font-medium m-0 mb-2">
               Designed for Comfort
             </h3>
 
@@ -224,12 +230,14 @@ function About() {
           {/* CARD 02 */}
           <div
             className={`
-              p-7
+              p-6
+              sm:p-7
               border
               rounded-[14px]
               transition-all
               duration-300
-              hover:-translate-x-2
+              hover:-translate-x-1
+              sm:hover:-translate-x-2
 
               ${
                 darkMode
@@ -250,10 +258,10 @@ function About() {
           >
             <h2
               className={`
-                text-[13px]
-                font-normal
+                text-[12px]
+                font-medium
                 m-0
-                mb-5
+                mb-3
                 ${
                   darkMode
                     ? "text-[#666]"
@@ -264,7 +272,7 @@ function About() {
               02
             </h2>
 
-            <h3 className="text-[20px] font-medium m-0 mb-2.5">
+            <h3 className="text-[18px] sm:text-[20px] font-medium m-0 mb-2">
               Made for Everyday
             </h3>
 
@@ -287,12 +295,14 @@ function About() {
           {/* CARD 03 */}
           <div
             className={`
-              p-7
+              p-6
+              sm:p-7
               border
               rounded-[14px]
               transition-all
               duration-300
-              hover:-translate-x-2
+              hover:-translate-x-1
+              sm:hover:-translate-x-2
 
               ${
                 darkMode
@@ -313,10 +323,10 @@ function About() {
           >
             <h2
               className={`
-                text-[13px]
-                font-normal
+                text-[12px]
+                font-medium
                 m-0
-                mb-5
+                mb-3
                 ${
                   darkMode
                     ? "text-[#666]"
@@ -327,7 +337,7 @@ function About() {
               03
             </h2>
 
-            <h3 className="text-[20px] font-medium m-0 mb-2.5">
+            <h3 className="text-[18px] sm:text-[20px] font-medium m-0 mb-2">
               Style Meets Quality
             </h3>
 

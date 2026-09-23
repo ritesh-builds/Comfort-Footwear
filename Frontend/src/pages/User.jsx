@@ -57,8 +57,8 @@ function User() {
 
                     ${
                         darkMode
-                            ? "bg-[#111111] border-white/10 shadow-black/40"
-                            : "bg-white border-black/10 shadow-black/10"
+                            ? "bg-[#111111] border-[#262626] shadow-black/40"
+                            : "bg-white border-[#e5e5e5] shadow-black/10"
                     }
                 `}
             >

@@ -8,14 +8,15 @@ function Contact() {
     <section
       className={`
         min-h-screen
-        px-[8%]
-        py-25
+        pt-28
+        pb-16
+        px-5
+        sm:px-8
+        lg:px-[8%]
         flex
         items-center
         transition-all
         duration-300
-        max-[800px]:px-6.25
-        max-[800px]:py-17.5
 
         ${
           darkMode
@@ -24,15 +25,18 @@ function Contact() {
         }
       `}
     >
-      <div className="w-full max-w-312.5 mx-auto">
+      <div className="w-full max-w-[1250px] mx-auto">
 
         {/* HEADING */}
-        <div className="mb-17.5">
+        <div className="mb-10 md:mb-16">
 
           <span
             className={`
-              text-[12px]
+              text-[11px]
+              sm:text-[12px]
               tracking-[4px]
+              uppercase
+              font-medium
               ${
                 darkMode
                   ? "text-[#777]"
@@ -45,17 +49,17 @@ function Contact() {
 
           <h1
             className="
-              text-[clamp(4rem,8vw,8rem)]
+              text-[clamp(2.75rem,7vw,6.5rem)]
               leading-[0.9]
               font-normal
-              tracking-[-5px]
-              my-6.25
-              max-[800px]:tracking-[-3px]
+              tracking-[-3px]
+              sm:tracking-[-5px]
+              my-4
+              sm:my-6
             "
           >
-            Let's talk
-            <br />
-
+            Let's talk{" "}
+            <br className="hidden sm:inline" />
             <strong
               className={`
                 font-normal
@@ -72,9 +76,10 @@ function Contact() {
 
           <p
             className={`
-              max-w-120
+              max-w-[480px]
               leading-[1.7]
-              text-[15px]
+              text-[14px]
+              sm:text-[15px]
               ${
                 darkMode
                   ? "text-[#888]"
@@ -92,24 +97,25 @@ function Contact() {
         <div
           className="
             grid
-            grid-cols-[0.7fr_1.3fr]
-            gap-25
-            max-[800px]:grid-cols-1
-            max-[800px]:gap-15
+            grid-cols-1
+            lg:grid-cols-[0.7fr_1.3fr]
+            gap-10
+            lg:gap-16
           "
         >
 
           {/* INFO */}
-          <div className="flex flex-col gap-8.75">
+          <div className="flex flex-col gap-6 sm:gap-8">
 
             <div>
               <span
                 className={`
                   block
-                  text-[12px]
+                  text-[11px]
                   uppercase
                   tracking-[2px]
-                  mb-2
+                  mb-1.5
+                  font-medium
                   ${
                     darkMode
                       ? "text-[#555]"
@@ -123,7 +129,8 @@ function Contact() {
               <p
                 className={`
                   m-0
-                  text-[14px]
+                  text-[15px]
+                  font-medium
                   ${
                     darkMode
                       ? "text-[#ccc]"
@@ -139,10 +146,11 @@ function Contact() {
               <span
                 className={`
                   block
-                  text-[12px]
+                  text-[11px]
                   uppercase
                   tracking-[2px]
-                  mb-2
+                  mb-1.5
+                  font-medium
                   ${
                     darkMode
                       ? "text-[#555]"
@@ -156,7 +164,8 @@ function Contact() {
               <p
                 className={`
                   m-0
-                  text-[14px]
+                  text-[15px]
+                  font-medium
                   ${
                     darkMode
                       ? "text-[#ccc]"
@@ -172,10 +181,11 @@ function Contact() {
               <span
                 className={`
                   block
-                  text-[12px]
+                  text-[11px]
                   uppercase
                   tracking-[2px]
-                  mb-2
+                  mb-1.5
+                  font-medium
                   ${
                     darkMode
                       ? "text-[#555]"
@@ -189,7 +199,8 @@ function Contact() {
               <p
                 className={`
                   m-0
-                  text-[14px]
+                  text-[15px]
+                  font-medium
                   ${
                     darkMode
                       ? "text-[#ccc]"
@@ -204,15 +215,15 @@ function Contact() {
           </div>
 
           {/* FORM */}
-          <form className="flex flex-col gap-4.5">
+          <form className="flex flex-col gap-4">
 
             {/* NAME + EMAIL */}
             <div
               className="
                 grid
-                grid-cols-2
-                gap-4.5
-                max-[800px]:grid-cols-1
+                grid-cols-1
+                sm:grid-cols-2
+                gap-4
               "
             >
 
@@ -221,13 +232,12 @@ function Contact() {
                 placeholder="Your Name"
                 className={`
                   w-full
-                  box-border
                   border
-                  px-4.5
-                  py-4.25
+                  px-4
+                  py-3.5
                   text-[14px]
                   outline-none
-                  rounded-lg
+                  rounded-xl
                   transition-all
                   duration-300
                   font-inherit
@@ -259,13 +269,12 @@ function Contact() {
                 placeholder="Your Email"
                 className={`
                   w-full
-                  box-border
                   border
-                  px-4.5
-                  py-4.25
+                  px-4
+                  py-3.5
                   text-[14px]
                   outline-none
-                  rounded-lg
+                  rounded-xl
                   transition-all
                   duration-300
                   font-inherit
@@ -300,13 +309,12 @@ function Contact() {
               placeholder="Subject"
               className={`
                 w-full
-                box-border
                 border
-                px-4.5
-                py-4.25
+                px-4
+                py-3.5
                 text-[14px]
                 outline-none
-                rounded-lg
+                rounded-xl
                 transition-all
                 duration-300
                 font-inherit
@@ -339,13 +347,12 @@ function Contact() {
               rows="5"
               className={`
                 w-full
-                box-border
                 border
-                px-4.5
-                py-4.25
+                px-4
+                py-3.5
                 text-[14px]
                 outline-none
-                rounded-lg
+                rounded-xl
                 transition-all
                 duration-300
                 font-inherit
@@ -378,11 +385,12 @@ function Contact() {
               type="submit"
               className={`
                 self-start
-                px-6.25
-                py-3.75
+                px-6
+                py-3.5
                 border
                 rounded-[30px]
                 text-[14px]
+                font-medium
                 cursor-pointer
                 transition-all
                 duration-300
@@ -419,4 +427,3 @@ function Contact() {
 }
 
 export default Contact;
-

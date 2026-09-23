@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTheme } from "../../context/ThemeContext";
-import axios from 'axios'
+import axiosInstance from "../../api/axiosInstance";
 
 function CreateAccountForm({ onSwitch }) {
   const { darkMode } = useTheme();
@@ -26,8 +26,8 @@ function CreateAccountForm({ onSwitch }) {
   };
 
   try {
-    const response = await axios.post(
-      "http://localhost:8080/api/user/register",
+    const response = await axiosInstance.post(
+      "/api/user/register",
       signupData
     );
 
@@ -49,7 +49,7 @@ function CreateAccountForm({ onSwitch }) {
 
   return (
     <section
-      className={`min-h-screen px-[8%] py-20 flex items-center transition-all duration-300 max-[850px]:px-6.25 max-[850px]:py-[60px]
+      className={`min-h-screen pt-28 pb-16 px-4 sm:px-8 lg:px-[8%] flex items-center transition-all duration-300 relative
         ${
           darkMode
             ? "bg-[#080808] text-white"
@@ -60,14 +60,14 @@ function CreateAccountForm({ onSwitch }) {
       <div
         className="
           w-full
-          max-w-287.5
+          max-w-[1150px]
           mx-auto
           grid
-          grid-cols-[1fr_450px]
-          gap-25
+          grid-cols-1
+          lg:grid-cols-[1fr_450px]
+          gap-10
+          lg:gap-[100px]
           items-center
-          max-[850px]:grid-cols-1
-          max-[850px]:gap-12.5
         "
       >
 
@@ -76,7 +76,11 @@ function CreateAccountForm({ onSwitch }) {
           <span
             className={`
               text-[11px]
-              tracking-[5px]
+              sm:text-[12px]
+              tracking-[4px]
+              sm:tracking-[5px]
+              uppercase
+              font-medium
               ${
                 darkMode
                   ? "text-[#666]"
@@ -89,14 +93,13 @@ function CreateAccountForm({ onSwitch }) {
 
           <h1
             className="
-              text-[clamp(4rem,7vw,7rem)]
+              text-[clamp(2.75rem,7vw,6.5rem)]
               leading-[0.85]
               font-normal
-              tracking-[-5px]
-              mt-[25px]
-              mb-[30px]
-              max-[850px]:text-[4.5rem]
-              max-[850px]:tracking-[-3px]
+              tracking-[-3px]
+              sm:tracking-[-5px]
+              mt-4
+              mb-6
             "
           >
             Step into
@@ -120,7 +123,9 @@ function CreateAccountForm({ onSwitch }) {
             className={`
               max-w-[430px]
               text-[14px]
-              leading-[1.8]
+              sm:text-[15px]
+              leading-[1.7]
+              sm:leading-[1.8]
               ${
                 darkMode
                   ? "text-[#777]"
@@ -135,17 +140,18 @@ function CreateAccountForm({ onSwitch }) {
 
 
         {/* SIGNUP FORM */}
-        <form onSubmit={handleSignup}>
+        <form onSubmit={handleSignup} className="w-full">
           <div
             className={`
               border
               rounded-[16px]
-              p-[35px]
+              p-6
+              sm:p-[35px]
               transition-all
               duration-300
-              max-[850px]:max-w-[500px]
-              max-[850px]:w-full
-              max-[850px]:mx-auto
+              w-full
+              max-w-[480px]
+              mx-auto
 
               ${
                 darkMode

@@ -1,26 +1,25 @@
 import React from "react";
 import { useTheme } from "../context/ThemeContext";
-import {Link, NavLink} from 'react-router-dom'
+import { Link, NavLink } from "react-router-dom";
 
 function Home() {
   const { darkMode } = useTheme();
 
   return (
     <main
-    
       className={`
         min-h-screen
         relative
         overflow-hidden
         flex
         items-center
-        px-[8%]
+        pt-28
+        pb-16
+        px-5
+        sm:px-8
+        lg:px-[8%]
         transition-colors
         duration-300
-
-        max-[900px]:px-6.25
-        max-[900px]:py-25
-        max-[900px]:items-start
 
         ${
           darkMode
@@ -29,19 +28,27 @@ function Home() {
         }
       `}
     >
-
       {/* ================= DECORATIVE CIRCLES ================= */}
 
       {/* BIG CIRCLE - TOP RIGHT */}
       <div
         className={`
           absolute
-          w-162.5
-          h-162.5
+          w-[320px]
+          sm:w-[500px]
+          md:w-[650px]
+          h-[320px]
+          sm:h-[500px]
+          md:h-[650px]
           rounded-full
           border-2
-          -right-25
-          -top-25
+          -right-16
+          sm:-right-24
+          -top-16
+          sm:-top-24
+          pointer-events-none
+          opacity-50
+          sm:opacity-100
           transition-colors
           duration-300
 
@@ -57,12 +64,21 @@ function Home() {
       <div
         className={`
           absolute
-          w-105
-          h-105
+          w-[200px]
+          sm:w-[350px]
+          md:w-[420px]
+          h-[200px]
+          sm:h-[350px]
+          md:h-[420px]
           rounded-full
           border
-          -right-25
-          -top-25
+          -right-10
+          sm:-right-20
+          -top-10
+          sm:-top-20
+          pointer-events-none
+          opacity-50
+          sm:opacity-100
           transition-colors
           duration-300
 
@@ -78,12 +94,21 @@ function Home() {
       <div
         className={`
           absolute
-          w-[500px]
-          h-[500px]
+          w-[280px]
+          sm:w-[450px]
+          md:w-[500px]
+          h-[280px]
+          sm:h-[450px]
+          md:h-[500px]
           rounded-full
           border-2
-          left-[-280px]
-          bottom-[-250px]
+          left-[-140px]
+          sm:left-[-240px]
+          bottom-[-140px]
+          sm:bottom-[-220px]
+          pointer-events-none
+          opacity-40
+          sm:opacity-100
           transition-colors
           duration-300
 
@@ -94,39 +119,20 @@ function Home() {
           }
         `}
       />
-      
-      {/* SMALL CIRCLE - BOTTOM LEFT */}
-      <div
-        className={`
-          absolute
-          w-[280px]
-          h-[280px]
-          rounded-full
-          border-2
-          left-[-130px]
-          bottom-[-140px]
-          transition-colors
-          duration-300
-
-          ${
-            darkMode
-              ? "border-[#252525]"
-              : "border-[#c8c8c8]"
-          }
-        `}
-        
-      />
-
 
       {/* ================= CONTENT ================= */}
 
-      <div className="relative z-[2] max-w-[700px]">
+      <div className="relative z-[2] max-w-[700px] w-full">
 
         {/* SMALL HEADING */}
         <span
           className={`
-            text-[12px]
-            tracking-[5px]
+            text-[11px]
+            sm:text-[12px]
+            tracking-[4px]
+            sm:tracking-[5px]
+            uppercase
+            font-medium
             transition-colors
             duration-300
 
@@ -140,15 +146,17 @@ function Home() {
           COMFORT FOOTWEAR
         </span>
 
-
         {/* MAIN HEADING */}
         <h1
           className="
-            text-[clamp(5rem,11vw,11rem)]
-            leading-[0.82]
+            text-[clamp(2.75rem,8.5vw,9.5rem)]
+            leading-[0.88]
             font-normal
-            tracking-[-8px]
-            my-[30px]
+            tracking-[-3px]
+            sm:tracking-[-5px]
+            md:tracking-[-8px]
+            my-5
+            sm:my-[30px]
           "
         >
           Walk in
@@ -170,13 +178,14 @@ function Home() {
           </span>
         </h1>
 
-
         {/* DESCRIPTION */}
         <p
           className={`
             max-w-[430px]
-            text-[15px]
-            leading-[1.8]
+            text-[14px]
+            sm:text-[15px]
+            leading-[1.7]
+            sm:leading-[1.8]
             transition-colors
             duration-300
 
@@ -192,60 +201,62 @@ function Home() {
         </p>
 
         {/* BUTTONS */}
-        <div className="flex items-center gap-[15px] mt-[35px]">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-[15px] mt-8 sm:mt-[35px]">
 
-          <NavLink
-            to="/Product" 
-          >
+          <NavLink to="/Product" className="no-underline">
             <button
-            className={`
-              px-[25px]
-              py-[12px]
-              rounded-[25px]
-              border
-              text-[14px]
-              cursor-pointer
-              transition-all
-              duration-300
+              className={`
+                w-full
+                sm:w-auto
+                px-[25px]
+                py-[13px]
+                rounded-[25px]
+                border
+                text-[14px]
+                font-medium
+                cursor-pointer
+                transition-all
+                duration-300
 
-              ${
-                darkMode
-                  ? "bg-white text-black border-white hover:bg-transparent hover:text-white"
-                  : "bg-black text-white border-black hover:bg-transparent hover:text-black"
-              }
-            `}
-          >
-            Explore Collection
-          </button>
+                ${
+                  darkMode
+                    ? "bg-white text-black border-white hover:bg-transparent hover:text-white"
+                    : "bg-black text-white border-black hover:bg-transparent hover:text-black"
+                }
+              `}
+            >
+              Explore Collection
+            </button>
           </NavLink>
 
-          <Link
-            to="/Learn-more"
-          >
-              <button
-            className={`
-              px-[25px]
-              py-[12px]
-              rounded-[25px]
-              border
-              text-[14px]
-              cursor-pointer
-              transition-all
-              duration-300
+          <Link to="/Learn-more" className="no-underline">
+            <button
+              className={`
+                w-full
+                sm:w-auto
+                px-[25px]
+                py-[13px]
+                rounded-[25px]
+                border
+                text-[14px]
+                font-medium
+                cursor-pointer
+                transition-all
+                duration-300
 
-              ${
-                darkMode
-                  ? "border-[#444] text-[#aaa] hover:border-white hover:text-white"
-                  : "border-[#bbb] text-[#666] hover:border-black hover:text-black"
-              }
-            `}
-          >
-            Learn More
-          </button>
+                ${
+                  darkMode
+                    ? "border-[#444] text-[#aaa] hover:border-white hover:text-white"
+                    : "border-[#bbb] text-[#666] hover:border-black hover:text-black"
+                }
+              `}
+            >
+              Learn More
+            </button>
           </Link>
-              
+
         </div>
-              
+
       </div>
 
     </main>
