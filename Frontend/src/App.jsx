@@ -37,6 +37,7 @@ function App() {
 
             <Route path="/oauth2/success" element={<OAuth2Success />} />
             <Route path='/Profile' element={<Profile />} />
+            <Route path='/dashboard' element={<Profile />} />
             <Route path='/Learn-more' element={<LearnMore />} />
             <Route path='our-story' element={<OurStory />} />
 

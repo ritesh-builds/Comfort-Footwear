@@ -5,13 +5,16 @@ import App from "./App.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import "./index.css";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { WishlistProvider } from "./context/WishlistContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider>
         <AuthProvider>
-          <App />
+          <WishlistProvider>
+            <App />
+          </WishlistProvider>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>

@@ -1,8 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
+import { useWishlist } from "../context/WishlistContext";
+import { Heart, ShoppingBag } from "lucide-react";
 
 const WomenCollection = () => {
   const { darkMode } = useTheme();
+  const { isFavorite, toggleFavorite, placeOrder } = useWishlist();
+  const navigate = useNavigate();
 
   const products = [
     {
@@ -223,8 +228,48 @@ const WomenCollection = () => {
                 0{product.id}
               </span>
 
-              {/* QUICK VIEW */}
+              {/* FAVORITE HEART BUTTON */}
               <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleFavorite(product);
+                }}
+                title={isFavorite(product.id) ? "Remove from Favorites" : "Add to Favorites"}
+                className={`
+                  absolute
+                  top-3
+                  right-3
+                  w-9
+                  h-9
+                  rounded-full
+                  flex
+                  items-center
+                  justify-center
+                  cursor-pointer
+                  backdrop-blur-md
+                  transition-all
+                  duration-300
+                  z-10
+                  ${
+                    isFavorite(product.id)
+                      ? "bg-rose-500 text-white shadow-lg shadow-rose-500/30"
+                      : darkMode
+                      ? "bg-black/40 text-white hover:bg-black/80"
+                      : "bg-white/80 text-black hover:bg-white"
+                  }
+                `}
+              >
+                <Heart size={16} fill={isFavorite(product.id) ? "currentColor" : "none"} />
+              </button>
+
+              {/* QUICK ORDER BUTTON */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  placeOrder(product);
+                  alert(`Order placed for ${product.name}! Check your Dashboard.`);
+                  navigate("/profile");
+                }}
                 className={`
                   absolute
                   bottom-[18px]
@@ -235,12 +280,17 @@ const WomenCollection = () => {
                   py-[11px]
                   text-[12px]
                   cursor-pointer
-                  opacity-0
-                  translate-y-[10px]
+                  opacity-100
+                  sm:opacity-0
+                  translate-y-0
+                  sm:translate-y-[10px]
                   transition-all
                   duration-300
                   group-hover:opacity-100
                   group-hover:translate-y-0
+                  flex
+                  items-center
+                  gap-1.5
 
                   ${
                     darkMode
@@ -249,7 +299,8 @@ const WomenCollection = () => {
                   }
                 `}
               >
-                Quick View →
+                <ShoppingBag size={14} />
+                Order
               </button>
 
             </div>

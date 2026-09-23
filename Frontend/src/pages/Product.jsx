@@ -1,9 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
+import { useWishlist } from "../context/WishlistContext";
+import { Heart, ShoppingBag } from "lucide-react";
 
 function Product() {
   const { darkMode } = useTheme();
+  const { isFavorite, toggleFavorite, placeOrder } = useWishlist();
+  const navigate = useNavigate();
 
   const products = [
     {
@@ -259,8 +263,48 @@ function Product() {
                   "
                 />
 
-                {/* VIEW BUTTON */}
+                {/* FAVORITE HEART BUTTON */}
                 <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(product);
+                  }}
+                  title={isFavorite(product.id) ? "Remove from Favorites" : "Add to Favorites"}
+                  className={`
+                    absolute
+                    top-3
+                    right-3
+                    w-9
+                    h-9
+                    rounded-full
+                    flex
+                    items-center
+                    justify-center
+                    cursor-pointer
+                    backdrop-blur-md
+                    transition-all
+                    duration-300
+                    z-10
+                    ${
+                      isFavorite(product.id)
+                        ? "bg-rose-500 text-white shadow-lg shadow-rose-500/30"
+                        : darkMode
+                        ? "bg-black/40 text-white hover:bg-black/80"
+                        : "bg-white/80 text-black hover:bg-white"
+                    }
+                  `}
+                >
+                  <Heart size={16} fill={isFavorite(product.id) ? "currentColor" : "none"} />
+                </button>
+
+                {/* ORDER BUTTON */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    placeOrder(product);
+                    alert(`Order placed for ${product.name}! View your Dashboard.`);
+                    navigate("/profile");
+                  }}
                   className={`
                     absolute
                     bottom-[15px]
@@ -285,6 +329,9 @@ function Product() {
                     duration-300
                     group-hover:opacity-100
                     group-hover:translate-y-0
+                    flex
+                    items-center
+                    gap-1.5
 
                     ${
                       darkMode
@@ -293,7 +340,8 @@ function Product() {
                     }
                   `}
                 >
-                  View →
+                  <ShoppingBag size={14} />
+                  Order Now
                 </button>
 
               </div>

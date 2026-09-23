@@ -1,26 +1,46 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import axiosInstance from "../api/axiosInstance";
 import { useTheme } from "../context/ThemeContext";
+import {
+  User,
+  ShoppingBag,
+  Heart,
+  MapPin,
+  Settings,
+  LogOut,
+  Package,
+  Clock,
+  ChevronRight,
+  Plus,
+  Trash2,
+  Shield,
+  CheckCircle2,
+  ArrowRight,
+  Sparkles,
+} from "lucide-react";
+
+import { useWishlist } from "../context/WishlistContext";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const [activeTab, setActiveTab] = useState("overview"); // 'overview' | 'orders' | 'favorites' | 'addresses' | 'settings'
+
+  const { favorites, orders, removeFromFavorites, placeOrder } = useWishlist();
+  const [addresses, setAddresses] = useState([]);
 
   const { accessToken, logout } = useContext(AuthContext);
   const { darkMode } = useTheme();
   const navigate = useNavigate();
-
-  console.log("AccessToken from profile:", accessToken);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const response = await axiosInstance.get("/api/user/profile");
         setUser(response.data);
-        console.log("Profile Response:", response.data);
       } catch (error) {
-        console.log(error);
+        console.log("Error fetching profile:", error);
       }
     };
 
@@ -36,9 +56,7 @@ const Profile = () => {
     return (
       <section
         className={`min-h-[calc(100vh-80px)] flex items-center justify-center ${
-          darkMode
-            ? "bg-[#080808] text-white"
-            : "bg-[#f7f7f7] text-black"
+          darkMode ? "bg-[#080808] text-white" : "bg-[#f7f7f7] text-black"
         }`}
       >
         <div className="text-center">
@@ -47,13 +65,8 @@ const Profile = () => {
               darkMode ? "border-white" : "border-black"
             }`}
           />
-
-          <p
-            className={`text-sm ${
-              darkMode ? "text-[#777]" : "text-[#777]"
-            }`}
-          >
-            Loading profile...
+          <p className={`text-sm ${darkMode ? "text-[#777]" : "text-[#777]"}`}>
+            Loading Dashboard...
           </p>
         </div>
       </section>
@@ -62,232 +75,524 @@ const Profile = () => {
 
   const initial = user.name?.charAt(0)?.toUpperCase() || "U";
 
+  // NAVIGATION TABS CONFIG
+  const tabs = [
+    { id: "overview", label: "Overview", icon: User },
+    { id: "orders", label: "My Orders", icon: ShoppingBag, count: orders.length },
+    { id: "favorites", label: "Favorites", icon: Heart, count: favorites.length },
+    { id: "addresses", label: "Addresses", icon: MapPin, count: addresses.length },
+    { id: "settings", label: "Settings", icon: Settings },
+  ];
+
   return (
     <section
       className={`min-h-screen pt-28 pb-16 px-4 sm:px-8 lg:px-[8%] transition-all duration-300 ${
-        darkMode
-          ? "bg-[#080808] text-white"
-          : "bg-[#f7f7f7] text-black"
+        darkMode ? "bg-[#080808] text-white" : "bg-[#f7f7f7] text-black"
       }`}
     >
-      <div className="max-w-[1100px] mx-auto">
-
-        {/* HEADER */}
-        <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <p
-              className={`text-[11px] tracking-[4px] uppercase mb-3 ${
-                darkMode ? "text-[#666]" : "text-[#888]"
+      <div className="max-w-[1200px] mx-auto">
+        {/* TOP DASHBOARD HEADER */}
+        <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="flex items-center gap-5">
+            {/* AVATAR */}
+            <div
+              className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl font-semibold shrink-0 shadow-lg ${
+                darkMode
+                  ? "bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 text-white"
+                  : "bg-gradient-to-br from-black to-neutral-800 text-white"
               }`}
             >
-              Account
-            </p>
+              {initial}
+            </div>
 
-            <h1 className="text-[clamp(2.3rem,6vw,4.5rem)] leading-[0.95] tracking-[-2px] sm:tracking-[-3px] font-normal">
-              My Profile<span className={darkMode ? "text-[#555]" : "text-[#aaa]"}>.</span>
-            </h1>
+            <div>
+              <div className="flex items-center gap-2">
+                <span
+                  className={`text-[11px] tracking-[3px] uppercase font-medium ${
+                    darkMode ? "text-[#777]" : "text-[#888]"
+                  }`}
+                >
+                  USER DASHBOARD
+                </span>
+                <span
+                  className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider ${
+                    darkMode
+                      ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                      : "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                  }`}
+                >
+                  Active
+                </span>
+              </div>
 
-            <p
-              className={`mt-4 text-sm ${
-                darkMode ? "text-[#666]" : "text-[#777]"
-              }`}
-            >
-              Manage your account and personal information.
-            </p>
+              <h1 className="text-2xl sm:text-4xl font-normal tracking-tight mt-1">
+                Welcome back, {user.name.split(" ")[0]}
+              </h1>
+
+              <p className={`text-xs sm:text-sm mt-1 ${darkMode ? "text-[#777]" : "text-[#666]"}`}>
+                {user.email}
+              </p>
+            </div>
           </div>
 
           <button
             onClick={handleLogout}
-            className={`px-6 py-3 rounded-full border text-xs uppercase tracking-widest font-medium cursor-pointer transition-all duration-300 ${
+            className={`px-5 py-2.5 rounded-full border text-xs uppercase tracking-widest font-medium cursor-pointer transition-all duration-300 flex items-center justify-center gap-2 self-start md:self-auto ${
               darkMode
                 ? "border-red-500/30 text-red-400 hover:bg-red-600 hover:text-white hover:border-red-600"
                 : "border-red-200 text-red-600 hover:bg-red-600 hover:text-white hover:border-red-600"
             }`}
           >
+            <LogOut size={14} />
             Log Out
           </button>
         </div>
 
-        {/* PROFILE CARD */}
-        <div
-          className={`rounded-3xl border overflow-hidden transition-all duration-300 ${
-            darkMode
-              ? "bg-[#101010] border-[#222]"
-              : "bg-white border-[#e3e3e3]"
-          }`}
-        >
-
-          {/* TOP PROFILE SECTION */}
-          <div
-            className={`p-7 md:p-10 flex flex-col md:flex-row md:items-center md:justify-between gap-7 border-b ${
-              darkMode ? "border-[#222]" : "border-[#e8e8e8]"
-            }`}
-          >
-
-            <div className="flex items-center gap-5">
-
-              {/* AVATAR */}
-              <div
-                className={`w-19 h-19 rounded-full flex items-center justify-center text-[28px] font-medium shrink-0 ${
-                  darkMode
-                    ? "bg-white text-black"
-                    : "bg-black text-white"
-                }`}
-              >
-                {initial}
-              </div>
-
-              <div>
-                <h2 className="text-[24px] md:text-[28px] font-normal tracking-[-1px]">
-                  {user.name}
-                </h2>
-
-                <p
-                  className={`mt-1 text-sm ${
-                    darkMode ? "text-[#777]" : "text-[#777]"
+        {/* MAIN DASHBOARD CONTAINER */}
+        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8">
+          {/* NAVIGATION SIDEBAR */}
+          <div className="flex flex-row lg:flex-col gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-none">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center justify-between px-4.5 py-3 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 lg:w-full ${
+                    isActive
+                      ? darkMode
+                        ? "bg-white text-black font-semibold shadow-md"
+                        : "bg-black text-white font-semibold shadow-md"
+                      : darkMode
+                      ? "text-[#888] hover:text-white hover:bg-neutral-900/60"
+                      : "text-[#666] hover:text-black hover:bg-neutral-200/60"
                   }`}
                 >
-                  {user.email}
-                </p>
-              </div>
+                  <div className="flex items-center gap-3">
+                    <Icon size={18} />
+                    <span>{tab.label}</span>
+                  </div>
 
-            </div>
-
-            {/* PROVIDER BADGE */}
-            <div
-              className={`self-start md:self-auto px-4 py-2 rounded-full border text-[11px] uppercase tracking-[1.5px] ${
-                darkMode
-                  ? "border-[#333] text-[#999]"
-                  : "border-[#ddd] text-[#666]"
-              }`}
-            >
-              {user.provider || "Local Account"}
-            </div>
-
+                  {tab.count !== undefined && tab.count > 0 && (
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-[11px] font-semibold ${
+                        isActive
+                          ? darkMode
+                            ? "bg-black text-white"
+                            : "bg-white text-black"
+                          : darkMode
+                          ? "bg-neutral-800 text-neutral-300"
+                          : "bg-neutral-200 text-neutral-700"
+                      }`}
+                    >
+                      {tab.count}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
-          {/* DETAILS */}
-          <div className="p-7 md:p-10">
+          {/* TAB CONTENT AREA */}
+          <div className="w-full">
+            {/* ================= TAB 1: OVERVIEW ================= */}
+            {activeTab === "overview" && (
+              <div className="space-y-6">
+                {/* QUICK STATS CARDS */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div
+                    className={`p-5 rounded-2xl border transition-all duration-300 ${
+                      darkMode ? "bg-[#101010] border-[#222]" : "bg-white border-[#e3e3e3]"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <span className={`text-xs uppercase tracking-wider ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                        Total Orders
+                      </span>
+                      <ShoppingBag size={18} className={darkMode ? "text-neutral-400" : "text-neutral-600"} />
+                    </div>
+                    <p className="text-2xl font-semibold">{orders.length}</p>
+                    <p className={`text-xs mt-1 ${darkMode ? "text-[#555]" : "text-[#999]"}`}>
+                      {orders.length === 0 ? "No orders placed yet" : `${orders.length} orders recorded`}
+                    </p>
+                  </div>
 
-            <p
-              className={`text-[11px] tracking-[3px] uppercase mb-6 ${
-                darkMode ? "text-[#555]" : "text-[#999]"
-              }`}
-            >
-              Account Details
-            </p>
+                  <div
+                    className={`p-5 rounded-2xl border transition-all duration-300 ${
+                      darkMode ? "bg-[#101010] border-[#222]" : "bg-white border-[#e3e3e3]"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <span className={`text-xs uppercase tracking-wider ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                        Saved Favorites
+                      </span>
+                      <Heart size={18} className={darkMode ? "text-neutral-400" : "text-neutral-600"} />
+                    </div>
+                    <p className="text-2xl font-semibold">{favorites.length}</p>
+                    <p className={`text-xs mt-1 ${darkMode ? "text-[#555]" : "text-[#999]"}`}>
+                      {favorites.length === 0 ? "Wishlist is empty" : `${favorites.length} saved items`}
+                    </p>
+                  </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10">
+                  <div
+                    className={`p-5 rounded-2xl border transition-all duration-300 ${
+                      darkMode ? "bg-[#101010] border-[#222]" : "bg-white border-[#e3e3e3]"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <span className={`text-xs uppercase tracking-wider ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                        Saved Addresses
+                      </span>
+                      <MapPin size={18} className={darkMode ? "text-neutral-400" : "text-neutral-600"} />
+                    </div>
+                    <p className="text-2xl font-semibold">{addresses.length}</p>
+                    <p className={`text-xs mt-1 ${darkMode ? "text-[#555]" : "text-[#999]"}`}>
+                      {addresses.length === 0 ? "No addresses added" : `${addresses.length} delivery locations`}
+                    </p>
+                  </div>
+                </div>
 
-              {/* NAME */}
-              <div
-                className={`py-5 border-b ${
-                  darkMode ? "border-[#222]" : "border-[#e8e8e8]"
-                }`}
-              >
-                <p
-                  className={`text-[11px] uppercase tracking-[1.5px] mb-2 ${
-                    darkMode ? "text-[#555]" : "text-[#999]"
+                {/* PERSONAL INFORMATION CARD */}
+                <div
+                  className={`rounded-2xl border overflow-hidden transition-all duration-300 ${
+                    darkMode ? "bg-[#101010] border-[#222]" : "bg-white border-[#e3e3e3]"
                   }`}
                 >
-                  Full Name
-                </p>
+                  <div className={`px-6 py-4 border-b flex items-center justify-between ${darkMode ? "border-[#222]" : "border-[#e8e8e8]"}`}>
+                    <h3 className="text-base font-medium">Personal Information</h3>
+                    <span className={`text-xs ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                      Account Verified
+                    </span>
+                  </div>
 
-                <p className="text-[15px]">
-                  {user.name}
-                </p>
+                  <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <p className={`text-xs uppercase tracking-wider mb-1 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                        Full Name
+                      </p>
+                      <p className="text-sm font-medium">{user.name}</p>
+                    </div>
+
+                    <div>
+                      <p className={`text-xs uppercase tracking-wider mb-1 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                        Email Address
+                      </p>
+                      <p className="text-sm font-medium break-all">{user.email}</p>
+                    </div>
+
+                    <div>
+                      <p className={`text-xs uppercase tracking-wider mb-1 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                        User Account ID
+                      </p>
+                      <p className="text-sm font-medium">#{user.internalUserId}</p>
+                    </div>
+
+                    <div>
+                      <p className={`text-xs uppercase tracking-wider mb-1 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                        Authentication Provider
+                      </p>
+                      <p className="text-sm font-medium capitalize">{user.provider || "Email & Password"}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
+            )}
 
-              {/* EMAIL */}
+            {/* ================= TAB 2: ORDERS ================= */}
+            {activeTab === "orders" && (
               <div
-                className={`py-5 border-b ${
-                  darkMode ? "border-[#222]" : "border-[#e8e8e8]"
+                className={`rounded-2xl border p-8 transition-all duration-300 ${
+                  darkMode ? "bg-[#101010] border-[#222]" : "bg-white border-[#e3e3e3]"
                 }`}
               >
-                <p
-                  className={`text-[11px] uppercase tracking-[1.5px] mb-2 ${
-                    darkMode ? "text-[#555]" : "text-[#999]"
-                  }`}
-                >
-                  Email Address
-                </p>
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h3 className="text-lg font-medium">Order History</h3>
+                    <p className={`text-xs mt-1 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                      View and track your previous purchases
+                    </p>
+                  </div>
 
-                <p className="text-[15px] break-all">
-                  {user.email}
-                </p>
+                  <Link
+                    to="/Product"
+                    className={`px-4 py-2 rounded-xl text-xs font-medium border no-underline flex items-center gap-1.5 transition-all duration-300 ${
+                      darkMode ? "border-[#333] text-white hover:bg-white hover:text-black" : "border-[#ddd] text-black hover:bg-black hover:text-white"
+                    }`}
+                  >
+                    Browse Collection →
+                  </Link>
+                </div>
+
+                {orders.length === 0 ? (
+                  <div className="text-center py-12">
+                    <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${darkMode ? "bg-neutral-900 text-neutral-500" : "bg-neutral-100 text-neutral-400"}`}>
+                      <Package size={28} />
+                    </div>
+                    <h4 className="text-base font-medium mb-1">No Orders Placed Yet</h4>
+                    <p className={`text-xs max-w-sm mx-auto mb-6 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                      When you purchase footwear from Comfort Footwear, your order details and delivery status will appear here.
+                    </p>
+                    <Link
+                      to="/Product"
+                      className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider no-underline transition-all duration-300 ${
+                        darkMode ? "bg-white text-black hover:bg-neutral-200" : "bg-black text-white hover:bg-neutral-800"
+                      }`}
+                    >
+                      Explore Products
+                      <ArrowRight size={14} />
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {orders.map((order) => (
+                      <div
+                        key={order.id}
+                        className={`p-5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all duration-300 ${
+                          darkMode ? "border-[#222] bg-[#0c0c0c]" : "border-[#eee] bg-[#fafafa]"
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-center gap-3">
+                            <span className="text-sm font-semibold">{order.id}</span>
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase bg-amber-500/10 text-amber-500 border border-amber-500/20">
+                              {order.status}
+                            </span>
+                          </div>
+                          <p className={`text-xs mt-1 ${darkMode ? "text-[#777]" : "text-[#777]"}`}>
+                            Placed on {order.date} • {order.items[0]?.name}
+                          </p>
+                        </div>
+                        <div className="flex items-center justify-between sm:justify-end gap-4">
+                          <span className="text-sm font-semibold">{order.total}</span>
+                          <span className={`text-xs px-3 py-1.5 rounded-lg border ${darkMode ? "border-[#333] text-[#aaa]" : "border-[#ddd] text-[#666]"}`}>
+                            View Order
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
+            )}
 
-              {/* USER ID */}
+            {/* ================= TAB 3: FAVORITES ================= */}
+            {activeTab === "favorites" && (
               <div
-                className={`py-5 border-b ${
-                  darkMode ? "border-[#222]" : "border-[#e8e8e8]"
+                className={`rounded-2xl border p-8 transition-all duration-300 ${
+                  darkMode ? "bg-[#101010] border-[#222]" : "bg-white border-[#e3e3e3]"
                 }`}
               >
-                <p
-                  className={`text-[11px] uppercase tracking-[1.5px] mb-2 ${
-                    darkMode ? "text-[#555]" : "text-[#999]"
-                  }`}
-                >
-                  User ID
-                </p>
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h3 className="text-lg font-medium">Saved Favorites</h3>
+                    <p className={`text-xs mt-1 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                      Your personal footwear wishlist
+                    </p>
+                  </div>
 
-                <p className="text-[15px]">
-                  #{user.internalUserId}
-                </p>
+                  <Link
+                    to="/Product"
+                    className={`px-4 py-2 rounded-xl text-xs font-medium border no-underline flex items-center gap-1.5 transition-all duration-300 ${
+                      darkMode ? "border-[#333] text-white hover:bg-white hover:text-black" : "border-[#ddd] text-black hover:bg-black hover:text-white"
+                    }`}
+                  >
+                    Add Items →
+                  </Link>
+                </div>
+
+                {favorites.length === 0 ? (
+                  <div className="text-center py-12">
+                    <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${darkMode ? "bg-neutral-900 text-rose-500/40" : "bg-rose-50 text-rose-400"}`}>
+                      <Heart size={28} />
+                    </div>
+                    <h4 className="text-base font-medium mb-1">Your Wishlist is Empty</h4>
+                    <p className={`text-xs max-w-sm mx-auto mb-6 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                      Save your favorite shoes while browsing to easily access or purchase them later.
+                    </p>
+                    <Link
+                      to="/Product"
+                      className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider no-underline transition-all duration-300 ${
+                        darkMode ? "bg-white text-black hover:bg-neutral-200" : "bg-black text-white hover:bg-neutral-800"
+                      }`}
+                    >
+                      Browse Footwear
+                      <Sparkles size={14} />
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {favorites.map((item) => (
+                      <div
+                        key={item.id}
+                        className={`p-4 rounded-xl border flex items-center justify-between gap-4 transition-all duration-300 ${
+                          darkMode ? "border-[#222] bg-[#0c0c0c]" : "border-[#eee] bg-[#fafafa]"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          {item.image ? (
+                            <img src={item.image} alt={item.name} className="w-14 h-14 object-cover rounded-lg" />
+                          ) : (
+                            <div className={`w-14 h-14 rounded-lg flex items-center justify-center text-2xl ${darkMode ? "bg-neutral-800" : "bg-neutral-200"}`}>
+                              👟
+                            </div>
+                          )}
+                          <div>
+                            <h5 className="text-sm font-medium">{item.name}</h5>
+                            <p className={`text-xs ${darkMode ? "text-[#777]" : "text-[#777]"}`}>{item.type || item.category || "Footwear"}</p>
+                            <p className="text-xs font-semibold mt-0.5">{item.price}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => {
+                              placeOrder(item);
+                              alert(`Order placed for ${item.name}! Check your Orders tab.`);
+                            }}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all duration-200 ${
+                              darkMode ? "bg-white text-black hover:bg-neutral-200" : "bg-black text-white hover:bg-neutral-800"
+                            }`}
+                          >
+                            Order
+                          </button>
+                          <button
+                            onClick={() => removeFromFavorites(item.id)}
+                            title="Remove from favorites"
+                            className="p-1.5 rounded-lg text-neutral-400 hover:text-red-500 cursor-pointer transition-colors"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
+            )}
 
-              {/* LOGIN METHOD */}
+            {/* ================= TAB 4: ADDRESSES ================= */}
+            {activeTab === "addresses" && (
               <div
-                className={`py-5 border-b ${
-                  darkMode ? "border-[#222]" : "border-[#e8e8e8]"
+                className={`rounded-2xl border p-8 transition-all duration-300 ${
+                  darkMode ? "bg-[#101010] border-[#222]" : "bg-white border-[#e3e3e3]"
                 }`}
               >
-                <p
-                  className={`text-[11px] uppercase tracking-[1.5px] mb-2 ${
-                    darkMode ? "text-[#555]" : "text-[#999]"
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h3 className="text-lg font-medium">Delivery Addresses</h3>
+                    <p className={`text-xs mt-1 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                      Manage shipping addresses for faster checkout
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => alert("Add Address modal can be integrated with your backend API.")}
+                    className={`px-4 py-2 rounded-xl text-xs font-medium border flex items-center gap-1.5 cursor-pointer transition-all duration-300 ${
+                      darkMode ? "border-[#333] text-white hover:bg-white hover:text-black" : "border-[#ddd] text-black hover:bg-black hover:text-white"
+                    }`}
+                  >
+                    <Plus size={14} />
+                    Add Address
+                  </button>
+                </div>
+
+                {addresses.length === 0 ? (
+                  <div className="text-center py-12">
+                    <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${darkMode ? "bg-neutral-900 text-neutral-500" : "bg-neutral-100 text-neutral-400"}`}>
+                      <MapPin size={28} />
+                    </div>
+                    <h4 className="text-base font-medium mb-1">No Saved Addresses</h4>
+                    <p className={`text-xs max-w-sm mx-auto mb-6 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                      Add your home or office address to enable quick 1-click checkout.
+                    </p>
+                    <button
+                      onClick={() => alert("Add Address feature is ready to connect with your address API endpoint.")}
+                      className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider cursor-pointer transition-all duration-300 ${
+                        darkMode ? "bg-white text-black hover:bg-neutral-200" : "bg-black text-white hover:bg-neutral-800"
+                      }`}
+                    >
+                      <Plus size={14} />
+                      Add New Address
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {/* Rendered Address Cards list */}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ================= TAB 5: SETTINGS ================= */}
+            {activeTab === "settings" && (
+              <div className="space-y-6">
+                <div
+                  className={`rounded-2xl border p-8 transition-all duration-300 ${
+                    darkMode ? "bg-[#101010] border-[#222]" : "bg-white border-[#e3e3e3]"
                   }`}
                 >
-                  Login Method
-                </p>
+                  <h3 className="text-lg font-medium mb-1">Account & Security</h3>
+                  <p className={`text-xs mb-6 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                    Manage security settings and account preferences
+                  </p>
 
-                <p className="text-[15px] capitalize">
-                  {user.provider || "Email & Password"}
-                </p>
+                  <div className="space-y-4">
+                    <div className={`p-4 rounded-xl border flex items-center justify-between ${darkMode ? "border-[#222] bg-[#0c0c0c]" : "border-[#eee] bg-[#fafafa]"}`}>
+                      <div className="flex items-center gap-3">
+                        <Shield size={20} className="text-emerald-500" />
+                        <div>
+                          <p className="text-sm font-medium">Session Status</p>
+                          <p className={`text-xs ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                            Authenticated via {user.provider || "JWT Token"}
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-xs text-emerald-500 font-medium flex items-center gap-1">
+                        <CheckCircle2 size={14} /> Active
+                      </span>
+                    </div>
+
+                    <div className={`p-4 rounded-xl border flex items-center justify-between ${darkMode ? "border-[#222] bg-[#0c0c0c]" : "border-[#eee] bg-[#fafafa]"}`}>
+                      <div className="flex items-center gap-3">
+                        <User size={20} className={darkMode ? "text-neutral-400" : "text-neutral-600"} />
+                        <div>
+                          <p className="text-sm font-medium">Account ID</p>
+                          <p className={`text-xs ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                            Internal Identifier #{user.internalUserId}
+                          </p>
+                        </div>
+                      </div>
+                      <span className={`text-xs ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                        Protected
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t border-gray-500/20 flex justify-between items-center">
+                    <div>
+                      <p className="text-sm font-medium text-red-500">Log Out of All Devices</p>
+                      <p className={`text-xs mt-0.5 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
+                        End active session and return to login
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={handleLogout}
+                      className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-semibold uppercase tracking-wider cursor-pointer transition-all duration-300"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                </div>
               </div>
-
-            </div>
-
+            )}
           </div>
-
-          {/* FOOTER OF CARD */}
-          <div
-            className={`px-7 py-5 md:px-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 ${
-              darkMode
-                ? "bg-[#0c0c0c]"
-                : "bg-[#fafafa]"
-            }`}
-          >
-            <p
-              className={`text-[12px] ${
-                darkMode ? "text-[#555]" : "text-[#888]"
-              }`}
-            >
-              Your account information is securely stored.
-            </p>
-
-            <button
-              onClick={handleLogout}
-              className="text-xs text-red-500 hover:text-red-400 cursor-pointer font-medium tracking-wide uppercase self-start sm:self-auto"
-            >
-              Sign Out of Account
-            </button>
-          </div>
-
         </div>
-
       </div>
     </section>
   );
 };
 
 export default Profile;
+
