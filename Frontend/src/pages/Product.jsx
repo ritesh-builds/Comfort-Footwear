@@ -1,48 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { useWishlist } from "../context/WishlistContext";
 import { Heart, ShoppingBag } from "lucide-react";
+import { fetchProducts } from "../api/productService";
 
 function Product() {
   const { darkMode } = useTheme();
   const { isFavorite, toggleFavorite, placeOrder } = useWishlist();
   const navigate = useNavigate();
 
-  const products = [
-    {
-      id: 1,
-      name: "Urban Runner",
-      type: "Everyday Sneakers",
-      price: "₹2,499",
-      image:
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
-    },
-    {
-      id: 2,
-      name: "Classic Walk",
-      type: "Comfort Shoes",
-      price: "₹2,999",
-      image:
-        "https://images.unsplash.com/photo-1549298916-b41d501d3772",
-    },
-    {
-      id: 3,
-      name: "Street Flex",
-      type: "Casual Sneakers",
-      price: "₹3,499",
-      image:
-        "https://images.unsplash.com/photo-1552346154-21d32810aba3",
-    },
-    {
-      id: 4,
-      name: "Daily Comfort",
-      type: "Lifestyle Shoes",
-      price: "₹2,799",
-      image:
-        "https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3",
-    },
-  ];
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      setLoading(true);
+      const data = await fetchProducts("all");
+      setProducts(data);
+      setLoading(false);
+    };
+
+    getProducts();
+  }, []);
 
   return (
     <section
@@ -215,17 +195,29 @@ function Product() {
         </div>
 
         {/* PRODUCT GRID */}
-        <div
-          className="
-            grid
-            grid-cols-1
-            sm:grid-cols-2
-            gap-x-[25px]
-            gap-y-10
-            sm:gap-y-[60px]
-          "
-        >
-          {products.map((product) => (
+        {loading ? (
+          <div className="py-20 text-center">
+            <div
+              className={`w-10 h-10 mx-auto mb-4 rounded-full border-2 border-t-transparent animate-spin ${
+                darkMode ? "border-white" : "border-black"
+              }`}
+            />
+            <p className={`text-sm ${darkMode ? "text-[#777]" : "text-[#777]"}`}>
+              Loading footwear collection...
+            </p>
+          </div>
+        ) : (
+          <div
+            className="
+              grid
+              grid-cols-1
+              sm:grid-cols-2
+              gap-x-[25px]
+              gap-y-10
+              sm:gap-y-[60px]
+            "
+          >
+            {products.map((product) => (
             <div
               className="cursor-pointer group"
               key={product.id}
@@ -399,6 +391,7 @@ function Product() {
             </div>
           ))}
         </div>
+        )}
 
       </div>
     </section>

@@ -1,52 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { useWishlist } from "../context/WishlistContext";
 import { Heart, ShoppingBag } from "lucide-react";
+import { fetchProducts } from "../api/productService";
 
 const MenCollection = () => {
   const { darkMode } = useTheme();
   const { isFavorite, toggleFavorite, placeOrder } = useWishlist();
   const navigate = useNavigate();
 
-  const products = [
-    {
-      id: 1,
-      name: "Aero Runner",
-      category: "Running",
-      price: "₹2,999",
-    },
-    {
-      id: 2,
-      name: "Urban Classic",
-      category: "Casual",
-      price: "₹2,499",
-    },
-    {
-      id: 3,
-      name: "Street Form",
-      category: "Sneakers",
-      price: "₹3,499",
-    },
-    {
-      id: 4,
-      name: "Daily Walk",
-      category: "Lifestyle",
-      price: "₹2,799",
-    },
-    {
-      id: 5,
-      name: "Flex Motion",
-      category: "Sports",
-      price: "₹3,199",
-    },
-    {
-      id: 6,
-      name: "Essential Low",
-      category: "Everyday",
-      price: "₹2,299",
-    },
-  ];
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      setLoading(true);
+      const data = await fetchProducts("men");
+      setProducts(data);
+      setLoading(false);
+    };
+
+    getProducts();
+  }, []);
 
   return (
     <section
@@ -140,7 +116,7 @@ const MenCollection = () => {
               : "text-[#888] text-[11px] tracking-[2px]"
           }
         >
-          06 PRODUCTS
+          {loading ? "..." : `${products.length.toString().padStart(2, "0")} PRODUCTS`}
         </span>
 
         <button
@@ -164,21 +140,33 @@ const MenCollection = () => {
       </div>
 
       {/* PRODUCT GRID */}
-      <div
-        className="
-          grid
-          grid-cols-3
-          gap-x-[20px]
-          gap-y-[45px]
-          max-[1000px]:grid-cols-2
-          max-[650px]:grid-cols-1
-        "
-      >
-        {products.map((product) => (
+      {loading ? (
+        <div className="py-20 text-center">
           <div
-            className="cursor-pointer group"
-            key={product.id}
-          >
+            className={`w-10 h-10 mx-auto mb-4 rounded-full border-2 border-t-transparent animate-spin ${
+              darkMode ? "border-white" : "border-black"
+            }`}
+          />
+          <p className={`text-sm ${darkMode ? "text-[#777]" : "text-[#777]"}`}>
+            Loading Men's collection...
+          </p>
+        </div>
+      ) : (
+        <div
+          className="
+            grid
+            grid-cols-3
+            gap-x-[20px]
+            gap-y-[45px]
+            max-[1000px]:grid-cols-2
+            max-[650px]:grid-cols-1
+          "
+        >
+          {products.map((product) => (
+            <div
+              className="cursor-pointer group"
+              key={product.id}
+            >
 
             {/* IMAGE */}
             <div
@@ -201,21 +189,20 @@ const MenCollection = () => {
               `}
             >
 
-              {/* SHOE */}
-              <div
+              <img
+                src={product.image}
+                alt={product.name}
                 className="
-                  text-[110px]
-                  grayscale
-                  opacity-80
-                  rotate-[-12deg]
+                  w-full
+                  h-full
+                  object-cover
+                  block
                   transition-transform
                   duration-500
                   ease-in-out
-                  group-hover:scale-[1.12]
+                  group-hover:scale-105
                 "
-              >
-                👟
-              </div>
+              />
 
               {/* NUMBER */}
               <span
@@ -356,6 +343,7 @@ const MenCollection = () => {
           </div>
         ))}
       </div>
+      )}
     </section>
   );
 };

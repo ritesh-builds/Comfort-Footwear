@@ -1,52 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { useWishlist } from "../context/WishlistContext";
 import { Heart, ShoppingBag } from "lucide-react";
+import { fetchProducts } from "../api/productService";
 
 const WomenCollection = () => {
   const { darkMode } = useTheme();
   const { isFavorite, toggleFavorite, placeOrder } = useWishlist();
   const navigate = useNavigate();
 
-  const products = [
-    {
-      id: 1,
-      name: "Luna Walk",
-      category: "Everyday",
-      price: "₹2,799",
-    },
-    {
-      id: 2,
-      name: "Urban Muse",
-      category: "Sneakers",
-      price: "₹3,299",
-    },
-    {
-      id: 3,
-      name: "Cloud Step",
-      category: "Comfort",
-      price: "₹2,999",
-    },
-    {
-      id: 4,
-      name: "Soft Motion",
-      category: "Lifestyle",
-      price: "₹2,599",
-    },
-    {
-      id: 5,
-      name: "Street Ease",
-      category: "Casual",
-      price: "₹3,199",
-    },
-    {
-      id: 6,
-      name: "Daily Form",
-      category: "Everyday",
-      price: "₹2,499",
-    },
-  ];
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      setLoading(true);
+      const data = await fetchProducts("women");
+      setProducts(data);
+      setLoading(false);
+    };
+
+    getProducts();
+  }, []);
 
   return (
     <section
@@ -140,7 +116,7 @@ const WomenCollection = () => {
               : "text-[#888] text-[11px] tracking-[2px]"
           }
         >
-          06 PRODUCTS
+          {loading ? "..." : `${products.length.toString().padStart(2, "0")} PRODUCTS`}
         </span>
 
         <button
@@ -164,198 +140,210 @@ const WomenCollection = () => {
       </div>
 
       {/* PRODUCT GRID */}
-      <div
-        className="
-          grid
-          grid-cols-3
-          gap-x-[20px]
-          gap-y-[45px]
-          max-[1000px]:grid-cols-2
-          max-[650px]:grid-cols-1
-        "
-      >
-        {products.map((product) => (
+      {loading ? (
+        <div className="py-20 text-center">
           <div
-            key={product.id}
-            className="cursor-pointer group"
-          >
-
-            {/* IMAGE */}
+            className={`w-10 h-10 mx-auto mb-4 rounded-full border-2 border-t-transparent animate-spin ${
+              darkMode ? "border-white" : "border-black"
+            }`}
+          />
+          <p className={`text-sm ${darkMode ? "text-[#777]" : "text-[#777]"}`}>
+            Loading Women's collection...
+          </p>
+        </div>
+      ) : (
+        <div
+          className="
+            grid
+            grid-cols-3
+            gap-x-[20px]
+            gap-y-[45px]
+            max-[1000px]:grid-cols-2
+            max-[650px]:grid-cols-1
+          "
+        >
+          {products.map((product) => (
             <div
-              className={`
-                h-[420px]
-                border
-                rounded-[12px]
-                relative
-                overflow-hidden
-                flex
-                items-center
-                justify-center
-                max-[650px]:h-[380px]
-
-                ${
-                  darkMode
-                    ? "bg-[#111] border-[#1d1d1d]"
-                    : "bg-white border-[#ddd]"
-                }
-              `}
+              key={product.id}
+              className="cursor-pointer group"
             >
 
-              {/* SHOE */}
+              {/* IMAGE */}
               <div
-                className="
-                  text-[110px]
-                  grayscale
-                  opacity-80
-                  rotate-[-12deg]
-                  transition-transform
-                  duration-500
-                  ease-in-out
-                  group-hover:scale-[1.12]
-                "
-              >
-                👟
-              </div>
-
-              {/* NUMBER */}
-              <span
-                className={
-                  darkMode
-                    ? "absolute top-[18px] left-[18px] text-[#555] text-[11px]"
-                    : "absolute top-[18px] left-[18px] text-[#999] text-[11px]"
-                }
-              >
-                0{product.id}
-              </span>
-
-              {/* FAVORITE HEART BUTTON */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleFavorite(product);
-                }}
-                title={isFavorite(product.id) ? "Remove from Favorites" : "Add to Favorites"}
                 className={`
-                  absolute
-                  top-3
-                  right-3
-                  w-9
-                  h-9
-                  rounded-full
+                  h-[420px]
+                  border
+                  rounded-[12px]
+                  relative
+                  overflow-hidden
                   flex
                   items-center
                   justify-center
-                  cursor-pointer
-                  backdrop-blur-md
-                  transition-all
-                  duration-300
-                  z-10
-                  ${
-                    isFavorite(product.id)
-                      ? "bg-rose-500 text-white shadow-lg shadow-rose-500/30"
-                      : darkMode
-                      ? "bg-black/40 text-white hover:bg-black/80"
-                      : "bg-white/80 text-black hover:bg-white"
-                  }
-                `}
-              >
-                <Heart size={16} fill={isFavorite(product.id) ? "currentColor" : "none"} />
-              </button>
-
-              {/* QUICK ORDER BUTTON */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  placeOrder(product);
-                  alert(`Order placed for ${product.name}! Check your Dashboard.`);
-                  navigate("/profile");
-                }}
-                className={`
-                  absolute
-                  bottom-[18px]
-                  right-[18px]
-                  border-none
-                  rounded-[30px]
-                  px-[18px]
-                  py-[11px]
-                  text-[12px]
-                  cursor-pointer
-                  opacity-100
-                  sm:opacity-0
-                  translate-y-0
-                  sm:translate-y-[10px]
-                  transition-all
-                  duration-300
-                  group-hover:opacity-100
-                  group-hover:translate-y-0
-                  flex
-                  items-center
-                  gap-1.5
+                  max-[650px]:h-[380px]
 
                   ${
                     darkMode
-                      ? "bg-white text-black"
-                      : "bg-black text-white"
+                      ? "bg-[#111] border-[#1d1d1d]"
+                      : "bg-white border-[#ddd]"
                   }
                 `}
               >
-                <ShoppingBag size={14} />
-                Order
-              </button>
 
-            </div>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="
+                    w-full
+                    h-full
+                    object-cover
+                    block
+                    transition-transform
+                    duration-500
+                    ease-in-out
+                    group-hover:scale-105
+                  "
+                />
 
-            {/* DETAILS */}
-            <div
-              className={`
-                flex
-                justify-between
-                items-start
-                px-[2px]
-                py-[18px]
-                border-b
-
-                ${
-                  darkMode
-                    ? "border-[#222]"
-                    : "border-[#ddd]"
-                }
-              `}
-            >
-
-              <div>
-
-                <h2 className="text-[16px] font-normal mb-[6px]">
-                  {product.name}
-                </h2>
-
-                <p
+                {/* NUMBER */}
+                <span
                   className={
                     darkMode
-                      ? "text-[#666] text-[12px]"
-                      : "text-[#888] text-[12px]"
+                      ? "absolute top-[18px] left-[18px] text-[#555] text-[11px]"
+                      : "absolute top-[18px] left-[18px] text-[#999] text-[11px]"
                   }
                 >
-                  {product.category}
-                </p>
+                  0{product.id}
+                </span>
+
+                {/* FAVORITE HEART BUTTON */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(product);
+                  }}
+                  title={isFavorite(product.id) ? "Remove from Favorites" : "Add to Favorites"}
+                  className={`
+                    absolute
+                    top-3
+                    right-3
+                    w-9
+                    h-9
+                    rounded-full
+                    flex
+                    items-center
+                    justify-center
+                    cursor-pointer
+                    backdrop-blur-md
+                    transition-all
+                    duration-300
+                    z-10
+                    ${
+                      isFavorite(product.id)
+                        ? "bg-rose-500 text-white shadow-lg shadow-rose-500/30"
+                        : darkMode
+                        ? "bg-black/40 text-white hover:bg-black/80"
+                        : "bg-white/80 text-black hover:bg-white"
+                    }
+                  `}
+                >
+                  <Heart size={16} fill={isFavorite(product.id) ? "currentColor" : "none"} />
+                </button>
+
+                {/* QUICK ORDER BUTTON */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    placeOrder(product);
+                    alert(`Order placed for ${product.name}! Check your Dashboard.`);
+                    navigate("/profile");
+                  }}
+                  className={`
+                    absolute
+                    bottom-[18px]
+                    right-[18px]
+                    border-none
+                    rounded-[30px]
+                    px-[18px]
+                    py-[11px]
+                    text-[12px]
+                    cursor-pointer
+                    opacity-100
+                    sm:opacity-0
+                    translate-y-0
+                    sm:translate-y-[10px]
+                    transition-all
+                    duration-300
+                    group-hover:opacity-100
+                    group-hover:translate-y-0
+                    flex
+                    items-center
+                    gap-1.5
+
+                    ${
+                      darkMode
+                        ? "bg-white text-black"
+                        : "bg-black text-white"
+                    }
+                  `}
+                >
+                  <ShoppingBag size={14} />
+                  Order
+                </button>
 
               </div>
 
-              <span
-                className={
-                  darkMode
-                    ? "text-[#aaa] text-[13px]"
-                    : "text-[#555] text-[13px]"
-                }
+              {/* DETAILS */}
+              <div
+                className={`
+                  flex
+                  justify-between
+                  items-start
+                  px-[2px]
+                  py-[18px]
+                  border-b
+
+                  ${
+                    darkMode
+                      ? "border-[#222]"
+                      : "border-[#ddd]"
+                  }
+                `}
               >
-                {product.price}
-              </span>
+
+                <div>
+
+                  <h2 className="text-[16px] font-normal mb-[6px]">
+                    {product.name}
+                  </h2>
+
+                  <p
+                    className={
+                      darkMode
+                        ? "text-[#666] text-[12px]"
+                        : "text-[#888] text-[12px]"
+                    }
+                  >
+                    {product.category}
+                  </p>
+
+                </div>
+
+                <span
+                  className={
+                    darkMode
+                      ? "text-[#aaa] text-[13px]"
+                      : "text-[#555] text-[13px]"
+                  }
+                >
+                  {product.price}
+                </span>
+
+              </div>
 
             </div>
-
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
     </section>
   );
