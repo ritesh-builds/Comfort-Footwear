@@ -3,9 +3,8 @@ package in.strikes.comfortFootwear.service;
 import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
 
 import in.strikes.comfortFootwear.dto.UserProfileResponseDto;
@@ -56,13 +55,26 @@ public class UserService {
         }
     }
 
-    public User registerOrUpdate(String provider, OidcUser oidcUser) {
+    public User registerOrUpdate(String provider, OAuth2User oauth2User) {
 
-        String username = oidcUser.getClaimAsString("name");
+        String username = oauth2User.getAttribute("name");
+        if (username == null || username.trim().isEmpty()) {
+            username = oauth2User.getAttribute("given_name");
+        }
 
-        String email = oidcUser.getClaimAsString("email");
+        String email = oauth2User.getAttribute("email");
+        if (username == null || username.trim().isEmpty()) {
+            if (email != null && email.contains("@")) {
+                username = email.split("@")[0];
+            } else {
+                username = "Google User";
+            }
+        }
 
-        String providerSubject = oidcUser.getSubject();
+        String providerSubject = oauth2User.getAttribute("sub");
+        if (providerSubject == null || providerSubject.trim().isEmpty()) {
+            providerSubject = oauth2User.getName();
+        }
 
         // 1. Check by provider + providerSubject
         Optional<User> existingUser = userRepository.findByProviderAndProviderSubject(provider, providerSubject);
@@ -72,23 +84,27 @@ public class UserService {
             User user = existingUser.get();
 
             user.setUsername(username);
-            user.setEmail(email);
+            if (email != null && !email.trim().isEmpty()) {
+                user.setEmail(email);
+            }
 
             return userRepository.save(user);
         }
 
         // 2. If not found, check by email
-        Optional<User> existingEmailUser = userRepository.findByEmail(email);
+        if (email != null && !email.trim().isEmpty()) {
+            Optional<User> existingEmailUser = userRepository.findByEmail(email);
 
-        if (existingEmailUser.isPresent()) {
+            if (existingEmailUser.isPresent()) {
 
-            User user = existingEmailUser.get();
+                User user = existingEmailUser.get();
 
-            user.setUsername(username);
-            user.setProvider(provider);
-            user.setProviderSubject(providerSubject);
+                user.setUsername(username);
+                user.setProvider(provider);
+                user.setProviderSubject(providerSubject);
 
-            return userRepository.save(user);
+                return userRepository.save(user);
+            }
         }
 
         // 3. Completely new Google user

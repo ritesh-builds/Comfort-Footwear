@@ -70,6 +70,10 @@ public class AuthService {
         User user = userRepository.findByEmail(loginRequestDto.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("No account found with email '" + loginRequestDto.getEmail() + "'. Please create an account first."));
 
+        if (user.getPassword() == null && user.getProvider() != null) {
+            throw new BadCredentialsException("This account was created using " + user.getProvider() + ". Please click 'Continue with Google' to sign in.");
+        }
+
         if (user.getPassword() == null || !passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Invalid password. Please check your credentials and try again.");
         }
