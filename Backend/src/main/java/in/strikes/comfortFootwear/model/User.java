@@ -1,10 +1,18 @@
 package in.strikes.comfortFootwear.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +22,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -34,6 +43,9 @@ public class User {
 
     private String providerSubject;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Address> addresses = new ArrayList<>();
 
     // Normal registration user
     public User(
@@ -49,7 +61,6 @@ public class User {
         this.provider = provider;
         this.username = username;
     }
-
 
     // Google OAuth user
     public User(

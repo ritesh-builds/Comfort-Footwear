@@ -29,6 +29,17 @@ const Profile = () => {
 
   const { favorites, orders, removeFromFavorites, placeOrder } = useWishlist();
   const [addresses, setAddresses] = useState([]);
+  const [showAddressModal, setShowAddressModal] = useState(false);
+  const [addressSubmitting, setAddressSubmitting] = useState(false);
+  const [newAddress, setNewAddress] = useState({
+    fullName: "",
+    phone: "",
+    streetAddress: "",
+    city: "",
+    state: "",
+    pincode: "",
+    addressType: "Home"
+  });
 
   const { accessToken, logout } = useContext(AuthContext);
   const { darkMode } = useTheme();
@@ -39,17 +50,56 @@ const Profile = () => {
       return;
     }
 
-    const fetchProfile = async () => {
+    const fetchProfileAndData = async () => {
       try {
-        const response = await axiosInstance.get("/api/user/profile");
-        setUser(response.data);
+        const [userRes, addressRes] = await Promise.all([
+          axiosInstance.get("/api/user/profile"),
+          axiosInstance.get("/api/addresses")
+        ]);
+        setUser(userRes.data);
+        if (addressRes.data) {
+          setAddresses(addressRes.data);
+        }
       } catch (error) {
-        console.log("Error fetching profile:", error);
+        console.log("Error fetching profile or addresses:", error);
       }
     };
 
-    fetchProfile();
+    fetchProfileAndData();
   }, [accessToken]);
+
+  const handleAddAddressSubmit = async (e) => {
+    e.preventDefault();
+    setAddressSubmitting(true);
+    try {
+      const response = await axiosInstance.post("/api/addresses", newAddress);
+      setAddresses((prev) => [response.data, ...prev]);
+      setShowAddressModal(false);
+      setNewAddress({
+        fullName: "",
+        phone: "",
+        streetAddress: "",
+        city: "",
+        state: "",
+        pincode: "",
+        addressType: "Home"
+      });
+    } catch (err) {
+      console.error("Failed to add address:", err);
+      alert("Failed to save address to database.");
+    } finally {
+      setAddressSubmitting(false);
+    }
+  };
+
+  const handleDeleteAddress = async (id) => {
+    try {
+      await axiosInstance.delete(`/api/addresses/${id}`);
+      setAddresses((prev) => prev.filter((a) => a.id !== id));
+    } catch (err) {
+      console.error("Failed to delete address:", err);
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -526,12 +576,12 @@ const Profile = () => {
                   <div>
                     <h3 className="text-lg font-medium">Delivery Addresses</h3>
                     <p className={`text-xs mt-1 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
-                      Manage shipping addresses for faster checkout
+                      Manage shipping addresses saved in your database
                     </p>
                   </div>
 
                   <button
-                    onClick={() => alert("Add Address modal can be integrated with your backend API.")}
+                    onClick={() => setShowAddressModal(true)}
                     className={`px-4 py-2 rounded-xl text-xs font-medium border flex items-center gap-1.5 cursor-pointer transition-all duration-300 ${
                       darkMode ? "border-[#333] text-white hover:bg-white hover:text-black" : "border-[#ddd] text-black hover:bg-black hover:text-white"
                     }`}
@@ -548,10 +598,10 @@ const Profile = () => {
                     </div>
                     <h4 className="text-base font-medium mb-1">No Saved Addresses</h4>
                     <p className={`text-xs max-w-sm mx-auto mb-6 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
-                      Add your home or office address to enable quick 1-click checkout.
+                      Add your home or office address to enable quick 1-click checkout saved securely in the database.
                     </p>
                     <button
-                      onClick={() => alert("Add Address feature is ready to connect with your address API endpoint.")}
+                      onClick={() => setShowAddressModal(true)}
                       className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider cursor-pointer transition-all duration-300 ${
                         darkMode ? "bg-white text-black hover:bg-neutral-200" : "bg-black text-white hover:bg-neutral-800"
                       }`}
@@ -561,10 +611,165 @@ const Profile = () => {
                     </button>
                   </div>
                 ) : (
-                  <div className="space-y-4">
-                    {/* Rendered Address Cards list */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {addresses.map((addr) => (
+                      <div
+                        key={addr.id}
+                        className={`p-5 rounded-xl border relative flex flex-col justify-between transition-all duration-300 ${
+                          darkMode ? "border-[#222] bg-[#0c0c0c]" : "border-[#eee] bg-[#fafafa]"
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="font-semibold text-sm">{addr.fullName}</span>
+                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase ${
+                              darkMode ? "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20" : "bg-indigo-50 text-indigo-700 border border-indigo-200"
+                            }`}>
+                              {addr.addressType || "Home"}
+                            </span>
+                          </div>
+                          <p className={`text-xs ${darkMode ? "text-[#aaa]" : "text-[#555]"}`}>
+                            {addr.streetAddress}
+                          </p>
+                          <p className={`text-xs ${darkMode ? "text-[#aaa]" : "text-[#555]"}`}>
+                            {addr.city}, {addr.state} - {addr.pincode}
+                          </p>
+                          <p className={`text-xs mt-2 font-medium ${darkMode ? "text-[#777]" : "text-[#888]"}`}>
+                            Phone: {addr.phone}
+                          </p>
+                        </div>
+
+                        <div className="mt-4 pt-3 border-t border-neutral-500/10 flex justify-end">
+                          <button
+                            onClick={() => handleDeleteAddress(addr.id)}
+                            className="text-xs text-red-500 hover:text-red-600 flex items-center gap-1 cursor-pointer"
+                          >
+                            <Trash2 size={14} /> Delete
+                          </button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* ADD ADDRESS MODAL */}
+            {showAddressModal && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                <div className={`w-full max-w-lg p-6 rounded-2xl border shadow-2xl ${
+                  darkMode ? "bg-[#121212] border-[#2a2a2a] text-white" : "bg-white border-[#e5e5e5] text-black"
+                }`}>
+                  <h3 className="text-xl font-semibold mb-4">Add Delivery Address</h3>
+                  <form onSubmit={handleAddAddressSubmit} className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className={`block text-xs font-medium mb-1 ${darkMode ? "text-[#aaa]" : "text-[#555]"}`}>Full Name</label>
+                        <input
+                          type="text"
+                          required
+                          value={newAddress.fullName}
+                          onChange={(e) => setNewAddress({ ...newAddress, fullName: e.target.value })}
+                          placeholder="John Doe"
+                          className={`w-full p-3 rounded-xl border text-sm outline-none ${darkMode ? "bg-[#1a1a1a] border-[#333] text-white" : "bg-gray-50 border-[#ddd] text-black"}`}
+                        />
+                      </div>
+                      <div>
+                        <label className={`block text-xs font-medium mb-1 ${darkMode ? "text-[#aaa]" : "text-[#555]"}`}>Phone Number</label>
+                        <input
+                          type="text"
+                          required
+                          value={newAddress.phone}
+                          onChange={(e) => setNewAddress({ ...newAddress, phone: e.target.value })}
+                          placeholder="+91 9876543210"
+                          className={`w-full p-3 rounded-xl border text-sm outline-none ${darkMode ? "bg-[#1a1a1a] border-[#333] text-white" : "bg-gray-50 border-[#ddd] text-black"}`}
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className={`block text-xs font-medium mb-1 ${darkMode ? "text-[#aaa]" : "text-[#555]"}`}>Street Address</label>
+                      <input
+                        type="text"
+                        required
+                        value={newAddress.streetAddress}
+                        onChange={(e) => setNewAddress({ ...newAddress, streetAddress: e.target.value })}
+                        placeholder="123 Main St, Apt 4B"
+                        className={`w-full p-3 rounded-xl border text-sm outline-none ${darkMode ? "bg-[#1a1a1a] border-[#333] text-white" : "bg-gray-50 border-[#ddd] text-black"}`}
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-3">
+                      <div>
+                        <label className={`block text-xs font-medium mb-1 ${darkMode ? "text-[#aaa]" : "text-[#555]"}`}>City</label>
+                        <input
+                          type="text"
+                          required
+                          value={newAddress.city}
+                          onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
+                          placeholder="Mumbai"
+                          className={`w-full p-3 rounded-xl border text-sm outline-none ${darkMode ? "bg-[#1a1a1a] border-[#333] text-white" : "bg-gray-50 border-[#ddd] text-black"}`}
+                        />
+                      </div>
+                      <div>
+                        <label className={`block text-xs font-medium mb-1 ${darkMode ? "text-[#aaa]" : "text-[#555]"}`}>State</label>
+                        <input
+                          type="text"
+                          required
+                          value={newAddress.state}
+                          onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
+                          placeholder="Maharashtra"
+                          className={`w-full p-3 rounded-xl border text-sm outline-none ${darkMode ? "bg-[#1a1a1a] border-[#333] text-white" : "bg-gray-50 border-[#ddd] text-black"}`}
+                        />
+                      </div>
+                      <div>
+                        <label className={`block text-xs font-medium mb-1 ${darkMode ? "text-[#aaa]" : "text-[#555]"}`}>Pincode</label>
+                        <input
+                          type="text"
+                          required
+                          value={newAddress.pincode}
+                          onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })}
+                          placeholder="400001"
+                          className={`w-full p-3 rounded-xl border text-sm outline-none ${darkMode ? "bg-[#1a1a1a] border-[#333] text-white" : "bg-gray-50 border-[#ddd] text-black"}`}
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className={`block text-xs font-medium mb-1 ${darkMode ? "text-[#aaa]" : "text-[#555]"}`}>Address Type</label>
+                      <select
+                        value={newAddress.addressType}
+                        onChange={(e) => setNewAddress({ ...newAddress, addressType: e.target.value })}
+                        className={`w-full p-3 rounded-xl border text-sm outline-none ${darkMode ? "bg-[#1a1a1a] border-[#333] text-white" : "bg-gray-50 border-[#ddd] text-black"}`}
+                      >
+                        <option value="Home">Home</option>
+                        <option value="Work">Work</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+
+                    <div className="flex gap-3 pt-2">
+                      <button
+                        type="submit"
+                        disabled={addressSubmitting}
+                        className={`flex-1 py-3 rounded-xl font-medium text-sm transition-all cursor-pointer ${
+                          darkMode ? "bg-white text-black hover:bg-gray-200" : "bg-black text-white hover:bg-gray-800"
+                        }`}
+                      >
+                        {addressSubmitting ? "Saving..." : "Save Address"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowAddressModal(false)}
+                        className={`py-3 px-5 rounded-xl border font-medium text-sm cursor-pointer ${
+                          darkMode ? "border-[#333] text-gray-300 hover:bg-[#1a1a1a]" : "border-[#ddd] text-gray-700 hover:bg-gray-100"
+                        }`}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
             )}
 
