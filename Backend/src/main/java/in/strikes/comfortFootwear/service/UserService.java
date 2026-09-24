@@ -6,6 +6,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import in.strikes.comfortFootwear.dto.UserProfileResponseDto;
 import in.strikes.comfortFootwear.exception.ResourceNotFoundException;
 import in.strikes.comfortFootwear.model.User;
@@ -25,10 +27,12 @@ public class UserService {
         return "ok";
     }
 
+    @Transactional(readOnly = true)
     public Optional<User> getUser(Long id) {
         return userRepository.findById(id);
     }
 
+    @Transactional(readOnly = true)
     public UserProfileResponseDto getUserProfile(Authentication authentication) {
         Long userId = Long.valueOf(authentication.getName());
 

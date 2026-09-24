@@ -24,10 +24,11 @@ import {
 import { useWishlist } from "../context/WishlistContext";
 
 const Profile = () => {
-  const [user, setUser] = useState(null);
+  const { accessToken, logout, userProfile, setUserProfile } = useContext(AuthContext);
+  const [user, setUser] = useState(userProfile);
   const [activeTab, setActiveTab] = useState("overview"); // 'overview' | 'orders' | 'favorites' | 'addresses' | 'settings'
 
-  const { favorites, orders, removeFromFavorites, placeOrder } = useWishlist();
+  const { favorites, orders } = useWishlist();
   const [addresses, setAddresses] = useState([]);
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [addressSubmitting, setAddressSubmitting] = useState(false);
@@ -41,32 +42,48 @@ const Profile = () => {
     addressType: "Home"
   });
 
-  const { accessToken, logout } = useContext(AuthContext);
   const { darkMode } = useTheme();
   const navigate = useNavigate();
 
+  // Sync user state with cached AuthContext profile
   useEffect(() => {
-    if (!accessToken) {
-      return;
+    if (userProfile) {
+      setUser(userProfile);
     }
+  }, [userProfile]);
 
-    const fetchProfileAndData = async () => {
+  // Non-blocking background fetch for addresses and fresh profile
+  useEffect(() => {
+    if (!accessToken) return;
+
+    let isMounted = true;
+    const fetchUserData = async () => {
       try {
         const [userRes, addressRes] = await Promise.all([
           axiosInstance.get("/api/user/profile"),
           axiosInstance.get("/api/addresses")
         ]);
-        setUser(userRes.data);
-        if (addressRes.data) {
-          setAddresses(addressRes.data);
+
+        if (isMounted) {
+          if (userRes.data) {
+            setUser(userRes.data);
+            setUserProfile(userRes.data);
+          }
+          if (addressRes.data) {
+            setAddresses(addressRes.data);
+          }
         }
       } catch (error) {
         console.log("Error fetching profile or addresses:", error);
       }
     };
 
-    fetchProfileAndData();
-  }, [accessToken]);
+    fetchUserData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [accessToken, setUserProfile]);
 
   const handleAddAddressSubmit = async (e) => {
     e.preventDefault();
