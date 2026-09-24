@@ -28,7 +28,7 @@ const Profile = () => {
   const [user, setUser] = useState(userProfile);
   const [activeTab, setActiveTab] = useState("overview"); // 'overview' | 'orders' | 'favorites' | 'addresses' | 'settings'
 
-  const { favorites, orders } = useWishlist();
+  const { favorites, orders, placeOrder, removeFromFavorites } = useWishlist();
   const [addresses, setAddresses] = useState([]);
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [addressSubmitting, setAddressSubmitting] = useState(false);
@@ -174,7 +174,9 @@ const Profile = () => {
     );
   }
 
-  const initial = user.name?.charAt(0)?.toUpperCase() || "U";
+  const userName = user?.name || user?.username || user?.email?.split("@")[0] || "User";
+  const userId = user?.internalUserId || user?.id || "N/A";
+  const initial = userName.charAt(0).toUpperCase();
 
   // NAVIGATION TABS CONFIG
   const tabs = [
@@ -234,7 +236,7 @@ const Profile = () => {
                 </div>
 
                 <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight mt-2">
-                  Welcome back, {user.name.split(" ")[0]}
+                  Welcome back, {userName.split(" ")[0]}
                 </h1>
 
                 <p className={`text-xs sm:text-sm mt-1 ${darkMode ? "text-[#aaa]" : "text-[#555]"}`}>
@@ -382,7 +384,7 @@ const Profile = () => {
                       <p className={`text-xs uppercase tracking-wider mb-1 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
                         Full Name
                       </p>
-                      <p className="text-sm font-medium">{user.name}</p>
+                      <p className="text-sm font-medium">{userName}</p>
                     </div>
 
                     <div>
@@ -396,7 +398,7 @@ const Profile = () => {
                       <p className={`text-xs uppercase tracking-wider mb-1 ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
                         User Account ID
                       </p>
-                      <p className="text-sm font-medium">#{user.internalUserId}</p>
+                      <p className="text-sm font-medium">#{userId}</p>
                     </div>
 
                     <div>
@@ -825,7 +827,7 @@ const Profile = () => {
                         <div>
                           <p className="text-sm font-medium">Account ID</p>
                           <p className={`text-xs ${darkMode ? "text-[#666]" : "text-[#888]"}`}>
-                            Internal Identifier #{user.internalUserId}
+                            Internal Identifier #{userId}
                           </p>
                         </div>
                       </div>

@@ -85,8 +85,9 @@ public class AuthService {
         String refreshToken = jwtService.generateRefreshToken(authentication);
 
         UserLoginResponseDto response = new UserLoginResponseDto();
-        response.setId(user.getId());
+        response.setInternalUserId(user.getId());
         response.setEmail(user.getEmail());
+        response.setName(user.getUsername());
         response.setUsername(user.getUsername());
         response.setAccessToken(accessToken);
         response.setRefreshToken(refreshToken);

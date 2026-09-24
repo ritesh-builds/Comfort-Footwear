@@ -46,11 +46,12 @@ function LoginForm({ onSwitch }) {
         response.data.refreshToken
       );
 
-      if (response.data.id && response.data.email) {
+      if (response.data.internalUserId || response.data.id) {
         const userObj = {
-          id: response.data.id,
+          internalUserId: response.data.internalUserId || response.data.id,
           email: response.data.email,
-          username: response.data.username
+          name: response.data.name || response.data.username,
+          username: response.data.name || response.data.username
         };
         sessionStorage.setItem("user_profile", JSON.stringify(userObj));
         if (setUserProfile) {
