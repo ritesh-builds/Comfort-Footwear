@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext.jsx";
 import axiosInstance, { API_BASE_URL } from "../../api/axiosInstance.js";
 import { AuthContext } from "../../context/AuthContext.jsx";
 
 function LoginForm({ onSwitch }) {
-  
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -15,7 +16,7 @@ function LoginForm({ onSwitch }) {
   const [noAccountEmail, setNoAccountEmail] = useState("");
   
   const { darkMode } = useTheme();
-  const { setAccessToken, setRefreshToken } = useContext(AuthContext);
+  const { setAccessToken, setRefreshToken, setUserProfile } = useContext(AuthContext);
 
   const handleLogin = async (evt) => {
     evt.preventDefault();
@@ -40,17 +41,32 @@ function LoginForm({ onSwitch }) {
         response.data.accessToken
       );
 
-      setAccessToken(response.data.accessToken);
-
       localStorage.setItem(
         "refreshToken",
         response.data.refreshToken
       );
 
+      if (response.data.id && response.data.email) {
+        const userObj = {
+          id: response.data.id,
+          email: response.data.email,
+          username: response.data.username
+        };
+        sessionStorage.setItem("user_profile", JSON.stringify(userObj));
+        if (setUserProfile) {
+          setUserProfile(userObj);
+        }
+      }
+
+      setAccessToken(response.data.accessToken);
       setRefreshToken(response.data.refreshToken);
 
       setEmail("");
       setPassword("");
+
+      setTimeout(() => {
+        navigate("/");
+      }, 400);
 
     } catch (error) {
       console.log("Login error:", error);

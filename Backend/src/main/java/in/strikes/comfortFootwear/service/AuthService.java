@@ -18,6 +18,9 @@ import in.strikes.comfortFootwear.exception.ResourceNotFoundException;
 import in.strikes.comfortFootwear.model.User;
 import in.strikes.comfortFootwear.repository.UserRepository;
 
+import org.springframework.security.authentication.BadCredentialsException;
+import in.strikes.comfortFootwear.model.CustomUserDetails;
+
 @Service
 public class AuthService {
 
@@ -64,22 +67,27 @@ public class AuthService {
     }
 
     public UserLoginResponseDto login(UserLoginRequestDto loginRequestDto) {
-        if (userRepository.findByEmail(loginRequestDto.getEmail()).isEmpty()) {
-            throw new ResourceNotFoundException("No account found with email '" + loginRequestDto.getEmail() + "'. Please create an account first.");
+        User user = userRepository.findByEmail(loginRequestDto.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("No account found with email '" + loginRequestDto.getEmail() + "'. Please create an account first."));
+
+        if (user.getPassword() == null || !passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("Invalid password. Please check your credentials and try again.");
         }
 
-        Authentication authentication = authenticationManager.authenticate(
-                UsernamePasswordAuthenticationToken.unauthenticated(
-                        loginRequestDto.getEmail(),
-                        loginRequestDto.getPassword()
-                )
+        CustomUserDetails customUserDetails = new CustomUserDetails(user);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                customUserDetails,
+                null,
+                customUserDetails.getAuthorities()
         );
 
         String accessToken = jwtService.generateAccessToken(authentication);
         String refreshToken = jwtService.generateRefreshToken(authentication);
 
         UserLoginResponseDto response = new UserLoginResponseDto();
-        response.setEmail(loginRequestDto.getEmail());
+        response.setId(user.getId());
+        response.setEmail(user.getEmail());
+        response.setUsername(user.getUsername());
         response.setAccessToken(accessToken);
         response.setRefreshToken(refreshToken);
         response.setMessage("Login successful!");

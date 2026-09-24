@@ -1,26 +1,33 @@
-import { useEffect } from "react";
-import {useTheme} from "../context/ThemeContext.jsx";
+import { useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext.jsx";
 import { AuthContext } from "../context/AuthContext.jsx";
-import { useContext } from "react";
 
 function OAuth2Success() {
-  
+    const navigate = useNavigate();
     const { darkMode } = useTheme();
-    const {setAccessToken, setRefreshToken} = useContext(AuthContext);
+    const { setAccessToken, setRefreshToken } = useContext(AuthContext);
 
     useEffect(() => {
       const hash = window.location.hash;
       const accessToken = new URLSearchParams(hash.substring(1)).get("accessToken");
       const refreshToken = new URLSearchParams(hash.substring(1)).get("refreshToken");
 
-      setAccessToken(accessToken)
-      setRefreshToken(refreshToken)
+      if (accessToken) {
+        setAccessToken(accessToken);
+        localStorage.setItem("accessToken", accessToken);
+      }
+      if (refreshToken) {
+        setRefreshToken(refreshToken);
+        localStorage.setItem("refreshToken", refreshToken);
+      }
 
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
+      const timer = setTimeout(() => {
+        navigate("/");
+      }, 800);
 
-      console.log("JWT Token:", accessToken); 
-    }, []);
+      return () => clearTimeout(timer);
+    }, [navigate, setAccessToken, setRefreshToken]);
 
   return (
     <div

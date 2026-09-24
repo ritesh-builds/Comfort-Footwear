@@ -29,6 +29,11 @@ const AuthProvider = ({ children }) => {
       return;
     }
 
+    // If profile is already in state/cache (e.g. from login response), skip duplicate network request
+    if (userProfile && userProfile.email) {
+      return;
+    }
+
     let isMounted = true;
     const fetchUserProfile = async () => {
       try {
@@ -47,7 +52,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       isMounted = false;
     };
-  }, [accessToken]);
+  }, [accessToken, userProfile]);
 
   const logout = () => {
     localStorage.removeItem("accessToken");
