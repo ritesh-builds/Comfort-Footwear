@@ -23,11 +23,13 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
     public OAuth2AuthenticationSuccessHandler(
             UserService userService,
             JwtService jwtService,
-            @Value("${app.frontend.url:http://localhost:5173}") String frontendUrl
+            @Value("${app.frontend.url:https://comfort-footwear.vercel.app}") String frontendUrl
     ) {
         this.userService = userService;
         this.jwtService = jwtService;
-        this.frontendUrl = frontendUrl;
+        this.frontendUrl = (frontendUrl != null && frontendUrl.endsWith("/"))
+                ? frontendUrl.substring(0, frontendUrl.length() - 1)
+                : frontendUrl;
     }
 
     @Override
@@ -41,7 +43,11 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         String accessToken = jwtService.generateToken(user.getId(), user.getEmail());
         String refreshToken = jwtService.generateRefreshToken(user.getId(), user.getEmail());
 
-        String targetUrl = frontendUrl + "/oauth2/success#accessToken=" + accessToken + "&refreshToken=" + refreshToken;
+        String baseUrl = (frontendUrl != null && frontendUrl.endsWith("/"))
+                ? frontendUrl.substring(0, frontendUrl.length() - 1)
+                : frontendUrl;
+
+        String targetUrl = baseUrl + "/oauth2/success#accessToken=" + accessToken + "&refreshToken=" + refreshToken;
 
         response.sendRedirect(targetUrl);
     }
